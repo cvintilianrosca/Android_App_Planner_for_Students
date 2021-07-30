@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ShowIn="navigation_view" >
+    <group android:checkableBehavior="single">
+
+        <item android:id="@+id/mi_item_timeTable" android:title="Timetable" android:icon="@drawable/ic_timetable"></item>
+        <item android:id="@+id/mi_item_Grades" android:title="Grades" android:icon="@drawable/ic_grade"></item>
+        <item android:id="@+id/mi_item_Tasks" android:title="Tasks" android:icon="@drawable/ic_task"></item>
+        <item android:id="@+id/mi_item_Exam" android:title="Exams" android:icon="@drawable/ic_exam"></item>
+    </group>
+
+        <item android:title="Institution">
+            <menu>
+                <group android:checkableBehavior="single">
+                <item android:id="@+id/mi_item_InfoSchool" android:title="Info" android:icon="@drawable/ic_institution"></item>
+                <item android:id="@+id/mi_item_teachers" android:title="Teachers" android:icon="@drawable/ic_teachers"></item>
+                </group>
+            </menu>
+        </item>
+
+    <item android:title="App">
+        <menu>
+            <group android:checkableBehavior="single">
+            <item android:id="@+id/mi_item_Settings" android:title="Settings" android:icon="@drawable/ic_settings"></item>
+            </group>
+        </menu>
+    </item>
+
+</menu>

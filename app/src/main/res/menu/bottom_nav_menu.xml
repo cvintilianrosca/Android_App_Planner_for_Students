@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@+id/miHome" android:title="Home"  android:icon="@drawable/ic_home"></item>
+<item android:id="@+id/miSubjects" android:title="Subjects"  android:icon="@drawable/ic_subjects"></item>
+    <item android:id="@+id/placeholder" android:title=""></item>
+<item android:id="@+id/miAgenda" android:title="Agenda"  android:icon="@drawable/ic_agenda"></item>
+<item android:id="@+id/miCalendar" android:title="Calendar"  android:icon="@drawable/ic_calendar"></item>
+</menu>

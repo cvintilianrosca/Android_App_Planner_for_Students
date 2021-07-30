@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context=".AddSubject">
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorBlueApp"
+        android:id="@+id/toolbarSubject"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:elevation="5dp"
+        app:navigationIcon="?attr/homeAsUpIndicator">
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <EditText
+        android:drawablePadding="@dimen/cardview_default_radius"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="4dp"
+        android:paddingStart="4dp"
+        android:layout_margin="5dp"
+        android:textSize="36sp"
+        android:id="@+id/editTextNameSubject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/add_name_subject"
+        android:inputType="text">
+    </EditText>
+
+    <EditText xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/editTextRoomSubject"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/add_room_subject"
+        android:inputType="text"
+        android:textSize="20sp"
+        android:drawableStart="@drawable/ic_location"
+        android:drawablePadding="5dp">
+    </EditText>
+
+    <EditText
+        android:id="@+id/editTextTeacherSubject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/add_teacher_subject"
+        android:layout_margin="5dp"
+        android:textSize="20sp"
+        android:drawableStart="@drawable/ic_teachers"
+        android:drawablePadding="5dp"
+        android:inputType="text">
+    </EditText>
+
+    <EditText
+        android:id="@+id/editTextNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:hint="@string/add_note_subject"
+        android:textSize="20sp"
+        android:drawableStart="@drawable/ic_note"
+        android:drawablePadding="5dp"
+        android:inputType="text">
+    </EditText>
+</LinearLayout>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Student Planner</string>
+    <string name="navigation_open">Open Navigation Draw</string>
+    <string name="navigation_close">Close Navigation Draw</string>
+    <string name="add_name_subject">Add a name</string>
+    <string name="add_room_subject">Add a room</string>
+    <string name="add_teacher_subject">Add a teacher</string>
+    <string name="add_note_subject">Add a note</string>
+
+</resources>
