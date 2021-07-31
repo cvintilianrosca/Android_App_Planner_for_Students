@@ -9,6 +9,7 @@ import androidx.room.Update;
 
 import com.example.studentplanner.database.entities.Subject;
 import com.example.studentplanner.database.entities.Teachers;
+import com.example.studentplanner.database.relations.TeacherWithSubjects;
 
 import java.util.List;
 
@@ -41,7 +42,12 @@ public interface DatabaseDao {
     @Query("DELETE FROM teachers_table")
     void deleteAllTeachers();
 
+    @Query("SELECT * FROM teachers_table ORDER BY name")
+    LiveData<List<Teachers>> getAllTeachers();
 
+    @Query("SELECT * FROM teachers_table WHERE id = :teacher_id")
+    List<TeacherWithSubjects> getTeacherWithSubjects(Integer teacher_id);
 
-
+    @Query("SELECT * FROM teachers_table WHERE name = :teacherName")
+    LiveData<List<Teachers>> getTeacherWithName(String teacherName);
 }

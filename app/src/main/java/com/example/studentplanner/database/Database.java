@@ -10,8 +10,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.studentplanner.database.dao.DatabaseDao;
 import com.example.studentplanner.database.entities.Subject;
+import com.example.studentplanner.database.entities.Teachers;
 
-@androidx.room.Database(entities = {Subject.class}, version = 2)
+@androidx.room.Database(entities = {Subject.class, Teachers.class}, version = 3)
 abstract public class Database extends RoomDatabase {
     private static Database INSTANCE;
 

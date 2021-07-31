@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,9 +16,8 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studentplanner.AddSubject;
+import com.example.studentplanner.AddSubjectActivity;
 import com.example.studentplanner.DatabaseViewModel;
-import com.example.studentplanner.MainActivity;
 import com.example.studentplanner.R;
 import com.example.studentplanner.SubjectAdapter;
 import com.example.studentplanner.database.entities.Subject;
@@ -47,6 +45,7 @@ public class Fragment_Subjects extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         toolbar.setTitle("Subjects");
         databaseViewModel = ViewModelProviders.of(this).get(DatabaseViewModel.class);
+
         View v = inflater.inflate(R.layout.fragments_subjects, container, false);
         recyclerView = v.findViewById(R.id.recycleViewFragmentSubjects);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
@@ -62,7 +61,7 @@ public class Fragment_Subjects extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddSubject.class);
+                Intent intent = new Intent(getActivity(), AddSubjectActivity.class);
                 startActivityForResult(intent, ADD_SUBJECT_REQUEST);
             }
         });
@@ -75,10 +74,10 @@ public class Fragment_Subjects extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADD_SUBJECT_REQUEST && resultCode == RESULT_OK){
-            String name = data.getStringExtra(AddSubject.EXTRA_NAME);
-            String room = data.getStringExtra(AddSubject.EXTRA_ROOM);
-            String teacher = data.getStringExtra(AddSubject.EXTRA_TEACHER);
-            String note = data.getStringExtra(AddSubject.EXTRA_NOTE);
+            String name = data.getStringExtra(AddSubjectActivity.EXTRA_NAME);
+            String room = data.getStringExtra(AddSubjectActivity.EXTRA_ROOM);
+            String teacher = data.getStringExtra(AddSubjectActivity.EXTRA_TEACHER);
+            String note = data.getStringExtra(AddSubjectActivity.EXTRA_NOTE);
             final Subject subject = new Subject(name, room, teacher, note);
             databaseViewModel.insert(subject);
             Toast.makeText(getContext(), "Subject added", Toast.LENGTH_SHORT).show();

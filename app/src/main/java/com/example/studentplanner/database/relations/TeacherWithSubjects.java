@@ -10,9 +10,8 @@ import java.util.List;
 
 public class TeacherWithSubjects {
 
-    @Embedded
-    private Teachers teachers;
+    @Embedded public Teachers teachers;
     @Relation(parentColumn = "id",
     entityColumn="teacherId" )
-    private List<Subject> teacherSubjects;
+    public List<Subject> teacherSubjects;
 }

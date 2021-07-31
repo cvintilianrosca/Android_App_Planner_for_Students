@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorBlueApp"
-        android:id="@+id/toolbarSubject"
+        android:id="@+id/toolbarTeacher"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:elevation="5dp"
@@ -27,7 +27,7 @@
         android:paddingStart="4dp"
         android:layout_margin="5dp"
         android:textSize="36sp"
-        android:id="@+id/editTextNameSubject"
+        android:id="@+id/editTextNameTeacher"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/add_name_subject"
@@ -35,38 +35,15 @@
     </EditText>
 
     <EditText xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/editTextRoomSubject"
+        android:id="@+id/editTextPhoneNumberTeacher"
         android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/add_room_subject"
         android:inputType="text"
         android:textSize="20sp"
-        android:drawableStart="@drawable/ic_location"
+        android:drawableStart="@drawable/ic_phone"
         android:drawablePadding="5dp">
     </EditText>
 
-    <TextView
-        android:id="@+id/textViewTeacherSubject"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/add_teacher_subject"
-        android:layout_margin="5dp"
-        android:textSize="20sp"
-        android:drawableStart="@drawable/ic_teachers"
-        android:drawablePadding="5dp"
-        android:inputType="text">
-    </TextView>
-
-    <EditText
-        android:id="@+id/editTextNote"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:hint="@string/add_note_subject"
-        android:textSize="20sp"
-        android:drawableStart="@drawable/ic_note"
-        android:drawablePadding="5dp"
-        android:inputType="text">
-    </EditText>
 </LinearLayout>
