@@ -43,7 +43,6 @@ public class AddSubjectActivity extends AppCompatActivity {
         textViewTeacher = findViewById(R.id.textViewTeacherSubject);
         final int checkedItem = 0;
         databaseViewModel = ViewModelProviders.of(this).get(DatabaseViewModel.class);
-        databaseViewModel.deleteAllTeachers();
         textViewTeacher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

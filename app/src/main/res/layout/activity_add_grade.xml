@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context=".AddGradeActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorBlueApp"
+        android:id="@+id/toolbarGrade"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:elevation="5dp"
+        app:navigationIcon="?attr/homeAsUpIndicator">
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <EditText
+        android:drawablePadding="@dimen/cardview_default_radius"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="4dp"
+        android:paddingStart="4dp"
+        android:layout_margin="5dp"
+        android:textSize="36sp"
+        android:id="@+id/editTextGradeValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Add grade value"
+        android:inputType="number">
+    </EditText>
+
+
+    <TextView
+        android:id="@+id/textViewPickSubject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Pick a subject"
+        android:layout_margin="5dp"
+        android:textSize="20sp"
+        android:drawableStart="@drawable/ic_subjects"
+        android:drawablePadding="5dp"
+        android:inputType="text">
+    </TextView>
+</LinearLayout>

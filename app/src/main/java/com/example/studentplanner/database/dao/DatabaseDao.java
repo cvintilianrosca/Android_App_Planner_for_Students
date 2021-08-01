@@ -7,8 +7,10 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.example.studentplanner.database.entities.Grades;
 import com.example.studentplanner.database.entities.Subject;
 import com.example.studentplanner.database.entities.Teachers;
+import com.example.studentplanner.database.relations.SubjectWithGrades;
 import com.example.studentplanner.database.relations.TeacherWithSubjects;
 
 import java.util.List;
@@ -39,6 +41,21 @@ public interface DatabaseDao {
     @Delete
     void delete(Teachers teachers);
 
+    @Insert
+    void insert(Grades grades);
+
+    @Update
+    void update(Grades grades);
+
+    @Delete
+    void delete(Grades grades);
+
+    @Query("DELETE FROM grades_table")
+    void deleteAllGrades();
+
+    @Query("SELECT * FROM grades_table")
+    LiveData<List<Grades>> getAllGrades();
+
     @Query("DELETE FROM teachers_table")
     void deleteAllTeachers();
 
@@ -50,4 +67,10 @@ public interface DatabaseDao {
 
     @Query("SELECT * FROM teachers_table WHERE name = :teacherName")
     LiveData<List<Teachers>> getTeacherWithName(String teacherName);
+
+    @Query("SELECT * FROM subject_table WHERE id = :idOfSubject")
+    List<SubjectWithGrades> getSubjectWithGrades(int idOfSubject);
+
+    @Query("SELECT * FROM subject_table WHERE name = :subjectName")
+    LiveData<List<Subject>> getSubjectWithName(String subjectName);
 }

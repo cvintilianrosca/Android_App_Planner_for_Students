@@ -8,8 +8,10 @@ import androidx.room.Delete;
 import androidx.room.Update;
 
 import com.example.studentplanner.database.dao.DatabaseDao;
+import com.example.studentplanner.database.entities.Grades;
 import com.example.studentplanner.database.entities.Subject;
 import com.example.studentplanner.database.entities.Teachers;
+import com.example.studentplanner.database.relations.SubjectWithGrades;
 import com.example.studentplanner.database.relations.TeacherWithSubjects;
 
 import java.util.List;
@@ -18,7 +20,6 @@ public class Repository {
     private DatabaseDao databaseDao;
     private LiveData<List<Subject>> subjectsList;
     private LiveData<List<Teachers>> teacherList;
-    private LiveData<List<TeacherWithSubjects>> teacherWithSubjectsList;
 
 
     public Repository(Application application){
@@ -32,12 +33,19 @@ public class Repository {
         return databaseDao.getTeacherWithSubjects(id);
     }
 
+    public List<SubjectWithGrades> getSubjectWithGrades(int subjectId){
+        return databaseDao.getSubjectWithGrades(subjectId);
+    }
+
     public void insert(Subject subject){
         new InsertAsyncSubject(databaseDao).execute(subject);
     }
 
     public void insert(Teachers teachers){
         new InsertAsyncTeachers(databaseDao).execute(teachers);
+    }
+    public void insert(Grades grades){
+        new InsertAsyncGrade(databaseDao).execute(grades);
     }
 
     public void update(Subject subject){
@@ -48,8 +56,16 @@ public class Repository {
         new UpdateAsyncTeacher(databaseDao).execute(teachers);
     }
 
+    public void update(Grades grades){
+        new UpdateAsyncGrade(databaseDao).execute(grades);
+    }
+
     public void delete(Subject subject){
         new DeleteAsyncSubject(databaseDao).execute(subject);
+    }
+
+    public void delete(Grades grades){
+        new DeleteAsyncGrade(databaseDao).execute(grades);
     }
 
     public void delete(Teachers teachers){
@@ -63,6 +79,8 @@ public class Repository {
     public void deleteAllTeachers(){
         new DeleteAllAsyncTeachers(databaseDao).execute();
     }
+
+    public void deleteAllGrades(){new DeleteAllAsyncGrades(databaseDao).execute();}
 
     public LiveData<List<Subject>> getSubjectsList(){
         return subjectsList;
@@ -82,6 +100,18 @@ public class Repository {
         @Override
         protected Void doInBackground(Subject... subjects) {
             databaseDao.insert(subjects[0]);
+            return null;
+        }
+    }
+    private static class InsertAsyncGrade  extends AsyncTask<Grades, Void, Void> {
+        private DatabaseDao databaseDao;
+        private InsertAsyncGrade(DatabaseDao databaseDao){
+            this.databaseDao = databaseDao;
+        }
+
+        @Override
+        protected Void doInBackground(Grades... grades) {
+            databaseDao.insert(grades[0]);
             return null;
         }
     }
@@ -111,6 +141,18 @@ public class Repository {
             return null;
         }
     }
+    private static class UpdateAsyncGrade  extends AsyncTask<Grades, Void, Void> {
+        private DatabaseDao databaseDao;
+        private UpdateAsyncGrade(DatabaseDao databaseDao){
+            this.databaseDao = databaseDao;
+        }
+
+        @Override
+        protected Void doInBackground(Grades... grades) {
+            databaseDao.update(grades[0]);
+            return null;
+        }
+    }
 
     private static class UpdateAsyncTeacher extends AsyncTask<Teachers, Void, Void> {
         private DatabaseDao databaseDao;
@@ -135,6 +177,18 @@ public class Repository {
         @Override
         protected Void doInBackground(Subject... subjects) {
             databaseDao.delete(subjects[0]);
+            return null;
+        }
+    }
+    private static class DeleteAsyncGrade  extends AsyncTask<Grades, Void, Void> {
+        private DatabaseDao databaseDao;
+        private DeleteAsyncGrade(DatabaseDao databaseDao){
+            this.databaseDao = databaseDao;
+        }
+
+        @Override
+        protected Void doInBackground(Grades... grades) {
+            databaseDao.delete(grades[0]);
             return null;
         }
     }
@@ -177,8 +231,28 @@ public class Repository {
             return null;
         }
     }
+    private static class DeleteAllAsyncGrades extends AsyncTask<Void, Void, Void> {
+        private DatabaseDao databaseDao;
+        private DeleteAllAsyncGrades(DatabaseDao databaseDao){
+            this.databaseDao = databaseDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            databaseDao.deleteAllGrades();
+            return null;
+        }
+    }
 
     public LiveData<List<Teachers>> getTeacherWithName(String name){
         return databaseDao.getTeacherWithName(name);
+    }
+
+    public LiveData<List<Grades>> getAllGrades(){
+        return databaseDao.getAllGrades();
+    }
+
+    public LiveData<List<Subject>> getSubjectWithName(String name){
+        return databaseDao.getSubjectWithName(name);
     }
 }

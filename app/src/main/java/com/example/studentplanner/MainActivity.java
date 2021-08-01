@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Exams(toolbar)).commit();
                 break;
             case R.id.mi_item_Grades:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Grades(toolbar)).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Grades(toolbar, floatingActionButton)).commit();
                 break;
             case R.id.mi_item_InfoSchool:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Info(toolbar)).commit();
