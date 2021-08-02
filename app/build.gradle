@@ -53,4 +53,5 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.3.0'
     implementation 'androidx.navigation:navigation-ui:2.3.0'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
+    compile 'com.github.sundeepk:compact-calendar-view:3.0.0'
 }

@@ -158,7 +158,7 @@ public class AddExamActivity extends AppCompatActivity implements DatePickerDial
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        datePicked = year + "/" + month + "/" + dayOfMonth;
+        datePicked = dayOfMonth+ "-" +(month+1)+ "-" + year;
         textViewDatePicked.setText(datePicked);
     }
 }
