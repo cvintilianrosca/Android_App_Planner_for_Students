@@ -9,11 +9,13 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.studentplanner.database.dao.DatabaseDao;
+import com.example.studentplanner.database.entities.Exams;
 import com.example.studentplanner.database.entities.Grades;
 import com.example.studentplanner.database.entities.Subject;
+import com.example.studentplanner.database.entities.Tasks;
 import com.example.studentplanner.database.entities.Teachers;
 
-@androidx.room.Database(entities = {Subject.class, Teachers.class, Grades.class}, version = 5)
+@androidx.room.Database(entities = {Subject.class, Teachers.class, Grades.class, Tasks.class, Exams.class}, version = 6)
 abstract public class Database extends RoomDatabase {
     private static Database INSTANCE;
 

@@ -37,6 +37,7 @@ public class AddGradeActivity extends AppCompatActivity {
         editTextValueGrade = findViewById(R.id.editTextGradeValue);
         textViewSubjectGrade = findViewById(R.id.textViewPickSubject);
         final int checkedItem = 0;
+
         databaseViewModel = ViewModelProviders.of(this).get(DatabaseViewModel.class);
         textViewSubjectGrade.setOnClickListener(new View.OnClickListener() {
             @Override

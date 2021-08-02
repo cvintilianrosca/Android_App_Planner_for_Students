@@ -91,8 +91,6 @@ public class Fragment_Grades extends Fragment {
                     }
                 });
 
-//                final Teachers teachers = new Teachers(teacherName, teacherPhoneNumber);
-//                databaseViewModel.insert(teachers);
             }
         } else {
             Toast.makeText(getContext(), "Teacher not added", Toast.LENGTH_SHORT).show();

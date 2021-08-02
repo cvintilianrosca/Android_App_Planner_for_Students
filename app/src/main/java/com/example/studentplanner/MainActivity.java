@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (item.getItemId()){
             case R.id.mi_item_Exam:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Exams(toolbar)).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Exams(toolbar, floatingActionButton)).commit();
                 break;
             case R.id.mi_item_Grades:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Grades(toolbar, floatingActionButton)).commit();
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Info(toolbar)).commit();
                 break;
             case R.id.mi_item_Tasks:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Tasks(toolbar)).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Tasks(toolbar, floatingActionButton)).commit();
                 break;
             case R.id.mi_item_teachers:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Teachers(toolbar, floatingActionButton)).commit();

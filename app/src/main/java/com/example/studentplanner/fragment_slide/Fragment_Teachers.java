@@ -50,11 +50,14 @@ public class Fragment_Teachers extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         toolbar.setTitle("Teachers");
         View v = inflater.inflate(R.layout.fragment_teachers, container, false);
+
         databaseViewModel = ViewModelProviders.of(this).get(DatabaseViewModel.class);
         recyclerView = v.findViewById(R.id.recycleViewFragmentTeachers);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setHasFixedSize(true);
+
         final TeacherAdapter teacherAdapter = new TeacherAdapter();
+
         databaseViewModel.getAllTeachers().observe(getViewLifecycleOwner(), new Observer<List<Teachers>>() {
             @Override
             public void onChanged(List<Teachers> teachers) {
