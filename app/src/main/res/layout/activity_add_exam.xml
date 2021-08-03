@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
 
-    tools:context=".AddExamActivity">
+    tools:context=".addentities.AddExamActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"

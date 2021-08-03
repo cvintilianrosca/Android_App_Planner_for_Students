@@ -1,4 +1,4 @@
-package com.example.studentplanner;
+package com.example.studentplanner.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studentplanner.database.entities.Subject;
-import com.example.studentplanner.database.entities.Teachers;
+import com.example.studentplanner.R;
+import com.example.studentplanner.TaskOrExam;
 
 import java.util.ArrayList;
 import java.util.List;

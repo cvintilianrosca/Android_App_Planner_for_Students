@@ -1,4 +1,4 @@
-package com.example.studentplanner;
+package com.example.studentplanner.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studentplanner.R;
 import com.example.studentplanner.database.entities.Exams;
-import com.example.studentplanner.database.entities.Teachers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +39,10 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamHolder> {
     public void setExams(List<Exams> exams){
         this.list = exams;
         notifyDataSetChanged();
+    }
+
+    public Exams getExamAtPosition(int position){
+        return list.get(position);
     }
 
     class ExamHolder extends RecyclerView.ViewHolder{

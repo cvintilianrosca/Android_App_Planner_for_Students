@@ -39,6 +39,10 @@ public class Repository {
         return databaseDao.getTeacherWithSubjects(id);
     }
 
+    public LiveData<List<Subject>> getSubjectWithId(int id){
+        return databaseDao.getSubjectWithId(id);
+    }
+
     public List<SubjectWithGrades> getSubjectWithGrades(int subjectId){
         return databaseDao.getSubjectWithGrades(subjectId);
     }

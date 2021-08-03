@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,13 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.studentplanner.DatabaseViewModel;
 import com.example.studentplanner.R;
 import com.example.studentplanner.TaskOrExam;
-import com.example.studentplanner.TaskOrExamAdapter;
+import com.example.studentplanner.adapters.TaskOrExamAdapter;
 import com.example.studentplanner.database.entities.Exams;
 import com.example.studentplanner.database.entities.Tasks;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;

@@ -9,12 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddExamActivity"></activity>
-        <activity android:name=".AddTaskActivity" />
-        <activity android:name=".AddTeacherActivity" />
-        <activity android:name=".AddGradeActivity" />
+        <activity android:name=".addentities.AddExamActivity"></activity>
+        <activity android:name=".addentities.AddTaskActivity" />
+        <activity android:name=".addentities.AddTeacherActivity" />
+        <activity android:name=".addentities.AddGradeActivity" />
         <activity
-            android:name=".AddSubjectActivity"
+            android:name=".addentities.AddSubjectActivity"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"

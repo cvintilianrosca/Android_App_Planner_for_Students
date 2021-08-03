@@ -119,4 +119,8 @@ public class DatabaseViewModel extends AndroidViewModel {
     public LiveData<List<Subject>> getSubjectWithName(String name){
         return repository.getSubjectWithName(name);
     }
+
+    public LiveData<List<Subject>> getSubjectWithId(int id){
+        return repository.getSubjectWithId(id);
+    }
 }

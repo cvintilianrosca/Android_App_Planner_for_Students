@@ -1,4 +1,4 @@
-package com.example.studentplanner;
+package com.example.studentplanner.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studentplanner.R;
 import com.example.studentplanner.database.entities.Grades;
-import com.example.studentplanner.database.entities.Teachers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +40,10 @@ public class GradeAdapter extends RecyclerView.Adapter<GradeAdapter.GradesHolder
     public void setGrades(List<Grades> grades){
         this.list = grades;
         notifyDataSetChanged();
+    }
+
+    public Grades getGradeAtPosition(int position){
+        return list.get(position);
     }
 
     class GradesHolder extends RecyclerView.ViewHolder{

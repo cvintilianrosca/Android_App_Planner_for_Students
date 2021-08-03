@@ -1,4 +1,4 @@
-package com.example.studentplanner;
+package com.example.studentplanner.addentities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,8 +15,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.studentplanner.DatabaseViewModel;
+import com.example.studentplanner.R;
 import com.example.studentplanner.database.entities.Subject;
-import com.example.studentplanner.database.entities.Teachers;
 
 import java.util.List;
 

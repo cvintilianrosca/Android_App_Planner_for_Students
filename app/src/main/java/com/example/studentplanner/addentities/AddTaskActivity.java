@@ -1,4 +1,4 @@
-package com.example.studentplanner;
+package com.example.studentplanner.addentities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.studentplanner.DatabaseViewModel;
+import com.example.studentplanner.R;
 import com.example.studentplanner.database.entities.Subject;
 
 import java.util.Calendar;
@@ -36,6 +38,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     public static final String EXTRA_SUBJECT_PICKED = "com.example.studentplanner.EXTRA_SUBJECT_PICKED";
     public static final String EXTRA_DATE_PICKED = "com.example.studentplanner.EXTRA_DATE_PICKED";
     public static final String EXTRA_NOTE_DETAILS = "com.example.studentplanner.EXTRA_NOTE_DETAILS";
+    public static final String EXTRA_ID = "com.example.studentplanner.EXTRA_ID";
     private String[] listSubjects;
     private String datePicked;
 
@@ -49,9 +52,33 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         textViewSubjectPicked = findViewById(R.id.textViewPickSubjectTask);
         textViewDatePicked = findViewById(R.id.textViewPickDateTask);
         editTextNoteDetails = findViewById(R.id.editTextTaskDetails);
+        textViewDatePicked.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDateString();
+            }
+        });
+
+        toolbar = findViewById(R.id.toolbarTask);
+        toolbar.inflateMenu(R.menu.add_entity_menu);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         final int checkedItem = 0;
         databaseViewModel = ViewModelProviders.of(this).get(DatabaseViewModel.class);
-
+        Intent intent = getIntent();
+        if (intent.hasExtra(EXTRA_ID)){
+            toolbar.setTitle("Edit Task");
+            editTextValueTitle.setText(intent.getStringExtra(EXTRA_TITLE));
+            editTextNoteDetails.setText(intent.getStringExtra(EXTRA_NOTE_DETAILS));
+            textViewDatePicked.setText(intent.getStringExtra(EXTRA_DATE_PICKED));
+            textViewSubjectPicked.setText("PA");
+        } else {
+            toolbar.setTitle("Add Task");
+        }
         textViewSubjectPicked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,21 +123,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             }
         });
 
-        textViewDatePicked.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getDateString();
-            }
-        });
 
-        toolbar = findViewById(R.id.toolbarTask);
-        toolbar.inflateMenu(R.menu.add_entity_menu);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -154,6 +167,10 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             data.putExtra(EXTRA_SUBJECT_PICKED, subject);
             data.putExtra(EXTRA_DATE_PICKED, date);
             data.putExtra(EXTRA_NOTE_DETAILS, note);
+            int id = getIntent().getIntExtra(EXTRA_ID, -1);
+            if (id != -1){
+                data.putExtra(EXTRA_ID, id);
+            }
             setResult(RESULT_OK, data);
             finish();
         }

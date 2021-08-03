@@ -1,21 +1,16 @@
 package com.example.studentplanner.fragments_bottom_nav;
 
-import android.app.usage.UsageEvents;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.studentplanner.DatabaseViewModel;
 import com.example.studentplanner.R;
 import com.example.studentplanner.TaskOrExam;
-import com.example.studentplanner.TaskOrExamAdapter;
+import com.example.studentplanner.adapters.TaskOrExamAdapter;
 import com.example.studentplanner.database.entities.Exams;
 import com.example.studentplanner.database.entities.Tasks;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
@@ -107,7 +102,7 @@ public class Fragment_Calendar extends Fragment {
                 for (Event event : events) {
                     String s = (String)event.getData();
                     String[] tokens = s.split(" ");
-                    listForRecycleView.add(new TaskOrExam(tokens[0], tokens[2] , Integer.parseInt(tokens[1])));
+                    listForRecycleView.add(new TaskOrExam(tokens[0], tokens[2] , 1));
                 }
                 taskOrExamAdapter.setTaskOrExams(listForRecycleView);
                 recyclerView.setAdapter(taskOrExamAdapter);

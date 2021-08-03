@@ -1,9 +1,8 @@
-package com.example.studentplanner;
+package com.example.studentplanner.addentities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -16,6 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.studentplanner.DatabaseViewModel;
+import com.example.studentplanner.R;
 import com.example.studentplanner.database.entities.Teachers;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class AddSubjectActivity extends AppCompatActivity {
     public static final String EXTRA_TEACHER = "com.example.studentplanner.EXTRA_TEACHER";
     public static final String EXTRA_ROOM = "com.example.studentplanner.EXTRA_ROOM";
     public static final String EXTRA_NOTE = "com.example.studentplanner.EXTRA_NOTE";
+    public static final String EXTRA_ID = "com.example.studentplanner.EXTRA_ID";
     private String[] listTeacher;
 
     @Override
@@ -40,7 +42,19 @@ public class AddSubjectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_subject);
         editTextName = findViewById(R.id.editTextNameSubject);
         editTextRoom = findViewById(R.id.editTextRoomSubject);
+        editTextNote = findViewById(R.id.editTextNote);
+        toolbar = findViewById(R.id.toolbarSubject);
         textViewTeacher = findViewById(R.id.textViewTeacherSubject);
+        Intent intent = getIntent();
+        if (intent.hasExtra(EXTRA_ID)){
+            toolbar.setTitle("Edit Subject");
+            editTextName.setText(intent.getStringExtra(EXTRA_NAME));
+            editTextRoom.setText(intent.getStringExtra(EXTRA_ROOM));
+            textViewTeacher.setText(intent.getStringExtra(EXTRA_TEACHER));
+            editTextNote.setText(intent.getStringExtra(EXTRA_NOTE));
+        } else {
+            toolbar.setTitle("Add Subject");
+        }
         final int checkedItem = 0;
         databaseViewModel = ViewModelProviders.of(this).get(DatabaseViewModel.class);
         textViewTeacher.setOnClickListener(new View.OnClickListener() {
@@ -87,8 +101,8 @@ public class AddSubjectActivity extends AppCompatActivity {
             }
         });
 
-        editTextNote = findViewById(R.id.editTextNote);
-        toolbar = findViewById(R.id.toolbarSubject);
+
+
         toolbar.inflateMenu(R.menu.add_entity_menu);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,18 +137,17 @@ public class AddSubjectActivity extends AppCompatActivity {
             Toast.makeText(this, "Please insert Subject data", Toast.LENGTH_SHORT).show();
             return;
         }
-//        databaseViewModel.getTeacherDataWithName("dfd").observe(getViewLifecycleOwner(), new Observer<List<Teachers>>() {
-//            @Override
-//            public void onChanged(List<Teachers> teachers) {
-//                Toast.makeText(getContext(), teachers.get(0).getName(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
 
         Intent data = new Intent();
         data.putExtra(EXTRA_NAME, Name);
         data.putExtra(EXTRA_ROOM, Room);
         data.putExtra(EXTRA_TEACHER, Teacher);
         data.putExtra(EXTRA_NOTE, Note);
+
+        int id = getIntent().getIntExtra(EXTRA_ID, -1);
+        if (id != -1){
+            data.putExtra(EXTRA_ID, id);
+        }
         setResult(RESULT_OK, data);
         finish();
     }

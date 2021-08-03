@@ -15,18 +15,16 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studentplanner.AddGradeActivity;
-import com.example.studentplanner.AddTeacherActivity;
+import com.example.studentplanner.addentities.AddGradeActivity;
 import com.example.studentplanner.DatabaseViewModel;
-import com.example.studentplanner.GradeAdapter;
+import com.example.studentplanner.adapters.GradeAdapter;
 import com.example.studentplanner.R;
-import com.example.studentplanner.TeacherAdapter;
 import com.example.studentplanner.database.entities.Grades;
 import com.example.studentplanner.database.entities.Subject;
-import com.example.studentplanner.database.entities.Teachers;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -69,6 +67,21 @@ public class Fragment_Grades extends Fragment {
                 startActivityForResult(intent, ADD_GRADE_REQUEST);
             }
         });
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                databaseViewModel.delete(gradeAdapter.getGradeAtPosition((viewHolder.getAdapterPosition())));
+                Toast.makeText(getContext(), "Task Deleted", Toast.LENGTH_SHORT).show();
+            }
+        }).attachToRecyclerView(recyclerView);
+
         recyclerView.setAdapter(gradeAdapter);
       return v;
     }

@@ -1,4 +1,4 @@
-package com.example.studentplanner;
+package com.example.studentplanner.addentities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.studentplanner.DatabaseViewModel;
+import com.example.studentplanner.R;
 import com.example.studentplanner.database.entities.Subject;
 
 import java.util.Calendar;
