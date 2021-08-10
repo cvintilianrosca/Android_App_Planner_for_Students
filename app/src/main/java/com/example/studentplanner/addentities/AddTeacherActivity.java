@@ -44,7 +44,7 @@ public class AddTeacherActivity extends AppCompatActivity {
             editTextNameTeacher.setText(intent.getStringExtra(EXTRA_NAME_TEACHER));
             editTextPhoneNumberTeacher.setText(intent.getStringExtra(EXTRA_PHONE_TEACHER));
         } else {
-            toolbar.setTitle("Add Subject");
+            toolbar.setTitle("Add Teacher");
         }
 
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {

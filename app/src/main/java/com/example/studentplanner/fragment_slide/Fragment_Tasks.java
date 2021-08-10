@@ -57,7 +57,7 @@ public class Fragment_Tasks extends Fragment {
         databaseViewModel.getAllTasks().observe(getViewLifecycleOwner(), new Observer<List<Tasks>>() {
             @Override
             public void onChanged(List<Tasks> tasks) {
-                taskAdapter.setTasks(tasks);
+                taskAdapter.submitList(tasks);
             }
         });
 
@@ -82,6 +82,7 @@ public class Fragment_Tasks extends Fragment {
                 Toast.makeText(getContext(), "Task Deleted", Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(recyclerView);
+
         recyclerView.setAdapter(taskAdapter);
 
         taskAdapter.setOnItemClickListener(new TaskAdapter.OnItemClickListener() {
@@ -92,6 +93,17 @@ public class Fragment_Tasks extends Fragment {
                 intent.putExtra(AddTaskActivity.EXTRA_NOTE_DETAILS, tasks.getDetails());
                 intent.putExtra(AddTaskActivity.EXTRA_DATE_PICKED, tasks.getDateDeadline());
                 intent.putExtra(AddTaskActivity.EXTRA_ID, tasks.getId());
+                databaseViewModel.getAllSubjects().observe(getViewLifecycleOwner(), new Observer<List<Subject>>() {
+                    @Override
+                    public void onChanged(List<Subject> subjects) {
+                        for (Subject subject : subjects) {
+                            if (subject.getId() == tasks.getSubjectId()){
+                                intent.putExtra(AddTaskActivity.EXTRA_SUBJECT_PICKED, subject.getName());
+                            }
+                        }
+                    }
+                });
+
                 startActivityForResult(intent, EDIT_TASK_REQUEST);
             }
         });
@@ -106,30 +118,32 @@ public class Fragment_Tasks extends Fragment {
             if (data == null){
                 Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT).show();
             } else {
-                String taskTitle = data.getStringExtra(AddTaskActivity.EXTRA_TITLE);
+                final String taskTitle = data.getStringExtra(AddTaskActivity.EXTRA_TITLE);
                 String taskSubject = data.getStringExtra(AddTaskActivity.EXTRA_SUBJECT_PICKED);
-                String taskDate = data.getStringExtra(AddTaskActivity.EXTRA_DATE_PICKED);
-                String taskNoteDetails = data.getStringExtra(AddTaskActivity.EXTRA_NOTE_DETAILS);
+                final String taskDate = data.getStringExtra(AddTaskActivity.EXTRA_DATE_PICKED);
+                final String taskNoteDetails = data.getStringExtra(AddTaskActivity.EXTRA_NOTE_DETAILS);
                 LiveData<List<Subject>> listLiveDataSubject = databaseViewModel.getSubjectWithName(taskSubject);
                 final int[] id = {0};
                 listLiveDataSubject.observe(getViewLifecycleOwner(), new Observer<List<Subject>>() {
                     @Override
                     public void onChanged(List<Subject> subjects) {
                         id[0] = subjects.get(0).getId();
+                        final Tasks tasks = new Tasks(taskTitle, taskDate, subjects.get(0).getId(), taskNoteDetails);
+                        databaseViewModel.insert(tasks);
                     }
                 });
-                final Tasks tasks = new Tasks(taskTitle, taskDate, id[0], taskNoteDetails);
-                databaseViewModel.insert(tasks);
+
+
             }
         } else if (requestCode == EDIT_TASK_REQUEST && resultCode == RESULT_OK) {
-            int id = data.getIntExtra(AddTaskActivity.EXTRA_ID, -1);
+            final int id = data.getIntExtra(AddTaskActivity.EXTRA_ID, -1);
             if (id == -1) {
                 Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
                 return;
             }
-            String title = data.getStringExtra(AddTaskActivity.EXTRA_TITLE);
-            String date = data.getStringExtra(AddTaskActivity.EXTRA_DATE_PICKED);
-            String details = data.getStringExtra(AddTaskActivity.EXTRA_NOTE_DETAILS);
+            final String title = data.getStringExtra(AddTaskActivity.EXTRA_TITLE);
+            final String date = data.getStringExtra(AddTaskActivity.EXTRA_DATE_PICKED);
+            final String details = data.getStringExtra(AddTaskActivity.EXTRA_NOTE_DETAILS);
             String subjectPicked = data.getStringExtra(AddTaskActivity.EXTRA_SUBJECT_PICKED);
             LiveData<List<Subject>> listLiveDataSubject = databaseViewModel.getSubjectWithName(subjectPicked);
             final int[] ida = {0};
@@ -137,11 +151,12 @@ public class Fragment_Tasks extends Fragment {
                 @Override
                 public void onChanged(List<Subject> subjects) {
                     ida[0] = subjects.get(0).getId();
+                    final Tasks tasks = new Tasks(title, date, subjects.get(0).getId(), details);
+                    tasks.setId(id);
+                    databaseViewModel.update(tasks);
                 }
             });
-            final Tasks tasks = new Tasks(title, date, ida[0], details);
-            tasks.setId(id);
-            databaseViewModel.update(tasks);
+
             Toast.makeText(getContext(), "Task Updated", Toast.LENGTH_SHORT).show();
         }else {
             Toast.makeText(getContext(), "Task not added", Toast.LENGTH_SHORT).show();

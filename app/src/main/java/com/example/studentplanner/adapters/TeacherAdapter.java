@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studentplanner.R;
@@ -14,9 +16,25 @@ import com.example.studentplanner.database.entities.Teachers;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.TeacherHolder> {
-    private List<Teachers> list = new ArrayList<>();
+public class TeacherAdapter extends ListAdapter<Teachers, TeacherAdapter.TeacherHolder> {
     private TeacherAdapter.OnItemClickListener listener;
+
+    public TeacherAdapter() {
+        super(DIFF_CALLBACK);
+    }
+
+    private static final DiffUtil.ItemCallback<Teachers> DIFF_CALLBACK = new DiffUtil.ItemCallback<Teachers>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Teachers oldItem, @NonNull Teachers newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Teachers oldItem, @NonNull Teachers newItem) {
+            return oldItem.getName().equals(newItem.getName()) &&
+                    oldItem.getPhoneNumber().equals(newItem.getPhoneNumber());
+        }
+    };
     @NonNull
     @Override
     public TeacherHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -28,22 +46,14 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.TeacherH
 
     @Override
     public void onBindViewHolder(@NonNull TeacherHolder holder, int position) {
-        Teachers teachers = list.get(position);
+        Teachers teachers = getItem(position);
         holder.name.setText(teachers.getName());
     }
 
-    @Override
-    public int getItemCount() {
-        return list.size();
-    }
 
-    public void setTeachers(List<Teachers> teachers){
-        this.list = teachers;
-        notifyDataSetChanged();
-    }
 
     public Teachers getTeacherAtPosition(int position){
-        return list.get(position);
+        return getItem(position);
     }
 
     class TeacherHolder extends RecyclerView.ViewHolder{
@@ -57,7 +67,7 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.TeacherH
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     if (listener != null && position != RecyclerView.NO_POSITION){
-                        listener.onItemClick(list.get(position));
+                        listener.onItemClick(getItem(position));
                     }
                 }
             });

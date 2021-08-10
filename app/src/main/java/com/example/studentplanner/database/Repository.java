@@ -43,7 +43,7 @@ public class Repository {
         return databaseDao.getSubjectWithId(id);
     }
 
-    public List<SubjectWithGrades> getSubjectWithGrades(int subjectId){
+    public LiveData<List<SubjectWithGrades>> getSubjectWithGrades(int subjectId){
         return databaseDao.getSubjectWithGrades(subjectId);
     }
 

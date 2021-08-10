@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studentplanner.R;
@@ -14,9 +16,26 @@ import com.example.studentplanner.database.entities.Tasks;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
-    private List<Tasks> list = new ArrayList<>();
+public class TaskAdapter extends ListAdapter<Tasks, TaskAdapter.TaskHolder> {
     private TaskAdapter.OnItemClickListener listener;
+
+    public TaskAdapter() {
+        super(DIFF_CALLBACK);
+    }
+
+    private static final DiffUtil.ItemCallback<Tasks> DIFF_CALLBACK = new DiffUtil.ItemCallback<Tasks>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Tasks oldItem, @NonNull Tasks newItem) {
+            return oldItem.getId()== newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Tasks oldItem, @NonNull Tasks newItem) {
+            return oldItem.getId() == newItem.getId() && oldItem.getSubjectId() == newItem.getSubjectId() &&
+                    oldItem.getDateDeadline().equals(newItem.getDateDeadline()) &&
+                    oldItem.getDetails().equals(newItem.getDetails());
+        }
+    };
 
     @NonNull
     @Override
@@ -28,24 +47,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull TaskHolder holder, int position) {
-        Tasks tasks = list.get(position);
+        Tasks tasks = getItem(position);
         holder.name.setText(tasks.getTitle());
     }
 
 
     public Tasks getTaskAtPosition(int position){
-        return list.get(position);
+        return getItem(position);
     }
 
-    @Override
-    public int getItemCount() {
-        return list.size();
-    }
 
-    public void setTasks(List<Tasks> tasks){
-        this.list = tasks;
-        notifyDataSetChanged();
-    }
 
     class TaskHolder extends RecyclerView.ViewHolder{
          private TextView name;
@@ -58,7 +69,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     if (listener != null && position != RecyclerView.NO_POSITION){
-                        listener.onItemClick(list.get(position));
+                        listener.onItemClick(getItem(position));
                     }
                 }
             });

@@ -39,8 +39,8 @@
         android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/add_room_subject"
-        android:inputType="text"
+        android:hint="Add phoneNumber"
+        android:inputType="phone"
         android:textSize="20sp"
         android:drawableStart="@drawable/ic_phone"
         android:drawablePadding="5dp">

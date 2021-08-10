@@ -59,7 +59,7 @@ public class Fragment_Teachers extends Fragment {
         databaseViewModel.getAllTeachers().observe(getViewLifecycleOwner(), new Observer<List<Teachers>>() {
             @Override
             public void onChanged(List<Teachers> teachers) {
-                teacherAdapter.setTeachers(teachers);
+                teacherAdapter.submitList(teachers);
             }
         });
 

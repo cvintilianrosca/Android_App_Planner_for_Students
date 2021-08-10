@@ -7,6 +7,7 @@ import com.example.studentplanner.database.entities.Grades;
 import com.example.studentplanner.database.entities.Subject;
 
 import java.util.List;
+import java.util.Objects;
 
 public class SubjectWithGrades {
     @Embedded public Subject subject;

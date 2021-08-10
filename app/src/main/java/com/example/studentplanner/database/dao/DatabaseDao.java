@@ -43,7 +43,6 @@ public interface DatabaseDao {
     @Delete
     void delete(Teachers teachers);
 
-
     @Insert
     void insert(Grades grades);
 
@@ -102,7 +101,7 @@ public interface DatabaseDao {
     LiveData<List<Teachers>> getTeacherWithName(String teacherName);
 
     @Query("SELECT * FROM subject_table WHERE id = :idOfSubject")
-    List<SubjectWithGrades> getSubjectWithGrades(int idOfSubject);
+    LiveData<List<SubjectWithGrades>> getSubjectWithGrades(int idOfSubject);
 
     @Query("SELECT * FROM subject_table WHERE name = :subjectName")
     LiveData<List<Subject>> getSubjectWithName(String subjectName);

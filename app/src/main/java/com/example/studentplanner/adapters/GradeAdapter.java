@@ -6,16 +6,36 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studentplanner.R;
+import com.example.studentplanner.database.entities.Exams;
 import com.example.studentplanner.database.entities.Grades;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GradeAdapter extends RecyclerView.Adapter<GradeAdapter.GradesHolder> {
-    private List<Grades> list = new ArrayList<>();
+public class GradeAdapter extends ListAdapter<Grades, GradeAdapter.GradesHolder> {
+    private GradeAdapter.OnItemClickListener listener;
+
+    public GradeAdapter() {
+        super(DIFF_CALLBACK);
+    }
+
+    private static final DiffUtil.ItemCallback<Grades> DIFF_CALLBACK = new DiffUtil.ItemCallback<Grades>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Grades oldItem, @NonNull Grades newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Grades oldItem, @NonNull Grades newItem) {
+            return oldItem.getSubjectId() == newItem.getSubjectId() && oldItem.getId() == newItem.getId() &&
+                    oldItem.getValue() == newItem.getValue();
+        }
+    };
 
     @NonNull
     @Override
@@ -28,22 +48,15 @@ public class GradeAdapter extends RecyclerView.Adapter<GradeAdapter.GradesHolder
 
     @Override
     public void onBindViewHolder(@NonNull GradesHolder holder, int position) {
-        Grades grades = list.get(position);
+        Grades grades = getItem(position);
         holder.name.setText(String.valueOf(grades.getValue()));
     }
 
-    @Override
-    public int getItemCount() {
-        return list.size();
-    }
 
-    public void setGrades(List<Grades> grades){
-        this.list = grades;
-        notifyDataSetChanged();
-    }
+
 
     public Grades getGradeAtPosition(int position){
-        return list.get(position);
+        return getItem(position);
     }
 
     class GradesHolder extends RecyclerView.ViewHolder{
@@ -52,6 +65,23 @@ public class GradeAdapter extends RecyclerView.Adapter<GradeAdapter.GradesHolder
         public GradesHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.textViewGradeSubject);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (listener != null && position != RecyclerView.NO_POSITION){
+                        listener.onItemClick(getItem(position));
+                    }
+                }
+            });
         }
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(Grades grades);
+    }
+
+    public  void setOnItemClickListener(GradeAdapter.OnItemClickListener onItemClickListener){
+        this.listener = onItemClickListener;
     }
 }

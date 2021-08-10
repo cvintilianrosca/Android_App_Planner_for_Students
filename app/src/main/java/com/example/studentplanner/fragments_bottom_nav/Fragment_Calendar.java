@@ -71,7 +71,7 @@ public class Fragment_Calendar extends Fragment {
                         e.printStackTrace();
                     }
 //                    Toast.makeText(getContext(), it.getDateDeadline(), Toast.LENGTH_SHORT).show();
-                    compactCalendarView.addEvent(new Event(Color.RED, date1.getTime(), (it.getTitle()+ " 1 " + it.getDetails())));
+                    compactCalendarView.addEvent(new Event(Color.RED, date1.getTime(), (it.getTitle()+ ":1:" + it.getDetails())));
                 }
             }
         });
@@ -87,7 +87,7 @@ public class Fragment_Calendar extends Fragment {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    compactCalendarView.addEvent(new Event(Color.RED, date1.getTime(), (it.getName() + " 2 " + it.getDetails())));
+                    compactCalendarView.addEvent(new Event(Color.RED, date1.getTime(), (it.getName() + ":2:" + it.getDetails())));
                 }
             }
         });
@@ -101,7 +101,7 @@ public class Fragment_Calendar extends Fragment {
                 List<Event> events = compactCalendarView.getEvents(dateClicked);
                 for (Event event : events) {
                     String s = (String)event.getData();
-                    String[] tokens = s.split(" ");
+                    String[] tokens = s.split(":");
                     listForRecycleView.add(new TaskOrExam(tokens[0], tokens[2] , 1));
                 }
                 taskOrExamAdapter.setTaskOrExams(listForRecycleView);

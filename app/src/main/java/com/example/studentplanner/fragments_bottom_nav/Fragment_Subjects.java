@@ -22,8 +22,10 @@ import com.example.studentplanner.DatabaseViewModel;
 import com.example.studentplanner.R;
 import com.example.studentplanner.adapters.SubjectAdapter;
 import com.example.studentplanner.database.entities.Subject;
+import com.example.studentplanner.database.relations.SubjectWithGrades;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -44,7 +46,7 @@ public class Fragment_Subjects extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable final Bundle savedInstanceState) {
         toolbar.setTitle("Subjects");
         databaseViewModel = ViewModelProviders.of(this).get(DatabaseViewModel.class);
 
@@ -53,12 +55,14 @@ public class Fragment_Subjects extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setHasFixedSize(true);
         final SubjectAdapter subjectAdapter = new SubjectAdapter();
+
         databaseViewModel.getAllSubjects().observe(getViewLifecycleOwner(), new Observer<List<Subject>>() {
             @Override
-            public void onChanged(List<Subject> subjects) {
-                subjectAdapter.setSubjects(subjects);
+            public void onChanged(final List<Subject> subjects) {
+                subjectAdapter.submitList(subjects);
             }
         });
+
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +71,7 @@ public class Fragment_Subjects extends Fragment {
                 startActivityForResult(intent, ADD_SUBJECT_REQUEST);
             }
         });
+
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -77,7 +82,6 @@ public class Fragment_Subjects extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 databaseViewModel.delete(subjectAdapter.getSubjectAtPosition(viewHolder.getAdapterPosition()));
-                Toast.makeText(getContext(), "Task Deleted", Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(recyclerView);
 

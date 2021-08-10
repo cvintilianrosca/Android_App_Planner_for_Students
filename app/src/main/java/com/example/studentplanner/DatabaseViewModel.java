@@ -12,6 +12,7 @@ import com.example.studentplanner.database.entities.Grades;
 import com.example.studentplanner.database.entities.Subject;
 import com.example.studentplanner.database.entities.Tasks;
 import com.example.studentplanner.database.entities.Teachers;
+import com.example.studentplanner.database.relations.SubjectWithGrades;
 
 import java.util.List;
 
@@ -122,5 +123,9 @@ public class DatabaseViewModel extends AndroidViewModel {
 
     public LiveData<List<Subject>> getSubjectWithId(int id){
         return repository.getSubjectWithId(id);
+    }
+
+    public LiveData<List<SubjectWithGrades>> getSubjectsWithGrades(int id){
+        return repository.getSubjectWithGrades(id);
     }
 }

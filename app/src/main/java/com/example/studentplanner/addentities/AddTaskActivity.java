@@ -75,7 +75,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             editTextValueTitle.setText(intent.getStringExtra(EXTRA_TITLE));
             editTextNoteDetails.setText(intent.getStringExtra(EXTRA_NOTE_DETAILS));
             textViewDatePicked.setText(intent.getStringExtra(EXTRA_DATE_PICKED));
-            textViewSubjectPicked.setText("PA");
+            textViewSubjectPicked.setText(intent.getStringExtra(EXTRA_SUBJECT_PICKED));
         } else {
             toolbar.setTitle("Add Task");
         }

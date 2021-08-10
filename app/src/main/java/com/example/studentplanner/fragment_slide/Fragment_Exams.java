@@ -57,7 +57,7 @@ public class Fragment_Exams extends Fragment {
         databaseViewModel.getAllExams().observe(getViewLifecycleOwner(), new Observer<List<Exams>>() {
             @Override
             public void onChanged(List<Exams> exams) {
-                examAdapter.setExams(exams);
+                examAdapter.submitList(exams);
             }
         });
 

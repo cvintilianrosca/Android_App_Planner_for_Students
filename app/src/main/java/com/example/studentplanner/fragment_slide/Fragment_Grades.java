@@ -56,7 +56,7 @@ public class Fragment_Grades extends Fragment {
         databaseViewModel.getAllGrades().observe(getViewLifecycleOwner(), new Observer<List<Grades>>() {
             @Override
             public void onChanged(List<Grades> grades) {
-                gradeAdapter.setGrades(grades);
+                gradeAdapter.submitList(grades);
             }
         });
 
