@@ -146,20 +146,18 @@ public class Fragment_Tasks extends Fragment {
             final String details = data.getStringExtra(AddTaskActivity.EXTRA_NOTE_DETAILS);
             String subjectPicked = data.getStringExtra(AddTaskActivity.EXTRA_SUBJECT_PICKED);
             LiveData<List<Subject>> listLiveDataSubject = databaseViewModel.getSubjectWithName(subjectPicked);
-            final int[] ida = {0};
             listLiveDataSubject.observe(getViewLifecycleOwner(), new Observer<List<Subject>>() {
                 @Override
                 public void onChanged(List<Subject> subjects) {
-                    ida[0] = subjects.get(0).getId();
                     final Tasks tasks = new Tasks(title, date, subjects.get(0).getId(), details);
                     tasks.setId(id);
                     databaseViewModel.update(tasks);
                 }
             });
 
-            Toast.makeText(getContext(), "Task Updated", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "Task Updated", Toast.LENGTH_SHORT).show();
         }else {
-            Toast.makeText(getContext(), "Task not added", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "Task not added", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -24,6 +24,7 @@ import com.example.studentplanner.database.entities.Exams;
 import com.example.studentplanner.database.entities.Tasks;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,9 +41,11 @@ public class Fragment_Calendar extends Fragment {
     private DatabaseViewModel databaseViewModel;
     private RecyclerView recyclerView;
     private TaskOrExamAdapter taskOrExamAdapter;
+    private FloatingActionButton floatingActionButton;
 
-    public Fragment_Calendar(final Toolbar toolbar){
+    public Fragment_Calendar(final Toolbar toolbar, final FloatingActionButton floatingActionButton){
         this.toolbar= toolbar;
+        this.floatingActionButton = floatingActionButton;
     }
     @Nullable
     @Override
@@ -56,6 +59,12 @@ public class Fragment_Calendar extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setHasFixedSize(true);
         taskOrExamAdapter = new TaskOrExamAdapter();
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
 
         final SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy");
         databaseViewModel = ViewModelProviders.of(this).get(DatabaseViewModel.class);

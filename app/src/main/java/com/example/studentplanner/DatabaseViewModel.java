@@ -12,8 +12,10 @@ import com.example.studentplanner.database.entities.Grades;
 import com.example.studentplanner.database.entities.Subject;
 import com.example.studentplanner.database.entities.Tasks;
 import com.example.studentplanner.database.entities.Teachers;
+import com.example.studentplanner.database.entities.Timetable;
 import com.example.studentplanner.database.relations.SubjectWithGrades;
 
+import java.sql.Time;
 import java.util.List;
 
 public class DatabaseViewModel extends AndroidViewModel {
@@ -24,6 +26,7 @@ public class DatabaseViewModel extends AndroidViewModel {
     private LiveData<List<Grades>> allGrades;
     private LiveData<List<Exams>> allExams;
     private LiveData<List<Tasks>> allTasks;
+    private LiveData<List<Timetable>> allTimetables;
 
     public DatabaseViewModel(@NonNull Application application) {
         super(application);
@@ -33,6 +36,7 @@ public class DatabaseViewModel extends AndroidViewModel {
         allGrades = repository.getAllGrades();
         allExams = repository.getAllExams();
         allTasks = repository.getAllTasks();
+        allTimetables = repository.getAllTimetables();
     }
 
     public void insert(Subject subject){
@@ -48,6 +52,8 @@ public class DatabaseViewModel extends AndroidViewModel {
     public void insert(Tasks tasks){repository.insert(tasks);}
 
     public void insert(Exams exams){repository.insert(exams);}
+
+    public void insert(Timetable timetable){repository.insert(timetable);}
 
 
     public void  update(Subject subject){
@@ -66,6 +72,8 @@ public class DatabaseViewModel extends AndroidViewModel {
 
     public void  update(Exams exams){repository.update(exams);}
 
+    public void  update(Timetable timetable){repository.update(timetable);}
+
 
     public void  delete(Subject subject){
         repository.delete(subject);
@@ -83,6 +91,8 @@ public class DatabaseViewModel extends AndroidViewModel {
 
     public void  delete(Exams exams){repository.delete(exams);}
 
+    public void  delete(Timetable timetable){repository.delete(timetable);}
+
 
     public void deleteAllSubjects(){
         repository.deleteAllSubjects();
@@ -90,6 +100,9 @@ public class DatabaseViewModel extends AndroidViewModel {
 
     public void deleteAllTeachers(){
         repository.deleteAllTeachers();
+    }
+    public void deleteAllTimetables(){
+        repository.deleteAllTimetables();
     }
 
     public void deleteAllGrades(){repository.deleteAllGrades();}
@@ -113,6 +126,8 @@ public class DatabaseViewModel extends AndroidViewModel {
 
     public LiveData<List<Exams>> getAllExams(){return allExams;}
 
+
+
     public LiveData<List<Teachers>> getTeacherDataWithName(String name){
         return repository.getTeacherWithName(name);
     }
@@ -127,5 +142,9 @@ public class DatabaseViewModel extends AndroidViewModel {
 
     public LiveData<List<SubjectWithGrades>> getSubjectsWithGrades(int id){
         return repository.getSubjectWithGrades(id);
+    }
+
+    public LiveData<List<Timetable>> getAllTimetables(){
+        return repository.getAllTimetables();
     }
 }

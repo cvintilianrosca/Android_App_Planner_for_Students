@@ -12,9 +12,11 @@ import com.example.studentplanner.database.entities.Grades;
 import com.example.studentplanner.database.entities.Subject;
 import com.example.studentplanner.database.entities.Tasks;
 import com.example.studentplanner.database.entities.Teachers;
+import com.example.studentplanner.database.entities.Timetable;
 import com.example.studentplanner.database.relations.SubjectWithGrades;
 import com.example.studentplanner.database.relations.TeacherWithSubjects;
 
+import java.sql.Time;
 import java.util.List;
 
 @Dao
@@ -70,6 +72,18 @@ public interface DatabaseDao {
     @Delete
     void delete(Exams exams);
 
+    @Insert
+    void insert(Timetable timetable);
+
+    @Delete
+    void delete(Timetable timetable);
+
+    @Update
+    void update(Timetable timetable);
+
+    @Query("SELECT * FROM timetable_table")
+    LiveData<List<Timetable>> getAllTimetables();
+
     @Query("DELETE FROM exam_table")
     void deleteAllExams();
 
@@ -84,6 +98,9 @@ public interface DatabaseDao {
 
     @Query("DELETE FROM grades_table")
     void deleteAllGrades();
+
+    @Query("DELETE FROM timetable_table")
+    void deleteAllTimetables();
 
     @Query("SELECT * FROM grades_table")
     LiveData<List<Grades>> getAllGrades();

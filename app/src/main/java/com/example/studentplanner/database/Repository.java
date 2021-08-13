@@ -13,6 +13,7 @@ import com.example.studentplanner.database.entities.Grades;
 import com.example.studentplanner.database.entities.Subject;
 import com.example.studentplanner.database.entities.Tasks;
 import com.example.studentplanner.database.entities.Teachers;
+import com.example.studentplanner.database.entities.Timetable;
 import com.example.studentplanner.database.relations.SubjectWithGrades;
 import com.example.studentplanner.database.relations.TeacherWithSubjects;
 
@@ -73,6 +74,9 @@ public class Repository {
     public void insert(Exams exams){
         new InsertAsyncExams(databaseDao).execute(exams);
     }
+    public void insert(Timetable timetable){
+        new InsertAsyncTimetable(databaseDao).execute(timetable);
+    }
 
 
     public void update(Subject subject){
@@ -95,6 +99,10 @@ public class Repository {
         new UpdateAsyncExams(databaseDao).execute(exams);
     }
 
+    public void update(Timetable timetable){
+        new UpdateAsyncTimetable(databaseDao).execute(timetable);
+    }
+
     public void delete(Subject subject){
         new DeleteAsyncSubject(databaseDao).execute(subject);
     }
@@ -115,9 +123,18 @@ public class Repository {
         new DeleteAsyncExams(databaseDao).execute(exams);
     }
 
+    public void delete(Timetable timetable){
+        new DeleteAsyncTimetable(databaseDao).execute(timetable);
+    }
+
+
 
     public void deleteAllSubjects(){
         new DeleteAllAsyncSubject(databaseDao).execute();
+    }
+
+    public void deleteAllTimetables(){
+        new DeleteAllAsyncTimetable(databaseDao).execute();
     }
 
     public void deleteAllTeachers(){
@@ -151,6 +168,20 @@ public class Repository {
             return null;
         }
     }
+
+    private static class InsertAsyncTimetable extends AsyncTask<Timetable, Void, Void> {
+        private DatabaseDao databaseDao;
+        private InsertAsyncTimetable(DatabaseDao databaseDao){
+            this.databaseDao = databaseDao;
+        }
+
+        @Override
+        protected Void doInBackground(Timetable... timetables) {
+            databaseDao.insert(timetables[0]);
+            return null;
+        }
+    }
+
     private static class InsertAsyncGrade  extends AsyncTask<Grades, Void, Void> {
         private DatabaseDao databaseDao;
         private InsertAsyncGrade(DatabaseDao databaseDao){
@@ -217,6 +248,20 @@ public class Repository {
             return null;
         }
     }
+
+    private static class UpdateAsyncTimetable extends AsyncTask<Timetable, Void, Void> {
+        private DatabaseDao databaseDao;
+        private UpdateAsyncTimetable(DatabaseDao databaseDao){
+            this.databaseDao = databaseDao;
+        }
+
+        @Override
+        protected Void doInBackground(Timetable... timetables) {
+            databaseDao.update(timetables[0]);
+            return null;
+        }
+    }
+
     private static class UpdateAsyncGrade  extends AsyncTask<Grades, Void, Void> {
         private DatabaseDao databaseDao;
         private UpdateAsyncGrade(DatabaseDao databaseDao){
@@ -282,6 +327,20 @@ public class Repository {
             return null;
         }
     }
+
+    private static class DeleteAsyncTimetable extends AsyncTask<Timetable, Void, Void> {
+        private DatabaseDao databaseDao;
+        private DeleteAsyncTimetable(DatabaseDao databaseDao){
+            this.databaseDao = databaseDao;
+        }
+
+        @Override
+        protected Void doInBackground(Timetable... timetables) {
+            databaseDao.delete(timetables[0]);
+            return null;
+        }
+    }
+
     private static class DeleteAsyncGrade  extends AsyncTask<Grades, Void, Void> {
         private DatabaseDao databaseDao;
         private DeleteAsyncGrade(DatabaseDao databaseDao){
@@ -399,6 +458,19 @@ public class Repository {
         }
     }
 
+    private static class DeleteAllAsyncTimetable extends AsyncTask<Void, Void, Void> {
+        private DatabaseDao databaseDao;
+        private DeleteAllAsyncTimetable(DatabaseDao databaseDao){
+            this.databaseDao = databaseDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            databaseDao.deleteAllTimetables();
+            return null;
+        }
+    }
+
     public LiveData<List<Teachers>> getTeacherWithName(String name){
         return databaseDao.getTeacherWithName(name);
     }
@@ -409,5 +481,9 @@ public class Repository {
 
     public LiveData<List<Subject>> getSubjectWithName(String name){
         return databaseDao.getSubjectWithName(name);
+    }
+
+    public LiveData<List<Timetable>> getAllTimetables(){
+        return databaseDao.getAllTimetables();
     }
 }

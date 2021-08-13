@@ -6,5 +6,12 @@
     <string name="add_room_subject">Add a room</string>
     <string name="add_teacher_subject">Add a teacher</string>
     <string name="add_note_subject">Add a note</string>
-
+    <string-array name="my_header_title">
+        <item></item>
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+    </string-array>
 </resources>

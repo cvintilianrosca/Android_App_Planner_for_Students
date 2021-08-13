@@ -20,6 +20,7 @@ import com.example.studentplanner.TaskOrExam;
 import com.example.studentplanner.adapters.TaskOrExamAdapter;
 import com.example.studentplanner.database.entities.Exams;
 import com.example.studentplanner.database.entities.Tasks;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,10 +33,13 @@ public class Fragment_Agenda extends Fragment {
     private DatabaseViewModel databaseViewModel;
     private RecyclerView recyclerView;
     private TaskOrExamAdapter taskOrExamAdapter;
+    private FloatingActionButton floatingActionButton;
 
-    public Fragment_Agenda(final Toolbar toolbar){
+    public Fragment_Agenda(final Toolbar toolbar, final FloatingActionButton floatingActionButton){
         this.toolbar = toolbar;
+        this.floatingActionButton = floatingActionButton;
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,7 +49,12 @@ public class Fragment_Agenda extends Fragment {
         recyclerView = v.findViewById(R.id.recycleViewFragmentAgenda);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setHasFixedSize(true);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
         taskOrExamAdapter = new TaskOrExamAdapter();
 
         databaseViewModel = ViewModelProviders.of(this).get(DatabaseViewModel.class);

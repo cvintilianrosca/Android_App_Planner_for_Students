@@ -32,8 +32,9 @@ public class ExamAdapter extends ListAdapter<Exams, ExamAdapter.ExamHolder> {
 
         @Override
         public boolean areContentsTheSame(@NonNull Exams oldItem, @NonNull Exams newItem) {
-            return oldItem.getId() == newItem.getId()&& oldItem.getDate().equals(newItem.getDate())&&
-                    oldItem.getDetails().equals(newItem.getDetails()) && oldItem.getFormExam() == newItem.getFormExam();
+            return  oldItem.getDate().equals(newItem.getDate())&&
+                    oldItem.getDetails().equals(newItem.getDetails()) && oldItem.getFormExam() == newItem.getFormExam()
+                    && oldItem.getName().equals(newItem.getName());
         }
     };
 

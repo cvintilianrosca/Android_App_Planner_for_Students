@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                        Toast.makeText(MainActivity.this, "AAAAA", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.miAgenda:
-                        selectedFragment = new Fragment_Agenda(toolbar);
+                        selectedFragment = new Fragment_Agenda(toolbar, floatingActionButton);
 //                        Toast.makeText(MainActivity.this, "AAAAA", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.miSubjects:
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                        Toast.makeText(MainActivity.this, "AAAAA", Toast.LENGTH_SHORT).show();
                         break;
                     case  R.id.miCalendar:
-                        selectedFragment = new Fragment_Calendar(toolbar);
+                        selectedFragment = new Fragment_Calendar(toolbar, floatingActionButton);
 //                        Toast.makeText(MainActivity.this, "AAAAA", Toast.LENGTH_SHORT).show();
                         break;
 
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Grades(toolbar, floatingActionButton)).commit();
                 break;
             case R.id.mi_item_InfoSchool:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Info(toolbar)).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Info(toolbar, floatingActionButton)).commit();
                 break;
             case R.id.mi_item_Tasks:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Tasks(toolbar, floatingActionButton)).commit();
@@ -132,10 +132,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Teachers(toolbar, floatingActionButton)).commit();
                 break;
             case R.id.mi_item_Settings:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Settings(toolbar)).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Settings(toolbar, floatingActionButton)).commit();
                 break;
             case R.id.mi_item_timeTable:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Timetable(toolbar)).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Timetable(toolbar, floatingActionButton)).commit();
                 break;
         }
         return true;

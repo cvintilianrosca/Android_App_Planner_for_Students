@@ -28,6 +28,7 @@ public class AddSubjectActivity extends AppCompatActivity {
     private TextView textViewTeacher;
     private EditText editTextNote;
     private Toolbar toolbar;
+
     private DatabaseViewModel databaseViewModel;
     public static final String EXTRA_NAME = "com.example.studentplanner.EXTRA_NAME";
     public static final String EXTRA_TEACHER = "com.example.studentplanner.EXTRA_TEACHER";

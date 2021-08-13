@@ -19,10 +19,13 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studentplanner.adapters.SubjectAdapter;
 import com.example.studentplanner.addentities.AddGradeActivity;
 import com.example.studentplanner.DatabaseViewModel;
 import com.example.studentplanner.adapters.GradeAdapter;
 import com.example.studentplanner.R;
+import com.example.studentplanner.addentities.AddSubjectActivity;
+import com.example.studentplanner.addentities.AddTaskActivity;
 import com.example.studentplanner.database.entities.Grades;
 import com.example.studentplanner.database.entities.Subject;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,6 +40,8 @@ public class Fragment_Grades extends Fragment {
     private RecyclerView recyclerView;
     private DatabaseViewModel databaseViewModel;
     public static final int ADD_GRADE_REQUEST = 3;
+    public static final int EDIT_GRADE_REQUEST = 404;
+
 
     public Fragment_Grades(final Toolbar toolbar, final FloatingActionButton floatingActionButton){
         this.toolbar = toolbar;
@@ -82,6 +87,27 @@ public class Fragment_Grades extends Fragment {
             }
         }).attachToRecyclerView(recyclerView);
 
+
+        gradeAdapter.setOnItemClickListener(new GradeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(final Grades grades) {
+                final Intent intent = new Intent(getContext(), AddGradeActivity.class);
+                intent.putExtra(AddGradeActivity.EXTRA_GRADE, grades.getValue());
+                intent.putExtra(AddGradeActivity.EXTRA_GRADE_ID, grades.getId());
+                databaseViewModel.getAllSubjects().observe(getViewLifecycleOwner(), new Observer<List<Subject>>() {
+                    @Override
+                    public void onChanged(List<Subject> subjects) {
+                        for (Subject subject : subjects) {
+                            if (subject.getId() == grades.getSubjectId()){
+                                intent.putExtra(AddGradeActivity.EXTRA_SUBJECT_NAME, subject.getName());
+                            }
+                        }
+                    }
+                });
+                startActivityForResult(intent, EDIT_GRADE_REQUEST);
+            }
+        });
+
         recyclerView.setAdapter(gradeAdapter);
       return v;
     }
@@ -105,8 +131,27 @@ public class Fragment_Grades extends Fragment {
                 });
 
             }
+        }else if (requestCode == EDIT_GRADE_REQUEST&& resultCode == RESULT_OK) {
+            assert data != null;
+            final int id = data.getIntExtra(AddGradeActivity.EXTRA_GRADE_ID, -1);
+            if (id == -1) {
+                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            final int grade = data.getIntExtra(AddGradeActivity.EXTRA_GRADE, -1);
+            String subjectName = data.getStringExtra(AddGradeActivity.EXTRA_SUBJECT_NAME);
+            LiveData<List<Subject>> subjectInfo =  databaseViewModel.getSubjectWithName(subjectName);
+            subjectInfo.observe(getViewLifecycleOwner(), new Observer<List<Subject>>() {
+                @Override
+                public void onChanged(List<Subject> subjects) {
+                    Grades grades = new Grades(subjects.get(0).getId(), grade);
+                    grades.setId(id);
+                    databaseViewModel.update(grades);
+                }
+            });
+//            Toast.makeText(getContext(), "Grade Updated", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getContext(), "Teacher not added", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "Grade not added", Toast.LENGTH_SHORT).show();
         }
     }
 }

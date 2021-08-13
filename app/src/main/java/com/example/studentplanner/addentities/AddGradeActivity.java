@@ -29,6 +29,7 @@ public class AddGradeActivity extends AppCompatActivity {
     private DatabaseViewModel databaseViewModel;
     public static final String EXTRA_GRADE = "com.example.studentplanner.EXTRA_GRADE";
     public static final String EXTRA_SUBJECT_NAME = "com.example.studentplanner.EXTRA_SUBJECT_NAME";
+    public static final String EXTRA_GRADE_ID = "com.example.studentplanner.EXTRA_GRADE_ID";
     private String[] listSubjects;
 
     @Override
@@ -37,8 +38,24 @@ public class AddGradeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_grade);
         editTextValueGrade = findViewById(R.id.editTextGradeValue);
         textViewSubjectGrade = findViewById(R.id.textViewPickSubject);
-        final int checkedItem = 0;
 
+        final int checkedItem = 0;
+        toolbar = findViewById(R.id.toolbarTimetable);
+        toolbar.inflateMenu(R.menu.add_entity_menu);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        Intent intent = getIntent();
+        if (intent.hasExtra(EXTRA_GRADE_ID)){
+            toolbar.setTitle("Edit Grade");
+            editTextValueGrade.setText(String.valueOf(intent.getIntExtra(EXTRA_GRADE, -1)));
+            textViewSubjectGrade.setText(intent.getStringExtra(EXTRA_SUBJECT_NAME));
+        } else {
+            toolbar.setTitle("Add Grade");
+        }
         databaseViewModel = ViewModelProviders.of(this).get(DatabaseViewModel.class);
         textViewSubjectGrade.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,21 +94,12 @@ public class AddGradeActivity extends AppCompatActivity {
                             }
                         });
                         builder.show();
-
-//                        Toast.makeText(AddSubjectActivity.this, teachers.get(0).getName(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
 
-        toolbar = findViewById(R.id.toolbarGrade);
-        toolbar.inflateMenu(R.menu.add_entity_menu);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
 
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -120,6 +128,11 @@ public class AddGradeActivity extends AppCompatActivity {
             Intent data = new Intent();
             data.putExtra(EXTRA_GRADE, gradeValue);
             data.putExtra(EXTRA_SUBJECT_NAME, nameSubject);
+            int id = getIntent().getIntExtra(EXTRA_GRADE_ID, -1);
+            if (id != -1){
+                data.putExtra(EXTRA_GRADE_ID, id);
+            }
+
             setResult(RESULT_OK, data);
             finish();
         }

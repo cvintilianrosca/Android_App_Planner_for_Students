@@ -7,8 +7,8 @@
     android:layout_marginEnd="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
-    app:cardCornerRadius="15sp"
-    app:cardElevation="3sp">
+    app:cardCornerRadius="20sp"
+    app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,7 +27,6 @@
             android:ellipsize="end"
             android:fontFamily="@font/allerta"
             android:text="Title"
-            android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
