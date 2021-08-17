@@ -127,9 +127,14 @@ public class Fragment_Tasks extends Fragment {
                 listLiveDataSubject.observe(getViewLifecycleOwner(), new Observer<List<Subject>>() {
                     @Override
                     public void onChanged(List<Subject> subjects) {
-                        id[0] = subjects.get(0).getId();
-                        final Tasks tasks = new Tasks(taskTitle, taskDate, subjects.get(0).getId(), taskNoteDetails);
-                        databaseViewModel.insert(tasks);
+                        if (subjects.size()==0){
+                            final Tasks tasks = new Tasks("No subject added", taskDate, subjects.get(0).getId(), taskNoteDetails);
+                            databaseViewModel.insert(tasks);
+                        } else {
+                            id[0] = subjects.get(0).getId();
+                            final Tasks tasks = new Tasks(taskTitle, taskDate, subjects.get(0).getId(), taskNoteDetails);
+                            databaseViewModel.insert(tasks);
+                        }
                     }
                 });
 

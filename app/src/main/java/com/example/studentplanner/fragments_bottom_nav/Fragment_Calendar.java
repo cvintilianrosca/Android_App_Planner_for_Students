@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -19,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.studentplanner.DatabaseViewModel;
 import com.example.studentplanner.R;
 import com.example.studentplanner.TaskOrExam;
+import com.example.studentplanner.adapters.MultiViewCalendarAdapter;
 import com.example.studentplanner.adapters.TaskOrExamAdapter;
 import com.example.studentplanner.database.entities.Exams;
 import com.example.studentplanner.database.entities.Tasks;
@@ -42,11 +46,20 @@ public class Fragment_Calendar extends Fragment {
     private RecyclerView recyclerView;
     private TaskOrExamAdapter taskOrExamAdapter;
     private FloatingActionButton floatingActionButton;
+    private FloatingActionButton floatingActionButtonAddTask;
+    private FloatingActionButton floatingActionButtonAddExam;
+    private MultiViewCalendarAdapter multiViewCalendarAdapter;
+    private Animation rotateOpen;
+    private Animation rotateClose;
+    private Animation fromBottom;
+    private Animation toBottom;
+
 
     public Fragment_Calendar(final Toolbar toolbar, final FloatingActionButton floatingActionButton){
         this.toolbar= toolbar;
         this.floatingActionButton = floatingActionButton;
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,15 +69,39 @@ public class Fragment_Calendar extends Fragment {
        compactCalendarView = v.findViewById(R.id.compactcalendar_view);
        compactCalendarView.setUseThreeLetterAbbreviation(true);
        recyclerView = v.findViewById(R.id.recycleViewCalendar);
+       rotateOpen = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_open_anim);
+       rotateClose = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_close_anim);
+       fromBottom = AnimationUtils.loadAnimation(getContext(), R.anim.from_bottom_anim);
+       toBottom = AnimationUtils.loadAnimation(getContext(), R.anim.to_bottom_anim);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setHasFixedSize(true);
-        taskOrExamAdapter = new TaskOrExamAdapter();
+
+        multiViewCalendarAdapter = new MultiViewCalendarAdapter();
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                onAddButtonClicked();
             }
         });
+
+        floatingActionButtonAddExam = v.findViewById(R.id.floatingActionButtonAddExamCalendar);
+        floatingActionButtonAddTask = v.findViewById(R.id.floatingActionButtonAddTaskCalendar);
+
+        floatingActionButtonAddTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Task", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        floatingActionButtonAddExam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Exam", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         final SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy");
         databaseViewModel = ViewModelProviders.of(this).get(DatabaseViewModel.class);
@@ -79,7 +116,6 @@ public class Fragment_Calendar extends Fragment {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-//                    Toast.makeText(getContext(), it.getDateDeadline(), Toast.LENGTH_SHORT).show();
                     compactCalendarView.addEvent(new Event(Color.RED, date1.getTime(), (it.getTitle()+ ":1:" + it.getDetails())));
                 }
             }
@@ -101,27 +137,125 @@ public class Fragment_Calendar extends Fragment {
             }
         });
 
-        final List<TaskOrExam> listForRecycleView = new ArrayList<>();
+
+        final String currentDate = new SimpleDateFormat("d-M-yyyy", Locale.getDefault()).format(new Date());
+        databaseViewModel.getAllTasks().observe(getViewLifecycleOwner(), new Observer<List<Tasks>>() {
+            @Override
+            public void onChanged(List<Tasks> tasks) {
+                final List<Object> objectList = new ArrayList<>();
+                for (Tasks it: tasks) {
+
+                    if (it.getDateDeadline().compareTo(currentDate) == 0){
+                        objectList.add(it);
+                    }
+                }
+                databaseViewModel.getAllExams().observe(getViewLifecycleOwner(), new Observer<List<Exams>>() {
+                    @Override
+                    public void onChanged(List<Exams> exams) {
+                        for (Exams ex : exams){
+                            if (ex.getDate().compareTo(currentDate) == 0){
+                                objectList.add(ex);
+                            }
+                        }
+                        multiViewCalendarAdapter.setObjectList(objectList);
+                        recyclerView.setAdapter(multiViewCalendarAdapter);
+                    }
+                });
+            }
+        });
 
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-                taskOrExamAdapter.deleteAll();
-                List<Event> events = compactCalendarView.getEvents(dateClicked);
-                for (Event event : events) {
-                    String s = (String)event.getData();
-                    String[] tokens = s.split(":");
-                    listForRecycleView.add(new TaskOrExam(tokens[0], tokens[2] , 1));
-                }
-                taskOrExamAdapter.setTaskOrExams(listForRecycleView);
-                recyclerView.setAdapter(taskOrExamAdapter);
+                final String currentDate = new SimpleDateFormat("d-M-yyyy", Locale.getDefault()).format(dateClicked);
+
+                databaseViewModel.getAllTasks().observe(getViewLifecycleOwner(), new Observer<List<Tasks>>() {
+                    @Override
+                    public void onChanged(List<Tasks> tasks) {
+                        final List<Object> objectList = new ArrayList<>();
+                        for (Tasks it: tasks) {
+
+                            if (it.getDateDeadline().compareTo(currentDate) == 0){
+                               objectList.add(it);
+                            }
+                        }
+                        databaseViewModel.getAllExams().observe(getViewLifecycleOwner(), new Observer<List<Exams>>() {
+                            @Override
+                            public void onChanged(List<Exams> exams) {
+                                for (Exams ex : exams){
+                                    if (ex.getDate().compareTo(currentDate) == 0){
+                                        objectList.add(ex);
+                                    }
+                                }
+                                multiViewCalendarAdapter.setObjectList(objectList);
+                                recyclerView.setAdapter(multiViewCalendarAdapter);
+                            }
+                        });
+                    }
+                });
             }
+
+
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 toolbar.setTitle(dateFormatMonth.format(firstDayOfNewMonth));
             }
         });
+
+        multiViewCalendarAdapter.setOnItemClickListener(new MultiViewCalendarAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Object object) {
+//                Toast.makeText(getContext(), "IOOO", Toast.LENGTH_SHORT).show();
+                if (object instanceof Exams){
+                    Toast.makeText(getContext(), "Exams", Toast.LENGTH_SHORT).show();
+                }
+                if (object instanceof Tasks){
+                    Toast.makeText(getContext(), "Tasks", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
        return v;
     }
+
+    private  boolean clicked = false;
+
+    private void onAddButtonClicked(){
+        setVisibility(clicked);
+        setAnimation(clicked);
+        setClickable(clicked);
+        clicked = !clicked;
+    }
+    public void setVisibility(boolean clicked){
+        if (!clicked){
+            floatingActionButtonAddExam.setVisibility(View.VISIBLE);
+            floatingActionButtonAddTask.setVisibility(View.VISIBLE);
+        } else {
+            floatingActionButtonAddExam.setVisibility(View.INVISIBLE);
+            floatingActionButtonAddTask.setVisibility(View.INVISIBLE);
+        }
+    }
+    public void  setAnimation(boolean clicked){
+        if (!clicked){
+            floatingActionButtonAddTask.setAnimation(fromBottom);
+            floatingActionButtonAddExam.setAnimation(fromBottom);
+            floatingActionButton.setAnimation(rotateOpen);
+        } else {
+            floatingActionButtonAddTask.setAnimation(toBottom);
+            floatingActionButtonAddExam.setAnimation(toBottom);
+            floatingActionButton.setAnimation(rotateClose);
+        }
+    }
+
+    public void setClickable(boolean clicked){
+        if (!clicked){
+            floatingActionButtonAddExam.setClickable(true);
+            floatingActionButtonAddTask.setClickable(true);
+        } else{
+            floatingActionButtonAddTask.setClickable(false);
+            floatingActionButtonAddExam.setClickable(false);
+        }
+    }
+
 }

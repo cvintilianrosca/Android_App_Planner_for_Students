@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.app.DirectAction;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.view.MenuItem;
@@ -62,9 +63,9 @@ public class AddTimetableItemActivity extends AppCompatActivity {
     public static final String EXTRA_LOCATION = "com.example.studentplanner.EXTRA_LOCATION";
     public static final String EXTRA_TEACHER = "com.example.studentplanner.EXTRA_TEACHER";
     public static final String EXTRA_NOTE_DETAILS = "com.example.studentplanner.EXTRA_NOTE_DETAILS";
-
-
-
+    public static final String EXTRA_ID = "com.example.studentplanner.EXTRA_ID";
+    public static final int EDIT_TIMETABLE = 202;
+    private int ID = -2;
 
 
     @Override
@@ -98,7 +99,8 @@ public class AddTimetableItemActivity extends AppCompatActivity {
         textViewTeacherSelected = findViewById(R.id.textViewPickTeacher);
         materialDayPicker = findViewById(R.id.day_picker_timetable);
 
-        materialDayPicker.setFirstDayOfWeek( MaterialDayPicker.Weekday.MONDAY);  // or any other day
+        materialDayPicker.setFirstDayOfWeek(MaterialDayPicker.Weekday.MONDAY);
+        materialDayPicker.disableDay(MaterialDayPicker.Weekday.SUNDAY);// or any other day
 //        materialDayPicker.disableDay(MaterialDayPicker.Weekday.SATURDAY);
 //        materialDayPicker.disableDay(MaterialDayPicker.Weekday.SUNDAY);
         toolbar = findViewById(R.id.toolbarTimetable);
@@ -123,6 +125,17 @@ public class AddTimetableItemActivity extends AppCompatActivity {
             }
         });
 
+        Intent intent = getIntent();
+        if (intent.hasExtra(EXTRA_ID)) {
+            textViewSubjectPicked.setText(intent.getStringExtra(EXTRA_SUBJECT));
+            textViewDaySelected.setText(intent.getStringExtra(EXTRA_DAY));
+            textViewStartHour.setText(intent.getStringExtra(EXTRA_START_HOUR));
+            textViewEndHour.setText(intent.getStringExtra(EXTRA_END_HOUR));
+            textViewTeacherSelected.setText(intent.getStringExtra(EXTRA_TEACHER));
+            editTextLocation.setText(intent.getStringExtra(EXTRA_LOCATION));
+            editTextDetails.setText(intent.getStringExtra(EXTRA_NOTE_DETAILS));
+            ID = intent.getIntExtra(EXTRA_ID, -2);
+        }
         textViewSubjectPicked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,12 +144,12 @@ public class AddTimetableItemActivity extends AppCompatActivity {
                     public void onChanged(List<Subject> subjects) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(AddTimetableItemActivity.this);
                         builder.setTitle("Choose Subject");
-                        if (subjects.size() == 0){
+                        if (subjects.size() == 0) {
                             listSubjects = new String[1];
                             listSubjects[0] = "No subject added";
                         } else {
                             listSubjects = new String[subjects.size()];
-                            for (int i = 0; i < subjects.size() ; i++) {
+                            for (int i = 0; i < subjects.size(); i++) {
                                 listSubjects[i] = subjects.get(i).getName();
                             }
                         }
@@ -154,9 +167,9 @@ public class AddTimetableItemActivity extends AppCompatActivity {
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if (saveChecked[0] != -1){
+                                if (saveChecked[0] != -1) {
                                     textViewSubjectPicked.setText(listSubjects[saveChecked[0]]);
-                                } else if (saveChecked[0] == -1 && listSubjects.length > 0){
+                                } else if (saveChecked[0] == -1 && listSubjects.length > 0) {
                                     textViewSubjectPicked.setText(listSubjects[0]);
                                 }
                             }
@@ -174,33 +187,28 @@ public class AddTimetableItemActivity extends AppCompatActivity {
             @Override
             public void onDayPressed(MaterialDayPicker.Weekday weekday, boolean b) {
                 String s = "";
-                if (MaterialDayPicker.Weekday.MONDAY.equals(weekday)){
+                if (MaterialDayPicker.Weekday.MONDAY.equals(weekday)) {
                     s = "Monday";
                 }
-                if (MaterialDayPicker.Weekday.TUESDAY.equals(weekday)){
+                if (MaterialDayPicker.Weekday.TUESDAY.equals(weekday)) {
                     s = "Tuesday";
                 }
-                if (MaterialDayPicker.Weekday.WEDNESDAY.equals(weekday)){
+                if (MaterialDayPicker.Weekday.WEDNESDAY.equals(weekday)) {
                     s = "Wednesday";
                 }
-                if (MaterialDayPicker.Weekday.THURSDAY.equals(weekday)){
+                if (MaterialDayPicker.Weekday.THURSDAY.equals(weekday)) {
                     s = "Thursday";
                 }
-                if (MaterialDayPicker.Weekday.FRIDAY.equals(weekday)){
+                if (MaterialDayPicker.Weekday.FRIDAY.equals(weekday)) {
                     s = "Friday";
                 }
-                if (MaterialDayPicker.Weekday.SATURDAY.equals(weekday)){
+                if (MaterialDayPicker.Weekday.SATURDAY.equals(weekday)) {
                     s = "Saturday";
-                }
-                if (MaterialDayPicker.Weekday.SUNDAY.equals(weekday)){
-                    s = "Sunday";
                 }
                 textViewDaySelected.setText(s);
             }
         });
         // handle weekday selection
-
-
 
 
         textViewStartHour.setOnClickListener(new View.OnClickListener() {
@@ -211,7 +219,29 @@ public class AddTimetableItemActivity extends AppCompatActivity {
                 final TimePickerDialog dialog = new TimePickerDialog(AddTimetableItemActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
+                        switch (hourOfDay){
+                            case  1:
+                                hourOfDay = 13;
+                                break;
+                            case 2:
+                                hourOfDay = 14;
+                                break;
+                            case 3:
+                                hourOfDay = 15;
+                                break;
+                            case 4:
+                                hourOfDay = 16;
+                                break;
+                            case 5:
+                                hourOfDay = 17;
+                                break;
+                            case 6:
+                                hourOfDay = 18;
+                                break;
+                            case 7:
+                                hourOfDay = 19;
+                                break;
+                        }
                         timeSetStatus[0] = 1;
                         textViewStartHour.setText(hourOfDay + ":" + minute);
                     }
@@ -245,7 +275,29 @@ public class AddTimetableItemActivity extends AppCompatActivity {
                 final TimePickerDialog dialog = new TimePickerDialog(AddTimetableItemActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
+                        switch (hourOfDay){
+                            case  1:
+                                hourOfDay = 13;
+                                break;
+                            case 2:
+                                hourOfDay = 14;
+                                break;
+                            case 3:
+                                hourOfDay = 15;
+                                break;
+                            case 4:
+                                hourOfDay = 16;
+                                break;
+                            case 5:
+                                hourOfDay = 17;
+                                break;
+                            case 6:
+                                hourOfDay = 18;
+                                break;
+                            case 7:
+                                hourOfDay = 19;
+                                break;
+                        }
                         timeSetStatus[0] = 1;
                         textViewEndHour.setText(hourOfDay + ":" + minute);
                     }
@@ -280,12 +332,12 @@ public class AddTimetableItemActivity extends AppCompatActivity {
                     public void onChanged(List<Teachers> teachers) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(AddTimetableItemActivity.this);
                         builder.setTitle("Choose Teacher");
-                        if (teachers.size() == 0){
+                        if (teachers.size() == 0) {
                             listTeacher = new String[1];
                             listTeacher[0] = "No teacher added";
                         } else {
                             listTeacher = new String[teachers.size()];
-                            for (int i = 0; i < teachers.size() ; i++) {
+                            for (int i = 0; i < teachers.size(); i++) {
                                 listTeacher[i] = teachers.get(i).getName();
                             }
                         }
@@ -303,9 +355,9 @@ public class AddTimetableItemActivity extends AppCompatActivity {
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if (saveChecked[0] != -1){
+                                if (saveChecked[0] != -1) {
                                     textViewTeacherSelected.setText(listTeacher[saveChecked[0]]);
-                                } else if (saveChecked[0] == -1 && listTeacher.length > 0){
+                                } else if (saveChecked[0] == -1 && listTeacher.length > 0) {
                                     textViewTeacherSelected.setText(listTeacher[0]);
                                 }
                             }
@@ -323,7 +375,7 @@ public class AddTimetableItemActivity extends AppCompatActivity {
         return true;
     }
 
-    public void saveTimetable(){
+    public void saveTimetable() {
         String subject = textViewSubjectPicked.getText().toString();
         String day = textViewDaySelected.getText().toString();
         String startHour = textViewStartHour.getText().toString();
@@ -332,8 +384,15 @@ public class AddTimetableItemActivity extends AppCompatActivity {
         String teacher = textViewTeacherSelected.getText().toString();
         String noteDetails = editTextDetails.getText().toString();
 
-        if (subject.trim().isEmpty() || day.trim().isEmpty() || startHour.trim().isEmpty() || endHour.trim().isEmpty()){
+        if (subject.trim().isEmpty() || day.trim().isEmpty() || startHour.trim().isEmpty() || endHour.trim().isEmpty()) {
             Toast.makeText(this, "Please insert: Subject, Day, Hour start and end", Toast.LENGTH_SHORT).show();
+        } else if (ID != -2) {
+            Timetable timetable = new Timetable(subject, day, startHour, endHour, locations, teacher, noteDetails);
+            timetable.setId(ID);
+            databaseViewModel.update(timetable);
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+            finish();
         } else {
             Timetable timetable = new Timetable(subject, day, startHour, endHour, locations, teacher, noteDetails);
             databaseViewModel.insert(timetable);

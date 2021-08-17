@@ -1,76 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-
     tools:context=".addentities.AddSubjectActivity">
+
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarSubject"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorBlueApp"
-        android:id="@+id/toolbarSubject"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:elevation="5dp"
-        app:navigationIcon="?attr/homeAsUpIndicator">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"></androidx.appcompat.widget.Toolbar>
 
-    </androidx.appcompat.widget.Toolbar>
 
     <EditText
         android:id="@+id/editTextNameSubject"
-        style="@android:style/Widget.Material.Light.AutoCompleteTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:drawablePadding="@dimen/cardview_default_radius"
-        android:hint="@string/add_name_subject"
-        android:inputType="text"
-        android:paddingStart="4dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="4dp"
-        android:paddingBottom="4dp"
-        android:background="@drawable/edit_text_rounded_corners"
-        android:textSize="36sp"></EditText>
-
-    <EditText xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/editTextRoomSubject"
-        android:layout_margin="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/add_room_subject"
-        android:inputType="text"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@null"
+        android:hint="Add Subject Name"
         android:textSize="20sp"
-        android:drawableStart="@drawable/ic_location"
-        android:background="@drawable/edit_text_rounded_corners"
-        android:drawablePadding="5dp">
-    </EditText>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarSubject"/>
+
+    <View
+        android:id="@+id/divider7"
+        android:layout_width="409dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNameSubject" />
+
+
+
+    <EditText
+        android:id="@+id/editTextRoomSubject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@null"
+        android:drawableStart="@drawable/ic_location_blue"
+        android:drawablePadding="20dp"
+        android:hint="Enter a location"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.888"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider7"/>
+
+
+    <View
+        android:id="@+id/divider8"
+        android:layout_width="409dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextRoomSubject" />
+
+
 
     <TextView
         android:id="@+id/textViewTeacherSubject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/add_teacher_subject"
-        android:layout_margin="5dp"
-        android:textSize="20sp"
-        android:drawableStart="@drawable/ic_teachers"
-        android:background="@drawable/edit_text_rounded_corners"
-        android:drawablePadding="5dp"
-        android:inputType="text">
-    </TextView>
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:drawableStart="@drawable/ic_teacher_blue"
+        android:drawablePadding="20sp"
+        android:text="Select a Teacher"
+        android:textSize="16sp"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider8"/>
+
+
+
+    <View
+        android:id="@+id/divider9"
+        android:layout_width="409dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTeacherSubject" />
 
     <EditText
         android:id="@+id/editTextNote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:hint="@string/add_note_subject"
-        android:textSize="20sp"
-        android:background="@drawable/edit_text_rounded_corners"
+        android:background="@null"
         android:drawableStart="@drawable/ic_note"
         android:drawablePadding="5dp"
-        android:inputType="text">
-    </EditText>
-</LinearLayout>
+        android:hint="@string/add_note_subject"
+        android:inputType="text"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider9" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

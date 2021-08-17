@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
+
+    <TextView
+        android:id="@+id/textViewTIMESUBJECT"
+        android:layout_width="329dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:text="TextView"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewTIMEDAY"
+        android:layout_width="331dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="@+id/textViewTIMESUBJECT"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewTIMESUBJECT"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTIMESUBJECT" />
+
+    <TextView
+        android:id="@+id/textViewTIMEHOUR"
+        android:layout_width="325dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="@+id/textViewTIMEDAY"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewTIMEDAY"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTIMEDAY" />
+
+    <Button
+        android:id="@+id/buttonDeleteTimetable"
+        android:layout_width="113dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/colorGreyWhite"
+        android:text="Delete"
+        android:textAllCaps="false"
+        android:textColor="@color/colorGreyDarker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTIMEHOUR" />
+
+    <Button
+        android:id="@+id/buttonEditTimetable"
+        android:layout_width="113dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="30dp"
+        android:backgroundTint="@color/colorGreyWhite"
+        android:text="Edit"
+        android:textAllCaps="false"
+        android:textColor="@color/colorGreyDarker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTIMEHOUR" />
+
+    <TextView
+        android:id="@+id/textViewTIMERoom"
+        android:layout_width="167dp"
+        android:layout_height="22dp"
+        android:text="TextView"
+        android:drawablePadding="16dp"
+        android:drawableStart="@drawable/ic_location_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/buttonDeleteTimetable"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewTIMEHOUR"
+        app:layout_constraintTop_toBottomOf="@+id/buttonDeleteTimetable"
+        app:layout_constraintVertical_bias="0.271" />
+
+    <Button
+        android:id="@+id/buttonCancelTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="18dp"
+        android:background="@android:color/transparent"
+        android:text="CLOSE"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTIMERoom" />
+</androidx.constraintlayout.widget.ConstraintLayout>

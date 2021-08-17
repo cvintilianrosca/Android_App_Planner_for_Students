@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.studentplanner.DatabaseViewModel;
 import com.example.studentplanner.R;
 import com.example.studentplanner.TaskOrExam;
+import com.example.studentplanner.adapters.MultiViewCalendarAdapter;
 import com.example.studentplanner.adapters.TaskOrExamAdapter;
 import com.example.studentplanner.database.entities.Exams;
 import com.example.studentplanner.database.entities.Tasks;
@@ -34,6 +36,8 @@ public class Fragment_Agenda extends Fragment {
     private RecyclerView recyclerView;
     private TaskOrExamAdapter taskOrExamAdapter;
     private FloatingActionButton floatingActionButton;
+    private MultiViewCalendarAdapter multiViewCalendarAdapter;
+
 
     public Fragment_Agenda(final Toolbar toolbar, final FloatingActionButton floatingActionButton){
         this.toolbar = toolbar;
@@ -56,46 +60,46 @@ public class Fragment_Agenda extends Fragment {
             }
         });
         taskOrExamAdapter = new TaskOrExamAdapter();
-
+        multiViewCalendarAdapter = new MultiViewCalendarAdapter();
         databaseViewModel = ViewModelProviders.of(this).get(DatabaseViewModel.class);
-        final List<TaskOrExam> taskOrExamAdapterList = new ArrayList<>();
         final String currentDate = new SimpleDateFormat("d-M-yyyy", Locale.getDefault()).format(new Date());
 
         databaseViewModel.getAllTasks().observe(getViewLifecycleOwner(), new Observer<List<Tasks>>() {
             @Override
             public void onChanged(List<Tasks> tasks) {
+                final List<Object> objectList = new ArrayList<>();
                 for (Tasks it: tasks) {
+
                     if (it.getDateDeadline().compareTo(currentDate) == 0){
-                        taskOrExamAdapterList.add(new TaskOrExam(it.getTitle(), it.getDetails(), 1));
+                        objectList.add(it);
                     }
                 }
-                taskOrExamAdapter.setTaskOrExams(taskOrExamAdapterList);
-                recyclerView.setAdapter(taskOrExamAdapter);
-//                Toast.makeText(getContext(), String.valueOf(taskOrExamAdapterList.size()), Toast.LENGTH_SHORT).show();
+                databaseViewModel.getAllExams().observe(getViewLifecycleOwner(), new Observer<List<Exams>>() {
+                    @Override
+                    public void onChanged(List<Exams> exams) {
+                        for (Exams ex : exams){
+                            if (ex.getDate().compareTo(currentDate) == 0){
+                                objectList.add(ex);
+                            }
+                        }
+                        multiViewCalendarAdapter.setObjectList(objectList);
+                        recyclerView.setAdapter(multiViewCalendarAdapter);
+                    }
+                });
             }
         });
-//        Toast.makeText(getContext(), String.valueOf(taskOrExamAdapterList.size()), Toast.LENGTH_SHORT).show();
-
-        databaseViewModel.getAllExams().observe(getViewLifecycleOwner(), new Observer<List<Exams>>() {
+        multiViewCalendarAdapter.setOnItemClickListener(new MultiViewCalendarAdapter.OnItemClickListener() {
             @Override
-            public void onChanged(List<Exams> exams) {
-                for (Exams it : exams) {
-                    if (it.getDate().compareTo(currentDate) == 0){
-//                        Toast.makeText(getContext(), it.getDate(), Toast.LENGTH_SHORT).show();
-//                        Toast.makeText(getContext(), currentDate, Toast.LENGTH_SHORT).show();
-//                        Toast.makeText(getContext(), String.valueOf(taskOrExamAdapterList.size()), Toast.LENGTH_SHORT).show();
-                        taskOrExamAdapterList.add(new TaskOrExam(it.getName(), it.getDetails(), 2));
-
-                    }
+            public void onItemClick(Object object) {
+//                Toast.makeText(getContext(), "IOOO", Toast.LENGTH_SHORT).show();
+                if (object instanceof Exams){
+                    Toast.makeText(getContext(), "Exams", Toast.LENGTH_SHORT).show();
                 }
-                taskOrExamAdapter.setTaskOrExams(taskOrExamAdapterList);
-                recyclerView.setAdapter(taskOrExamAdapter);
+                if (object instanceof Tasks){
+                    Toast.makeText(getContext(), "Tasks", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
-
-        taskOrExamAdapter.setTaskOrExams(taskOrExamAdapterList);
-        recyclerView.setAdapter(taskOrExamAdapter);
        return v;
     }
 }

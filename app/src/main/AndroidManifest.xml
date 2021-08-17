@@ -9,17 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddTimetableItemActivity"></activity>
-        <activity android:name=".addentities.AddExamActivity" />
-        <activity android:name=".addentities.AddTaskActivity" />
-        <activity android:name=".addentities.AddTeacherActivity" />
-        <activity android:name=".addentities.AddGradeActivity" />
+        <activity android:name=".AddTimetableItemActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity android:name=".addentities.AddExamActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name=".addentities.AddTaskActivity" android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name=".addentities.AddTeacherActivity" android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity android:name=".addentities.AddGradeActivity" android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity
             android:name=".addentities.AddSubjectActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
