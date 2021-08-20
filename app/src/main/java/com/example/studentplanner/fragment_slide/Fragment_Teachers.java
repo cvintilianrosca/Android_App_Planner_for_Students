@@ -45,7 +45,7 @@ public class Fragment_Teachers extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         toolbar.setTitle("Teachers");
         View v = inflater.inflate(R.layout.fragment_teachers, container, false);
 
@@ -89,7 +89,10 @@ public class Fragment_Teachers extends Fragment {
             public void onItemClick(Teachers teachers) {
                 Intent intent = new Intent(getContext(), AddTeacherActivity.class);
                 intent.putExtra(AddTeacherActivity.EXTRA_NAME_TEACHER, teachers.getName());
+                intent.putExtra(AddTeacherActivity.EXTRA_SURNAME_TEACHER, teachers.getSurname());
                 intent.putExtra(AddTeacherActivity.EXTRA_PHONE_TEACHER, teachers.getPhoneNumber());
+                intent.putExtra(AddTeacherActivity.EXTRA_EMAIL_TEACHER, teachers.getEmail());
+                intent.putExtra(AddTeacherActivity.EXTRA_ADDRESS_TEACHER, teachers.getAddress());
                 intent.putExtra(AddTeacherActivity.EXTRA_ID_TEACHER, teachers.getId());
                 startActivityForResult(intent, EDIT_TEACHER_REQUEST);
             }
@@ -108,9 +111,12 @@ public class Fragment_Teachers extends Fragment {
                 Toast.makeText(getContext(), "Something", Toast.LENGTH_SHORT).show();
             } else {
                 String teacherName = data.getStringExtra(AddTeacherActivity.EXTRA_NAME_TEACHER);
+                String teacherSurname = data.getStringExtra(AddTeacherActivity.EXTRA_SURNAME_TEACHER);
                 String teacherPhoneNumber = data.getStringExtra(AddTeacherActivity.EXTRA_PHONE_TEACHER);
-
-                final Teachers teachers = new Teachers(teacherName, teacherPhoneNumber);
+                String teacherEmail = data.getStringExtra(AddTeacherActivity.EXTRA_EMAIL_TEACHER);
+                String teacherAddress = data.getStringExtra(AddTeacherActivity.EXTRA_ADDRESS_TEACHER);
+                final Teachers teachers = new Teachers(teacherName, teacherSurname, teacherPhoneNumber,
+                        teacherEmail, teacherAddress);
                 databaseViewModel.insert(teachers);
             }
         }else if (requestCode == EDIT_TEACHER_REQUEST && resultCode == RESULT_OK) {
@@ -120,10 +126,14 @@ public class Fragment_Teachers extends Fragment {
                 return;
             }
 
-            String name = data.getStringExtra(AddTeacherActivity.EXTRA_NAME_TEACHER);
-            String phone  = data.getStringExtra(AddTeacherActivity.EXTRA_PHONE_TEACHER);
+            String teacherName = data.getStringExtra(AddTeacherActivity.EXTRA_NAME_TEACHER);
+            String teacherSurname = data.getStringExtra(AddTeacherActivity.EXTRA_SURNAME_TEACHER);
+            String teacherPhoneNumber = data.getStringExtra(AddTeacherActivity.EXTRA_PHONE_TEACHER);
+            String teacherEmail = data.getStringExtra(AddTeacherActivity.EXTRA_EMAIL_TEACHER);
+            String teacherAddress = data.getStringExtra(AddTeacherActivity.EXTRA_ADDRESS_TEACHER);
 
-           final Teachers teachers = new Teachers(name, phone);
+            final Teachers teachers = new Teachers(teacherName, teacherSurname, teacherPhoneNumber,
+                    teacherEmail, teacherAddress);
            teachers.setId(id);
             databaseViewModel.update(teachers);
             Toast.makeText(getContext(), "Teacher Updated", Toast.LENGTH_SHORT).show();

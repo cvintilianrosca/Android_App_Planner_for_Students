@@ -20,7 +20,6 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.studentplanner.AddTimetableItemActivity;
 import com.example.studentplanner.DatabaseViewModel;
 import com.example.studentplanner.R;
-import com.example.studentplanner.addentities.AddTaskActivity;
 import com.example.studentplanner.database.entities.Timetable;
 import com.github.tlaabs.timetableview.Schedule;
 import com.github.tlaabs.timetableview.Time;
@@ -29,9 +28,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import android.text.Html;
-import android.widget.Toast;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -119,12 +115,12 @@ public class Fragment_Timetable extends Fragment {
                 dialog.setCancelable(true);
                 //Mention the name of the layout of your custom dialog.
                 dialog.setContentView(R.layout.dialog_layout_timetable);
-                TextView subject = dialog.findViewById(R.id.textViewTIMESUBJECT);
-                TextView day = dialog.findViewById(R.id.textViewTIMEDAY);
+                TextView subject = dialog.findViewById(R.id.textViewPickSubjectExam);
+                TextView day = dialog.findViewById(R.id.textViewAddNewSubjectDialog);
                 TextView hours = dialog.findViewById(R.id.textViewTIMEHOUR);
                 Button delete = dialog.findViewById(R.id.buttonDeleteTimetable);
                 Button edit = dialog.findViewById(R.id.buttonEditTimetable);
-                Button cancel = dialog.findViewById(R.id.buttonCancelTime);
+                Button cancel = dialog.findViewById(R.id.buttonCancelSubjectDialog);
                 TextView location = dialog.findViewById(R.id.textViewTIMERoom);
                 subject.setText(schedules.get(0).getClassTitle());
                 switch (schedules.get(0).getDay()){

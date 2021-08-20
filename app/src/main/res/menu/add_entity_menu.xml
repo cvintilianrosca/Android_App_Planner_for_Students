@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 <item android:id="@+id/save_entity"
     android:title="Add new entry"
-    android:icon="@drawable/ic_add_act"
+    android:icon="@drawable/ic_twotone_add_circle_24"
     app:showAsAction="ifRoom">
 </item>
 </menu>

@@ -1,5 +1,6 @@
 package com.example.studentplanner.addentities;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -7,16 +8,22 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.autofit.et.lib.AutoFitEditText;
 import com.example.studentplanner.DatabaseViewModel;
 import com.example.studentplanner.R;
 import com.example.studentplanner.database.entities.Subject;
@@ -29,8 +36,12 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     private EditText editTextValueTitle;
     private TextView textViewSubjectPicked;
     private TextView textViewDatePicked;
-    private EditText editTextNoteDetails;
+    private AutoFitEditText editTextNoteDetails;
 
+    public static final int ADD_SUBJECT_REQUEST = 1;
+    public static final int EDIT_SUBJECT_REQUEST = 2;
+
+    private Dialog dialog;
     private Toolbar toolbar;
     private DatabaseViewModel databaseViewModel;
 
@@ -43,14 +54,13 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     private String datePicked;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
-        editTextValueTitle = findViewById(R.id.editTextTaskTitle);
-        textViewSubjectPicked = findViewById(R.id.textViewPickSubjectTask);
-        textViewDatePicked = findViewById(R.id.textViewPickDateTask);
+        editTextValueTitle = findViewById(R.id.editTextExamTitle);
+        textViewSubjectPicked = findViewById(R.id.textViewPickSubjectExam);
+        textViewDatePicked = findViewById(R.id.textViewPickDateExam);
         editTextNoteDetails = findViewById(R.id.editTextTaskDetails);
         textViewDatePicked.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,8 +68,23 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                 getDateString();
             }
         });
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        //in onCreate in Activity/Fragment
+        editTextNoteDetails.setEnabled(true);
 
-        toolbar = findViewById(R.id.toolbarTask);
+        editTextNoteDetails.setFocusableInTouchMode(true);
+        editTextNoteDetails.setFocusable(true);
+        editTextNoteDetails.setEnableSizeCache(false);
+        //might cause crash on some devices
+        editTextNoteDetails.setMovementMethod(null);
+        // can be added after layout inflation;
+        editTextNoteDetails.setMaxHeight(4000);
+        final int checkedItem = 0;
+        //don't forget to add min text size programmatically
+        editTextNoteDetails.setMinTextSize(60f);
+
+        toolbar = findViewById(R.id.toolbarTeacher);
         toolbar.inflateMenu(R.menu.add_entity_menu);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,10 +92,10 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                 finish();
             }
         });
-        final int checkedItem = 0;
         databaseViewModel = ViewModelProviders.of(this).get(DatabaseViewModel.class);
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorBlueApp), PorterDuff.Mode.SRC_IN);
         Intent intent = getIntent();
-        if (intent.hasExtra(EXTRA_ID)){
+        if (intent.hasExtra(EXTRA_ID)) {
             toolbar.setTitle("Edit Task");
             editTextValueTitle.setText(intent.getStringExtra(EXTRA_TITLE));
             editTextNoteDetails.setText(intent.getStringExtra(EXTRA_NOTE_DETAILS));
@@ -86,43 +111,65 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                     @Override
                     public void onChanged(List<Subject> subjects) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(AddTaskActivity.this);
-                        builder.setTitle("Choose Subject");
-                        if (subjects.size() == 0){
-                            listSubjects = new String[1];
-                            listSubjects[0] = "No subject added";
-                        } else {
+                        if (subjects.size() > 0) {
+                            builder.setTitle("Pick a subject");
                             listSubjects = new String[subjects.size()];
-                            for (int i = 0; i < subjects.size() ; i++) {
+                            for (int i = 0; i < subjects.size(); i++) {
                                 listSubjects[i] = subjects.get(i).getName();
                             }
-                        }
-
-
-                        final int[] saveChecked = {-1};
-                        builder.setSingleChoiceItems(listSubjects, checkedItem, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                saveChecked[0] = which;
-                            }
-                        });
-
-                        builder.setCancelable(false);
-                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (saveChecked[0] != -1){
-                                    textViewSubjectPicked.setText(listSubjects[saveChecked[0]]);
+                            final int[] saveChecked = {-1};
+                            builder.setSingleChoiceItems(listSubjects, checkedItem, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    saveChecked[0] = which;
                                 }
-                            }
-                        });
-                        builder.show();
+                            });
 
-//                        Toast.makeText(AddSubjectActivity.this, teachers.get(0).getName(), Toast.LENGTH_SHORT).show();
+                            builder.setCancelable(true);
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (saveChecked[0] != -1) {
+                                        textViewSubjectPicked.setText(listSubjects[saveChecked[0]]);
+                                    } else if (saveChecked[0] == -1 && listSubjects.length > 0) {
+                                        textViewSubjectPicked.setText(listSubjects[0]);
+                                    }
+                                }
+                            });
+                            builder.show();
+
+
+                        } else {
+                            dialog = new Dialog(AddTaskActivity.this);
+                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                            dialog.setCancelable(true);
+                            dialog.setContentView(R.layout.dialog_layout_add_subject);
+                            TextView pick = dialog.findViewById(R.id.textViewAddNewSubjectDialog);
+                            Button cancel = dialog.findViewById(R.id.buttonCancelSubjectDialog);
+                            dialog.show();
+                            pick.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog.dismiss();
+                                    Intent intent = new Intent(AddTaskActivity.this, AddSubjectActivity.class);
+                                    startActivityForResult(intent, ADD_SUBJECT_REQUEST);
+
+                                }
+                            });
+
+
+                            cancel.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog.dismiss();
+                                }
+                            });
+
+                        }
                     }
                 });
             }
         });
-
 
 
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -140,7 +187,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     }
 
     private void getDateString() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,this,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, this,
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
@@ -153,13 +200,13 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         return true;
     }
 
-    public void saveTask(){
+    public void saveTask() {
         String title = editTextValueTitle.getText().toString();
         String subject = textViewSubjectPicked.getText().toString();
         String date = textViewDatePicked.getText().toString();
         String note = editTextNoteDetails.getText().toString();
-        if (title.trim().isEmpty() || subject.trim().isEmpty() || date.trim().isEmpty() || note.trim().isEmpty()){
-            Toast.makeText(this, "Please insert Task data", Toast.LENGTH_SHORT).show();
+        if (title.trim().isEmpty() || subject.trim().isEmpty() || date.trim().isEmpty()) {
+            Toast.makeText(this, "Please insert Title, Subject and Date", Toast.LENGTH_SHORT).show();
             return;
         } else {
             Intent data = new Intent();
@@ -168,7 +215,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             data.putExtra(EXTRA_DATE_PICKED, date);
             data.putExtra(EXTRA_NOTE_DETAILS, note);
             int id = getIntent().getIntExtra(EXTRA_ID, -1);
-            if (id != -1){
+            if (id != -1) {
                 data.putExtra(EXTRA_ID, id);
             }
             setResult(RESULT_OK, data);
@@ -178,7 +225,35 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        datePicked = dayOfMonth+ "-" +(month+1)+ "-" + year;
+        datePicked = dayOfMonth + "-" + (month + 1) + "-" + year;
         textViewDatePicked.setText(datePicked);
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADD_SUBJECT_REQUEST && resultCode == RESULT_OK) {
+            String name = data.getStringExtra(AddSubjectActivity.EXTRA_NAME);
+            String room = data.getStringExtra(AddSubjectActivity.EXTRA_ROOM);
+            String teacher = data.getStringExtra(AddSubjectActivity.EXTRA_TEACHER);
+            String note = data.getStringExtra(AddSubjectActivity.EXTRA_NOTE);
+            final Subject subject = new Subject(name, room, teacher, note);
+            databaseViewModel.insert(subject);
+            dialog.dismiss();
+        } else if (requestCode == EDIT_SUBJECT_REQUEST && resultCode == RESULT_OK) {
+            int id = data.getIntExtra(AddSubjectActivity.EXTRA_ID, -1);
+            if (id == -1) {
+                return;
+            }
+            String name = data.getStringExtra(AddSubjectActivity.EXTRA_NAME);
+            String room = data.getStringExtra(AddSubjectActivity.EXTRA_ROOM);
+            String teacher = data.getStringExtra(AddSubjectActivity.EXTRA_TEACHER);
+            String note = data.getStringExtra(AddSubjectActivity.EXTRA_NOTE);
+            final Subject subject = new Subject(name, room, teacher, note);
+            subject.setId(id);
+            databaseViewModel.update(subject);
+        } else {
+        }
+    }
+
 }

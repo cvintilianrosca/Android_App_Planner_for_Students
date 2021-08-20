@@ -6,6 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:id="@+id/background_dimmerAgenda"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ebffffff"
+        android:visibility="gone"
+        android:elevation="1dp"
+        android:backgroundTint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textViewAgenda"
         android:layout_width="match_parent"
@@ -36,5 +49,72 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.6"></androidx.recyclerview.widget.RecyclerView>
 
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButtonAddTaskAgenda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        android:backgroundTint="@android:color/white"
+        android:clickable="true"
+        android:elevation="300dp"
+        android:focusable="true"
+        android:visibility="invisible"
+        app:fabCustomSize="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_task_blue"
+        app:tint="@color/colorPrimaryDark" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButtonAddExamAgenda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:backgroundTint="@android:color/white"
+        android:clickable="true"
+        android:elevation="300dp"
+        android:focusable="true"
+        android:visibility="invisible"
+        app:fabCustomSize="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/floatingActionButtonAddTaskAgenda"
+        app:layout_constraintEnd_toEndOf="@+id/floatingActionButtonAddTaskAgenda"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/floatingActionButtonAddTaskAgenda"
+        app:srcCompat="@drawable/ic_flag_blue"
+        app:tint="@color/colorPrimaryDark" />
+
+    <TextView
+        android:id="@+id/textViewTasksAgenda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:elevation="100dp"
+        android:text="Tasks"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonAddTaskAgenda"
+        app:layout_constraintEnd_toStartOf="@+id/floatingActionButtonAddTaskAgenda"
+        app:layout_constraintStart_toStartOf="@+id/textViewExamsAgenda"
+        app:layout_constraintTop_toTopOf="@+id/floatingActionButtonAddTaskAgenda" />
+
+    <TextView
+        android:id="@+id/textViewExamsAgenda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:elevation="100dp"
+        android:text="Exams"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonAddExamAgenda"
+        app:layout_constraintEnd_toStartOf="@+id/floatingActionButtonAddExamAgenda"
+        app:layout_constraintTop_toTopOf="@+id/floatingActionButtonAddExamAgenda" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

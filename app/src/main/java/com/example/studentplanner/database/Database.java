@@ -17,7 +17,7 @@ import com.example.studentplanner.database.entities.Teachers;
 import com.example.studentplanner.database.entities.Timetable;
 
 @androidx.room.Database(entities = {Subject.class, Teachers.class, Grades.class, Tasks.class,
-        Exams.class, Timetable.class}, version = 7)
+        Exams.class, Timetable.class}, version = 8)
 abstract public class Database extends RoomDatabase {
     private static Database INSTANCE;
 

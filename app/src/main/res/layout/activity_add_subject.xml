@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".addentities.AddSubjectActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarSubject"
+        android:id="@+id/toolbarTeacher"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorBlueApp"
+        android:background="@android:color/white"
         android:elevation="5dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,19 +24,23 @@
 
 
     <EditText
-        android:id="@+id/editTextNameSubject"
+        android:id="@+id/editTextExamTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
         android:background="@null"
-        android:hint="Add Subject Name"
+        android:drawableStart="@drawable/ic_usage"
+        android:drawablePadding="20dp"
+        android:fontFamily="sans-serif"
+        android:hint="Add a name"
+        android:textColor="#000000"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarSubject"/>
+        app:layout_constraintTop_toBottomOf="@+id/toolbarTeacher" />
 
     <View
         android:id="@+id/divider7"
@@ -45,8 +51,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNameSubject" />
-
+        app:layout_constraintTop_toBottomOf="@+id/editTextExamTitle" />
 
 
     <EditText
@@ -59,12 +64,14 @@
         android:background="@null"
         android:drawableStart="@drawable/ic_location_blue"
         android:drawablePadding="20dp"
-        android:hint="Enter a location"
+        android:fontFamily="sans-serif"
+        android:hint="Add a room"
+        android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.888"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider7"/>
+        app:layout_constraintTop_toBottomOf="@+id/divider7" />
 
 
     <View
@@ -79,7 +86,6 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextRoomSubject" />
 
 
-
     <TextView
         android:id="@+id/textViewTeacherSubject"
         android:layout_width="match_parent"
@@ -89,12 +95,14 @@
         android:layout_marginEnd="20dp"
         android:drawableStart="@drawable/ic_teacher_blue"
         android:drawablePadding="20sp"
-        android:text="Select a Teacher"
+        android:fontFamily="sans-serif"
+        android:hint="Add a teacher"
+        android:textColor="#000000"
         android:textSize="16sp"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider8"/>
+        app:layout_constraintTop_toBottomOf="@+id/divider8" />
 
 
 
@@ -109,20 +117,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTeacherSubject" />
 
-    <EditText
-        android:id="@+id/editTextNote"
+
+    <com.autofit.et.lib.AutoFitEditText
+        android:id="@+id/rETAddSubject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@null"
-        android:drawableStart="@drawable/ic_note"
-        android:drawablePadding="5dp"
-        android:hint="@string/add_note_subject"
-        android:inputType="text"
-        android:textSize="20sp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="20dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:fontFamily="sans-serif"
+        android:gravity="center_vertical"
+        android:hint="Add a note"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:isScrollContainer="false"
+        android:maxLength="540"
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/darker_gray"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider9" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

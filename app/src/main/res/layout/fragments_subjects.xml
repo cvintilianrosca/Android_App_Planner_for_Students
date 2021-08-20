@@ -6,6 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:id="@+id/background_dimmerSubjects"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ebffffff"
+        android:visibility="gone"
+        android:elevation="1dp"
+        android:backgroundTint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleViewFragmentSubjects"
@@ -22,4 +34,74 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.6">
     </androidx.recyclerview.widget.RecyclerView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButtonAddSubjectSubject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        android:backgroundTint="@android:color/white"
+        android:clickable="true"
+        android:elevation="300dp"
+        android:focusable="true"
+        android:visibility="invisible"
+        app:fabCustomSize="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_subject_blue"
+        app:tint="@color/colorPrimaryDark" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButtonAddGradeSubject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:backgroundTint="@android:color/white"
+        android:clickable="true"
+        android:elevation="300dp"
+        android:focusable="true"
+        android:visibility="invisible"
+        app:fabCustomSize="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/floatingActionButtonAddSubjectSubject"
+        app:layout_constraintEnd_toEndOf="@+id/floatingActionButtonAddSubjectSubject"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/floatingActionButtonAddSubjectSubject"
+        app:srcCompat="@drawable/ic_grade_blue"
+        app:tint="@color/colorPrimaryDark" />
+
+    <TextView
+        android:id="@+id/textViewSubjectSubject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:elevation="100dp"
+        android:text="Subject"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonAddSubjectSubject"
+        app:layout_constraintEnd_toStartOf="@+id/floatingActionButtonAddSubjectSubject"
+        app:layout_constraintStart_toStartOf="@+id/textViewGradeSubject"
+        app:layout_constraintTop_toTopOf="@+id/floatingActionButtonAddSubjectSubject" />
+
+
+    <TextView
+        android:id="@+id/textViewGradeSubject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:elevation="100dp"
+        android:text="Grade"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonAddGradeSubject"
+        app:layout_constraintEnd_toStartOf="@+id/floatingActionButtonAddGradeSubject"
+        app:layout_constraintTop_toTopOf="@+id/floatingActionButtonAddGradeSubject" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

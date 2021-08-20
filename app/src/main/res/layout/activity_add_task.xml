@@ -1,76 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
-    tools:context=".addentities.AddTaskActivity">
-    <androidx.appcompat.widget.Toolbar
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorBlueApp"
-        android:id="@+id/toolbarTask"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        android:elevation="5dp"
-        app:navigationIcon="?attr/homeAsUpIndicator">
+        android:layout_height="match_parent"
 
-    </androidx.appcompat.widget.Toolbar>
+        tools:context=".addentities.AddTaskActivity">
 
-    <EditText
-        android:drawablePadding="@dimen/cardview_default_radius"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="4dp"
-        android:paddingStart="4dp"
-        android:layout_margin="5dp"
-        android:textSize="36sp"
-        android:id="@+id/editTextTaskTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Add a title"
-        android:inputType="text">
-    </EditText>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarTeacher"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/white"
+            android:elevation="5dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"></androidx.appcompat.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/textViewPickSubjectTask"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Pick a subject"
-        android:layout_margin="5dp"
-        android:textSize="20sp"
-        android:drawableStart="@drawable/ic_subjects"
-        android:drawablePadding="5dp"
-        android:inputType="text">
-    </TextView>
-    <TextView
-        android:id="@+id/textViewPickDateTask"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Pick a date"
-        android:layout_margin="5dp"
-        android:textSize="20sp"
-        android:drawableStart="@drawable/ic_calendar"
-        android:drawablePadding="5dp"
-        android:inputType="text">
-    </TextView>
 
-    <EditText
-        android:drawablePadding="@dimen/cardview_default_radius"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="4dp"
-        android:paddingStart="4dp"
-        android:layout_margin="5dp"
-        android:textSize="20sp"
-        android:drawableStart="@drawable/ic_note"
-        android:id="@+id/editTextTaskDetails"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Add a note"
-        android:inputType="text">
-    </EditText>
+        <EditText
+            android:id="@+id/editTextExamTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
+            android:background="@null"
+            android:drawableStart="@drawable/ic_usage"
+            android:drawablePadding="20dp"
+            android:fontFamily="sans-serif"
+            android:hint="Add a Title"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.555"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarTeacher" />
 
-</LinearLayout>
+        <View
+            android:id="@+id/divider7"
+            android:layout_width="409dp"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="20dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextExamTitle" />
+
+
+        <TextView
+            android:id="@+id/textViewPickSubjectExam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:drawableStart="@drawable/ic_subject_blue"
+            android:drawablePadding="20sp"
+            android:fontFamily="sans-serif"
+            android:hint="Pick a subject"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider7" />
+
+        <View
+            android:id="@+id/divider6"
+            android:layout_width="409dp"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="16dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewPickSubjectExam" />
+
+        <TextView
+            android:id="@+id/textViewPickDateExam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:drawableStart="@drawable/ic_calendar_blue"
+            android:drawablePadding="20dp"
+            android:text="Pick a date"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider6" />
+
+        <View
+            android:id="@+id/divider10"
+            android:layout_width="409dp"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="16dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewPickDateExam" />
+
+        <com.autofit.et.lib.AutoFitEditText
+            android:id="@+id/editTextTaskDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:fontFamily="sans-serif"
+            android:gravity="center_vertical"
+            android:hint="Add a note"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:isScrollContainer="false"
+            android:maxLength="540"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider10" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

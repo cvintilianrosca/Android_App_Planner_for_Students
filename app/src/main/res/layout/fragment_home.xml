@@ -9,6 +9,20 @@
     android:orientation="vertical"
     android:padding="10dp">
 
+
+    <View
+        android:id="@+id/background_dimmerHome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ebffffff"
+        android:visibility="gone"
+        android:elevation="1dp"
+        android:backgroundTint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/id_recycleViewMain"
         android:layout_width="match_parent"
@@ -19,4 +33,109 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         ></androidx.recyclerview.widget.RecyclerView>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButtonAddClassesHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        android:backgroundTint="@android:color/white"
+        android:clickable="true"
+        android:elevation="300dp"
+        android:focusable="true"
+        android:visibility="invisible"
+        app:fabCustomSize="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_classes_blue"
+        app:tint="@color/colorPrimaryDark" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/floatingActionButtonAddTaskHome"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
+    android:backgroundTint="@android:color/white"
+    android:clickable="true"
+    android:elevation="300dp"
+    android:focusable="true"
+    android:visibility="invisible"
+    app:fabCustomSize="60dp"
+    app:layout_constraintBottom_toTopOf="@+id/floatingActionButtonAddClassesHome"
+    app:layout_constraintEnd_toEndOf="@+id/floatingActionButtonAddClassesHome"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toStartOf="@+id/floatingActionButtonAddClassesHome"
+    app:srcCompat="@drawable/ic_task_blue"
+    app:tint="@color/colorPrimaryDark" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButtonAddExamHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:backgroundTint="@android:color/white"
+        android:clickable="true"
+        android:elevation="300dp"
+        android:focusable="true"
+        android:visibility="invisible"
+        app:fabCustomSize="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/floatingActionButtonAddTaskHome"
+        app:layout_constraintEnd_toEndOf="@+id/floatingActionButtonAddTaskHome"
+        app:layout_constraintStart_toStartOf="@+id/floatingActionButtonAddTaskHome"
+        app:srcCompat="@drawable/ic_exam"
+        app:tint="@color/colorPrimaryDark" />
+
+
+    <TextView
+        android:id="@+id/textViewTaskHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:elevation="100dp"
+        android:text="Task"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonAddTaskHome"
+        app:layout_constraintEnd_toStartOf="@+id/floatingActionButtonAddTaskHome"
+        app:layout_constraintTop_toTopOf="@+id/floatingActionButtonAddTaskHome" />
+
+    <TextView
+        android:id="@+id/textViewClassesHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:elevation="100dp"
+        android:text="Classes"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonAddClassesHome"
+        app:layout_constraintEnd_toStartOf="@+id/floatingActionButtonAddClassesHome"
+        app:layout_constraintStart_toStartOf="@+id/textViewTaskHome"
+        app:layout_constraintTop_toTopOf="@+id/floatingActionButtonAddClassesHome" />
+
+    <TextView
+        android:id="@+id/textViewExamsHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="Exams"
+        android:visibility="invisible"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:elevation="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/floatingActionButtonAddTaskHome"
+        app:layout_constraintEnd_toStartOf="@+id/floatingActionButtonAddExamHome"
+        app:layout_constraintStart_toStartOf="@+id/textViewClassesHome"
+        app:layout_constraintTop_toTopOf="@+id/floatingActionButtonAddExamHome" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
