@@ -9,14 +9,25 @@ public class Tasks {
     private int id;
     private String title;
     private String dateDeadline;
+    private String subjectName;
+
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
+
     private int subjectId;
     private String details;
 
-    public Tasks(String title, String dateDeadline, int subjectId, String details) {
+    public Tasks(String title, String dateDeadline, int subjectId, String details, String subjectName) {
         this.title = title;
         this.dateDeadline = dateDeadline;
         this.subjectId = subjectId;
         this.details = details;
+        this.subjectName = subjectName;
     }
 
     public int getId() {

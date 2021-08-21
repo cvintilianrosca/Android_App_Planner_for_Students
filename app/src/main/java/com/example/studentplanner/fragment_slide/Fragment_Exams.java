@@ -96,19 +96,8 @@ public class Fragment_Exams extends Fragment {
                 intent.putExtra(AddExamActivity.EXTRA_DATE_PICKED, exams.getDate());
                 intent.putExtra(AddExamActivity.EXTRA_NOTE_DETAILS, exams.getDetails());
                 intent.putExtra(AddExamActivity.EXTRA_ID, exams.getId());
-
-                databaseViewModel.getAllSubjects().observe(getViewLifecycleOwner(), new Observer<List<Subject>>() {
-                    @Override
-                    public void onChanged(List<Subject> subjects) {
-                        for (Subject subject : subjects) {
-//                            Toast.makeText(getContext(), subject.getName(), Toast.LENGTH_SHORT).show();
-                            if (subject.getId() == exams.getSubjectId()){
-                                intent.putExtra(AddExamActivity.EXTRA_SUBJECT_PICKED, subject.getName());
-//                                Toast.makeText(getContext(), "UUUUUU +" + exams.getSubjectId(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                });
+                intent.putExtra(AddExamActivity.EXTRA_SUBJECT_PICKED, exams.getSubjectName());
+                intent.putExtra(AddExamActivity.EXTRA_FORM_EXAM, exams.getFormExam());
 
                 startActivityForResult(intent, EDIT_EXAM_REQUEST);
             }
@@ -127,15 +116,23 @@ public class Fragment_Exams extends Fragment {
                 Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT).show();
             } else {
                 final String examTitle = data.getStringExtra(AddExamActivity.EXTRA_TITLE);
-                String examSubject = data.getStringExtra(AddExamActivity.EXTRA_SUBJECT_PICKED);
+                final String examSubject = data.getStringExtra(AddExamActivity.EXTRA_SUBJECT_PICKED);
                 final String examDate = data.getStringExtra(AddExamActivity.EXTRA_DATE_PICKED);
                 final String examNoteDetails = data.getStringExtra(AddExamActivity.EXTRA_NOTE_DETAILS);
+                final String form = data.getStringExtra(AddExamActivity.EXTRA_FORM_EXAM);
+
                 LiveData<List<Subject>> listLiveDataSubject = databaseViewModel.getSubjectWithName(examSubject);
                 listLiveDataSubject.observe(getViewLifecycleOwner(), new Observer<List<Subject>>() {
                     @Override
                     public void onChanged(List<Subject> subjects) {
-                        final Exams exams = new Exams(examTitle, subjects.get(0).getId(), examDate, 1, examNoteDetails);
-                        databaseViewModel.insert(exams);
+                        if (subjects.size() == 0){
+                            final Exams exams = new Exams(examTitle, 11111, examDate, form, examNoteDetails, examSubject);
+                            databaseViewModel.insert(exams);
+                        } else {
+                            final Exams exams = new Exams(examTitle, subjects.get(0).getId(), examDate, form, examNoteDetails, examSubject);
+                            databaseViewModel.insert(exams);
+                        }
+
                     }
                 });
 
@@ -149,15 +146,22 @@ public class Fragment_Exams extends Fragment {
             final String title = data.getStringExtra(AddExamActivity.EXTRA_TITLE);
             final String date = data.getStringExtra(AddExamActivity.EXTRA_DATE_PICKED);
             final String details = data.getStringExtra(AddExamActivity.EXTRA_NOTE_DETAILS);
-            String subjectPicked = data.getStringExtra(AddExamActivity.EXTRA_SUBJECT_PICKED);
+            final String subjectPicked = data.getStringExtra(AddExamActivity.EXTRA_SUBJECT_PICKED);
 
+            final String form = data.getStringExtra(AddExamActivity.EXTRA_FORM_EXAM);
             LiveData<List<Subject>> listLiveDataSubject = databaseViewModel.getSubjectWithName(subjectPicked);
             listLiveDataSubject.observe(getViewLifecycleOwner(), new Observer<List<Subject>>() {
                 @Override
                 public void onChanged(List<Subject> subjects) {
-                    final Exams exams = new Exams(title, subjects.get(0).getId(), date, 1, details);
-                    exams.setId(id);
-                    databaseViewModel.update(exams);
+                    if (subjects.size() == 0){
+                        final Exams exams = new Exams(title, 1111, date, form, details, subjectPicked);
+                        exams.setId(id);
+                        databaseViewModel.update(exams);
+                    } else {
+                        final Exams exams = new Exams(title, subjects.get(0).getId(), date, form, details, subjectPicked);
+                        exams.setId(id);
+                        databaseViewModel.update(exams);
+                    }
                 }
             });
 

@@ -33,6 +33,7 @@ import com.autofit.et.lib.AutoFitEditText;
 import com.example.studentplanner.addentities.AddExamActivity;
 import com.example.studentplanner.addentities.AddGradeActivity;
 import com.example.studentplanner.addentities.AddSubjectActivity;
+import com.example.studentplanner.addentities.AddTeacherActivity;
 import com.example.studentplanner.database.entities.Subject;
 import com.example.studentplanner.database.entities.Teachers;
 import com.example.studentplanner.database.entities.Timetable;
@@ -47,7 +48,7 @@ import ca.antonious.materialdaypicker.MaterialDayPicker;
 
 public class AddTimetableItemActivity extends AppCompatActivity {
 
-    private AutoFitEditText editTextDetails;
+    private EditText editTextDetails;
     private TextView textViewSubjectPicked;
     private TextView textViewDaySelected;
     private TextView textViewStartHour;
@@ -65,6 +66,8 @@ public class AddTimetableItemActivity extends AppCompatActivity {
 
     public static final int ADD_SUBJECT_REQUEST = 1;
     public static final int EDIT_SUBJECT_REQUEST = 2;
+    public static final int ADD_TEACHER_REQUEST=2;
+    public static final int EDIT_TEACHER_REQUEST=7;
 
     public static final String EXTRA_SUBJECT = "com.example.studentplanner.EXTRA_SUBJECT";
     public static final String EXTRA_DAY = "com.example.studentplanner.EXTRA_DAY";
@@ -83,29 +86,16 @@ public class AddTimetableItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_timetable_item);
         databaseViewModel = ViewModelProviders.of(this).get(DatabaseViewModel.class);
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         editTextDetails = findViewById(R.id.rET);
-        //in onCreate in Activity/Fragment
-        editTextDetails.setEnabled(true);
-
-        editTextDetails.setFocusableInTouchMode(true);
-        editTextDetails.setFocusable(true);
-        editTextDetails.setEnableSizeCache(false);
-        //might cause crash on some devices
-        editTextDetails.setMovementMethod(null);
-        // can be added after layout inflation;
-        editTextDetails.setMaxHeight(4000);
         final int checkedItem = 0;
-        //don't forget to add min text size programmatically
-        editTextDetails.setMinTextSize(70f);
-//        AutoFitEditTextUtil.setNormalization(this, , mAutoFitEditText);
+
         textViewSubjectPicked = findViewById(R.id.textViewPickSubjectTimetable);
         textViewDaySelected = findViewById(R.id.textViewPickDayTimetable);
         textViewStartHour = findViewById(R.id.textViewPickStartLesson);
         textViewEndHour = findViewById(R.id.textViewPickEndLesson);
         editTextLocation = findViewById(R.id.editTextLocationTimetable);
         editTextLocation = findViewById(R.id.editTextLocationTimetable);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         textViewTeacherSelected = findViewById(R.id.textViewPickTeacher);
         materialDayPicker = findViewById(R.id.day_picker_timetable);
 
@@ -181,6 +171,17 @@ public class AddTimetableItemActivity extends AppCompatActivity {
                                     }
                                 }
                             });
+
+                            builder.setNeutralButton("Add new subject",
+                                    new DialogInterface.OnClickListener()
+                                    {
+                                        public void onClick(DialogInterface dialog, int id)
+                                        {
+                                            Intent intent = new Intent(AddTimetableItemActivity.this, AddSubjectActivity.class);
+                                            startActivityForResult(intent, ADD_SUBJECT_REQUEST);
+                                            dialog.cancel();
+                                        }
+                                    });
                             builder.show();
 
 
@@ -396,6 +397,17 @@ public class AddTimetableItemActivity extends AppCompatActivity {
                                 }
                             }
                         });
+                        builder.setNeutralButton("Add new teacher",
+                                new DialogInterface.OnClickListener()
+                                {
+                                    public void onClick(DialogInterface dialog, int id)
+                                    {
+                                        Intent intent = new Intent(AddTimetableItemActivity.this, AddTeacherActivity.class);
+                                        startActivityForResult(intent, ADD_TEACHER_REQUEST);
+                                        dialog.cancel();
+                                    }
+                                });
+
                         builder.show();
                     }
                 });
@@ -419,17 +431,33 @@ public class AddTimetableItemActivity extends AppCompatActivity {
         String noteDetails = editTextDetails.getText().toString();
 
         if (subject.trim().isEmpty() || day.trim().isEmpty() || startHour.trim().isEmpty() || endHour.trim().isEmpty()) {
-            Toast.makeText(this, "Please insert: Subject, Day, Hour start and end", Toast.LENGTH_SHORT).show();
+           textViewSubjectPicked.setHintTextColor(getResources().getColor(R.color.colorRed));
+           textViewDaySelected.setHintTextColor(getResources().getColor(R.color.colorRed));
+           textViewStartHour.setHintTextColor(getResources().getColor(R.color.colorRed));
+           textViewEndHour.setHintTextColor(getResources().getColor(R.color.colorRed));
+           return;
         } else if (ID != -2) {
-            Timetable timetable = new Timetable(subject, day, startHour, endHour, locations, teacher, noteDetails);
-            timetable.setId(ID);
-            databaseViewModel.update(timetable);
             Intent intent = new Intent();
+            intent.putExtra(EXTRA_SUBJECT, subject);
+            intent.putExtra(EXTRA_DAY, day);
+            intent.putExtra(EXTRA_START_HOUR, startHour);
+            intent.putExtra(EXTRA_END_HOUR, endHour);
+            intent.putExtra(EXTRA_LOCATION, locations);
+            intent.putExtra(EXTRA_TEACHER, teacher);
+            intent.putExtra(EXTRA_NOTE_DETAILS, noteDetails);
+            intent.putExtra(EXTRA_ID, ID);
             setResult(RESULT_OK, intent);
             finish();
         } else {
-            Timetable timetable = new Timetable(subject, day, startHour, endHour, locations, teacher, noteDetails);
-            databaseViewModel.insert(timetable);
+            Intent intent = new Intent();
+            intent.putExtra(EXTRA_SUBJECT, subject);
+            intent.putExtra(EXTRA_DAY, day);
+            intent.putExtra(EXTRA_START_HOUR, startHour);
+            intent.putExtra(EXTRA_END_HOUR, endHour);
+            intent.putExtra(EXTRA_LOCATION, locations);
+            intent.putExtra(EXTRA_TEACHER, teacher);
+            intent.putExtra(EXTRA_NOTE_DETAILS, noteDetails);
+            setResult(RESULT_OK, intent);
             finish();
         }
     }
@@ -464,5 +492,40 @@ public class AddTimetableItemActivity extends AppCompatActivity {
         else {
 //            Toast.makeText(getContext(), "Subject not added", Toast.LENGTH_SHORT).show();
         }
+        if (requestCode == ADD_TEACHER_REQUEST && resultCode == RESULT_OK){
+            if (data == null){
+//                Toast.makeText(getContext(), "Something", Toast.LENGTH_SHORT).show();
+            } else {
+                String teacherName = data.getStringExtra(AddTeacherActivity.EXTRA_NAME_TEACHER);
+                String teacherSurname = data.getStringExtra(AddTeacherActivity.EXTRA_SURNAME_TEACHER);
+                String teacherPhoneNumber = data.getStringExtra(AddTeacherActivity.EXTRA_PHONE_TEACHER);
+                String teacherEmail = data.getStringExtra(AddTeacherActivity.EXTRA_EMAIL_TEACHER);
+                String teacherAddress = data.getStringExtra(AddTeacherActivity.EXTRA_ADDRESS_TEACHER);
+                final Teachers teachers = new Teachers(teacherName, teacherSurname, teacherPhoneNumber,
+                        teacherEmail, teacherAddress);
+                databaseViewModel.insert(teachers);
+            }
+        }else if (requestCode == EDIT_TEACHER_REQUEST && resultCode == RESULT_OK) {
+            int id = data.getIntExtra(AddTeacherActivity.EXTRA_ID_TEACHER, -1);
+            if (id == -1) {
+//                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String teacherName = data.getStringExtra(AddTeacherActivity.EXTRA_NAME_TEACHER);
+            String teacherSurname = data.getStringExtra(AddTeacherActivity.EXTRA_SURNAME_TEACHER);
+            String teacherPhoneNumber = data.getStringExtra(AddTeacherActivity.EXTRA_PHONE_TEACHER);
+            String teacherEmail = data.getStringExtra(AddTeacherActivity.EXTRA_EMAIL_TEACHER);
+            String teacherAddress = data.getStringExtra(AddTeacherActivity.EXTRA_ADDRESS_TEACHER);
+
+            final Teachers teachers = new Teachers(teacherName, teacherSurname, teacherPhoneNumber,
+                    teacherEmail, teacherAddress);
+            teachers.setId(id);
+            databaseViewModel.update(teachers);
+//            Toast.makeText(getContext(), "Teacher Updated", Toast.LENGTH_SHORT).show();
+        } else {
+//            Toast.makeText(getContext(), "Teacher not added", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

@@ -19,9 +19,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.autofit.et.lib.AutoFitEditText;
 import com.example.studentplanner.DatabaseViewModel;
 import com.example.studentplanner.R;
 import com.example.studentplanner.database.entities.Teachers;
@@ -33,7 +31,7 @@ public class AddSubjectActivity extends AppCompatActivity {
     private EditText editTextName;
     private EditText editTextRoom;
     private TextView textViewTeacher;
-    private AutoFitEditText editTextNote;
+    private EditText editTextNote;
     private Toolbar toolbar;
     private Dialog dialog;
 
@@ -52,41 +50,21 @@ public class AddSubjectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_subject);
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         editTextNote = findViewById(R.id.rETAddSubject);
-        //in onCreate in Activity/Fragment
-        editTextNote.setEnabled(true);
-
-        editTextNote.setFocusableInTouchMode(true);
-        editTextNote.setFocusable(true);
-        editTextNote.setEnableSizeCache(false);
-        //might cause crash on some devices
-        editTextNote.setMovementMethod(null);
-        // can be added after layout inflation;
-        editTextNote.setMaxHeight(4000);
         final int checkedItem = 0;
-        //don't forget to add min text size programmatically
-        editTextNote.setMinTextSize(60f);
-
-        editTextName = findViewById(R.id.editTextExamTitle);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        editTextName = findViewById(R.id.editTextTitleExam);
         editTextRoom = findViewById(R.id.editTextRoomSubject);
         toolbar = findViewById(R.id.toolbarTeacher);
 
         textViewTeacher = findViewById(R.id.textViewTeacherSubject);
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRA_ID)){
-            toolbar.setTitle("Edit Subject");
-            toolbar.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-            toolbar.setTitleTextColor(getResources().getColor(R.color.colorBlack));
             editTextName.setText(intent.getStringExtra(EXTRA_NAME));
             editTextRoom.setText(intent.getStringExtra(EXTRA_ROOM));
             textViewTeacher.setText(intent.getStringExtra(EXTRA_TEACHER));
             editTextNote.setText(intent.getStringExtra(EXTRA_NOTE));
         } else {
-            toolbar.setTitle("Add Subject");
-            toolbar.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            toolbar.setTitleTextColor(getResources().getColor(R.color.colorBlack));
         }
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorBlueApp), PorterDuff.Mode.SRC_IN);
 
@@ -124,6 +102,17 @@ public class AddSubjectActivity extends AppCompatActivity {
                                     }
                                 }
                             });
+                            builder.setNeutralButton("Add new teacher",
+                                    new DialogInterface.OnClickListener()
+                                    {
+                                        public void onClick(DialogInterface dialog, int id)
+                                        {
+                                    Intent intent = new Intent(AddSubjectActivity.this, AddTeacherActivity.class);
+                                    startActivityForResult(intent, ADD_TEACHER_REQUEST);
+                                    dialog.cancel();
+                                        }
+                                    });
+
                             builder.show();
                         } else {
                             dialog = new Dialog(AddSubjectActivity.this);
@@ -136,7 +125,7 @@ public class AddSubjectActivity extends AppCompatActivity {
                             pick.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    dialog.dismiss();
+                                    dialog.cancel();
                                     Intent intent = new Intent(AddSubjectActivity.this, AddTeacherActivity.class);
                                     startActivityForResult(intent, ADD_TEACHER_REQUEST);
 
@@ -188,7 +177,8 @@ public class AddSubjectActivity extends AppCompatActivity {
         String Note = editTextNote.getText().toString();
 
         if (Name.trim().isEmpty() || Teacher.trim().isEmpty()){
-            Toast.makeText(this, "Please insert Subject Name and Teacher", Toast.LENGTH_SHORT).show();
+            editTextName.setHintTextColor(getResources().getColor(R.color.colorRed));
+            textViewTeacher.setHintTextColor(getResources().getColor(R.color.colorRed));
             return;
         }
 
@@ -246,7 +236,7 @@ public class AddSubjectActivity extends AppCompatActivity {
             databaseViewModel.update(teachers);
 //            Toast.makeText(getContext(), "Teacher Updated", Toast.LENGTH_SHORT).show();
         } else {
-//            Toast.makeText(getContext(), "Teacher not added", Toast.LENGTH_SHORT).show();
+
         }
     }
 }

@@ -174,12 +174,12 @@ public class Fragment_Subjects extends Fragment {
             String note = data.getStringExtra(AddSubjectActivity.EXTRA_NOTE);
             final Subject subject = new Subject(name, room, teacher, note);
             databaseViewModel.insert(subject);
-            Toast.makeText(getContext(), "Subject added", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "Subject added", Toast.LENGTH_SHORT).show();
 
         }else if (requestCode == EDIT_SUBJECT_REQUEST && resultCode == RESULT_OK) {
             int id = data.getIntExtra(AddSubjectActivity.EXTRA_ID, -1);
             if (id == -1) {
-                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
                 return;
             }
             String name = data.getStringExtra(AddSubjectActivity.EXTRA_NAME);
@@ -189,40 +189,52 @@ public class Fragment_Subjects extends Fragment {
             final Subject subject = new Subject(name, room, teacher, note);
             subject.setId(id);
             databaseViewModel.update(subject);
-            Toast.makeText(getContext(), "Note Updated", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "Note Updated", Toast.LENGTH_SHORT).show();
         }
         else {
 //            Toast.makeText(getContext(), "Subject not added", Toast.LENGTH_SHORT).show();
         }
         if (requestCode == ADD_GRADE_REQUEST && resultCode == RESULT_OK){
             if (data == null){
-                Toast.makeText(getContext(), "Something wrong happened", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Something wrong happened", Toast.LENGTH_SHORT).show();
             } else {
                 final int grade = data.getIntExtra(AddGradeActivity.EXTRA_GRADE, -1);
-                String subjectName = data.getStringExtra(AddGradeActivity.EXTRA_SUBJECT_NAME);
+                final String subjectName = data.getStringExtra(AddGradeActivity.EXTRA_SUBJECT_NAME);
+                final String date = data.getStringExtra(AddGradeActivity.EXTRA_DATE_GRADE);
+                final String term = data.getStringExtra(AddGradeActivity.EXTRA_TERM_GRADE);
+                final String type = data.getStringExtra(AddGradeActivity.EXTRA_FORM_GRADE);
+                final String note = data.getStringExtra(AddGradeActivity.EXTRA_NOTE_GRADE);
+
                 LiveData<List<Subject>> subjectInfo =  databaseViewModel.getSubjectWithName(subjectName);
                 subjectInfo.observe(getViewLifecycleOwner(), new Observer<List<Subject>>() {
                     @Override
                     public void onChanged(List<Subject> subjects) {
-                        databaseViewModel.insert(new Grades(subjects.get(0).getId(), grade));
+                        databaseViewModel.insert(new Grades(subjects.get(0).getId(), subjectName, grade,
+                                date, term, type, note));
                     }
                 });
-                Toast.makeText(getContext(), "Done", Toast.LENGTH_SHORT).show();
+
             }
         }else if (requestCode == EDIT_GRADE_REQUEST&& resultCode == RESULT_OK) {
             assert data != null;
             final int id = data.getIntExtra(AddGradeActivity.EXTRA_GRADE_ID, -1);
             if (id == -1) {
-                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
                 return;
             }
             final int grade = data.getIntExtra(AddGradeActivity.EXTRA_GRADE, -1);
-            String subjectName = data.getStringExtra(AddGradeActivity.EXTRA_SUBJECT_NAME);
+            final String subjectName = data.getStringExtra(AddGradeActivity.EXTRA_SUBJECT_NAME);
+            final String date = data.getStringExtra(AddGradeActivity.EXTRA_DATE_GRADE);
+            final String term = data.getStringExtra(AddGradeActivity.EXTRA_TERM_GRADE);
+            final String type = data.getStringExtra(AddGradeActivity.EXTRA_FORM_GRADE);
+            final String note = data.getStringExtra(AddGradeActivity.EXTRA_NOTE_GRADE);
+
             LiveData<List<Subject>> subjectInfo =  databaseViewModel.getSubjectWithName(subjectName);
             subjectInfo.observe(getViewLifecycleOwner(), new Observer<List<Subject>>() {
                 @Override
                 public void onChanged(List<Subject> subjects) {
-                    Grades grades = new Grades(subjects.get(0).getId(), grade);
+                    Grades grades = new Grades(subjects.get(0).getId(), subjectName, grade,
+                            date, term, type, note);
                     grades.setId(id);
                     databaseViewModel.update(grades);
                 }

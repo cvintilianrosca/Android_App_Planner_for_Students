@@ -70,7 +70,7 @@
     <TextView
         android:id="@+id/textViewTIMERoom"
         android:layout_width="167dp"
-        android:layout_height="22dp"
+        android:layout_height="wrap_content"
         android:text="TextView"
         android:drawablePadding="16dp"
         android:drawableStart="@drawable/ic_location_blue"

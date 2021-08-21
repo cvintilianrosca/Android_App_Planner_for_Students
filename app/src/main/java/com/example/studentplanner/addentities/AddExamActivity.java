@@ -23,7 +23,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.autofit.et.lib.AutoFitEditText;
 import com.example.studentplanner.DatabaseViewModel;
 import com.example.studentplanner.R;
 import com.example.studentplanner.database.entities.Subject;
@@ -37,6 +36,7 @@ public class AddExamActivity extends AppCompatActivity implements DatePickerDial
     private TextView textViewSubjectPicked;
     private TextView textViewDatePicked;
     private EditText editTextNoteDetails;
+    private TextView textViewFormExam;
     private Dialog dialog;
 
     private Toolbar toolbar;
@@ -46,6 +46,7 @@ public class AddExamActivity extends AppCompatActivity implements DatePickerDial
     public static final String EXTRA_SUBJECT_PICKED = "com.example.studentplanner.EXTRA_SUBJECT_PICKED";
     public static final String EXTRA_DATE_PICKED = "com.example.studentplanner.EXTRA_DATE_PICKED";
     public static final String EXTRA_NOTE_DETAILS = "com.example.studentplanner.EXTRA_NOTE_DETAILS";
+    public static final String EXTRA_FORM_EXAM = "com.example.studentplanner.EXTRA_FORM_EXAM";
     public static final String EXTRA_ID = "com.example.studentplanner.EXTRA_ID";
 
     public static final int ADD_SUBJECT_REQUEST = 1;
@@ -59,10 +60,11 @@ public class AddExamActivity extends AppCompatActivity implements DatePickerDial
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_exam);
 
-        editTextValueTitle = findViewById(R.id.editTextExamTitle);
+        editTextValueTitle = findViewById(R.id.editTextTitleExam);
         textViewSubjectPicked = findViewById(R.id.textViewPickSubjectExam);
         textViewDatePicked = findViewById(R.id.textViewPickDateExam);
         editTextNoteDetails = findViewById(R.id.editTextExamDetails);
+        textViewFormExam = findViewById(R.id.textViewTypeExam);
         final int checkedItem = 0;
         databaseViewModel = ViewModelProviders.of(this).get(DatabaseViewModel.class);
         toolbar = findViewById(R.id.toolbarTeacher);
@@ -75,7 +77,7 @@ public class AddExamActivity extends AppCompatActivity implements DatePickerDial
         });
 
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorBlueApp), PorterDuff.Mode.SRC_IN);
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRA_ID)){
             toolbar.setTitle("Edit Exam");
@@ -83,6 +85,7 @@ public class AddExamActivity extends AppCompatActivity implements DatePickerDial
             editTextNoteDetails.setText(intent.getStringExtra(EXTRA_NOTE_DETAILS));
             textViewDatePicked.setText(intent.getStringExtra(EXTRA_DATE_PICKED));
             textViewSubjectPicked.setText(intent.getStringExtra(EXTRA_SUBJECT_PICKED));
+            textViewFormExam.setText(intent.getStringExtra(EXTRA_FORM_EXAM));
             if (intent.getStringExtra(EXTRA_SUBJECT_PICKED) == null)
             Toast.makeText(this, "UPPAS", Toast.LENGTH_SHORT).show();
         } else {
@@ -122,6 +125,18 @@ public class AddExamActivity extends AppCompatActivity implements DatePickerDial
                                     }
                                 }
                             });
+
+                            builder.setNeutralButton("Add new subject",
+                                    new DialogInterface.OnClickListener()
+                                    {
+                                        public void onClick(DialogInterface dialog, int id)
+                                        {
+                                            Intent intent = new Intent(AddExamActivity.this, AddSubjectActivity.class);
+                                            startActivityForResult(intent, ADD_SUBJECT_REQUEST);
+                                            dialog.cancel();
+                                        }
+                                    });
+
                             builder.show();
 
 
@@ -165,6 +180,39 @@ public class AddExamActivity extends AppCompatActivity implements DatePickerDial
 
 
 
+        textViewFormExam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(AddExamActivity.this);
+                builder.setTitle("Select type");
+                final String[] listTypes = new String[3];
+                listTypes[0] = "Written";
+                listTypes[1] = "Oral";
+                listTypes[2] = "Practical";
+
+                final int[] checkedItem = {-1};
+                builder.setSingleChoiceItems(listTypes, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        checkedItem[0] = which;
+                    }
+                });
+                builder.setCancelable(true);
+                builder.setPositiveButton("SELECT", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (checkedItem[0] != -1) {
+                            textViewFormExam.setText(listTypes[checkedItem[0]]);
+                        } else if (checkedItem[0] == -1 && listTypes.length > 0) {
+                            textViewFormExam.setText(listTypes[0]);
+                        }
+                    }
+                });
+                builder.show();
+
+            }
+        });
+
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -198,8 +246,12 @@ public class AddExamActivity extends AppCompatActivity implements DatePickerDial
         String subject = textViewSubjectPicked.getText().toString();
         String date = textViewDatePicked.getText().toString();
         String note = editTextNoteDetails.getText().toString();
+        String form = textViewFormExam.getText().toString();
         if (title.trim().isEmpty() || subject.trim().isEmpty() || date.trim().isEmpty()){
-            Toast.makeText(this, "Please insert Title, Subject and Date", Toast.LENGTH_SHORT).show();
+            editTextValueTitle.setHintTextColor(getResources().getColor(R.color.colorRed));
+            textViewSubjectPicked.setHintTextColor(getResources().getColor(R.color.colorRed));
+            textViewDatePicked.setHintTextColor(getResources().getColor(R.color.colorRed));
+//            Toast.makeText(this, "Please insert Title, Subject and Date", Toast.LENGTH_SHORT).show();
             return;
         } else {
             Intent data = new Intent();
@@ -207,6 +259,7 @@ public class AddExamActivity extends AppCompatActivity implements DatePickerDial
             data.putExtra(EXTRA_SUBJECT_PICKED, subject);
             data.putExtra(EXTRA_DATE_PICKED, date);
             data.putExtra(EXTRA_NOTE_DETAILS, note);
+            data.putExtra(EXTRA_FORM_EXAM, form);
             int id = getIntent().getIntExtra(EXTRA_ID, -1);
             if (id != -1){
                 data.putExtra(EXTRA_ID, id);
@@ -232,7 +285,6 @@ public class AddExamActivity extends AppCompatActivity implements DatePickerDial
             String note = data.getStringExtra(AddSubjectActivity.EXTRA_NOTE);
             final Subject subject = new Subject(name, room, teacher, note);
             databaseViewModel.insert(subject);
-            dialog.dismiss();
         } else if (requestCode == EDIT_SUBJECT_REQUEST && resultCode == RESULT_OK) {
             int id = data.getIntExtra(AddSubjectActivity.EXTRA_ID, -1);
             if (id == -1) {

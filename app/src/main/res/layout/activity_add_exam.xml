@@ -27,7 +27,7 @@
 
 
         <EditText
-            android:id="@+id/editTextExamTitle"
+            android:id="@+id/editTextTitleExam"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -37,7 +37,7 @@
             android:drawableStart="@drawable/ic_usage"
             android:drawablePadding="20dp"
             android:fontFamily="sans-serif"
-            android:hint="Add a title"
+            android:hint="Add a title*"
             android:textColor="#000000"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +54,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextExamTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextTitleExam" />
 
 
         <TextView
@@ -67,7 +67,7 @@
             android:drawableStart="@drawable/ic_subject_blue"
             android:drawablePadding="20sp"
             android:fontFamily="sans-serif"
-            android:hint="Pick a subject"
+            android:hint="Pick a subject*"
             android:textColor="#000000"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -94,7 +94,7 @@
             android:layout_marginEnd="20dp"
             android:drawableStart="@drawable/ic_calendar_blue"
             android:drawablePadding="20dp"
-            android:text="Pick a date"
+            android:hint="Pick a date*"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

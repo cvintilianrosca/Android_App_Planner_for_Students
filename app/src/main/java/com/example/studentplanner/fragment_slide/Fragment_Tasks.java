@@ -93,17 +93,7 @@ public class Fragment_Tasks extends Fragment {
                 intent.putExtra(AddTaskActivity.EXTRA_NOTE_DETAILS, tasks.getDetails());
                 intent.putExtra(AddTaskActivity.EXTRA_DATE_PICKED, tasks.getDateDeadline());
                 intent.putExtra(AddTaskActivity.EXTRA_ID, tasks.getId());
-                databaseViewModel.getAllSubjects().observe(getViewLifecycleOwner(), new Observer<List<Subject>>() {
-                    @Override
-                    public void onChanged(List<Subject> subjects) {
-                        for (Subject subject : subjects) {
-                            if (subject.getId() == tasks.getSubjectId()){
-                                intent.putExtra(AddTaskActivity.EXTRA_SUBJECT_PICKED, subject.getName());
-                            }
-                        }
-                    }
-                });
-
+                intent.putExtra(AddTaskActivity.EXTRA_SUBJECT_PICKED, tasks.getSubjectName());
                 startActivityForResult(intent, EDIT_TASK_REQUEST);
             }
         });
@@ -119,7 +109,7 @@ public class Fragment_Tasks extends Fragment {
                 Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT).show();
             } else {
                 final String taskTitle = data.getStringExtra(AddTaskActivity.EXTRA_TITLE);
-                String taskSubject = data.getStringExtra(AddTaskActivity.EXTRA_SUBJECT_PICKED);
+                final String taskSubject = data.getStringExtra(AddTaskActivity.EXTRA_SUBJECT_PICKED);
                 final String taskDate = data.getStringExtra(AddTaskActivity.EXTRA_DATE_PICKED);
                 final String taskNoteDetails = data.getStringExtra(AddTaskActivity.EXTRA_NOTE_DETAILS);
                 LiveData<List<Subject>> listLiveDataSubject = databaseViewModel.getSubjectWithName(taskSubject);
@@ -128,11 +118,10 @@ public class Fragment_Tasks extends Fragment {
                     @Override
                     public void onChanged(List<Subject> subjects) {
                         if (subjects.size()==0){
-                            final Tasks tasks = new Tasks("No subject added", taskDate, subjects.get(0).getId(), taskNoteDetails);
+                            final Tasks tasks = new Tasks(taskTitle, taskDate, 1111, taskNoteDetails, taskSubject);
                             databaseViewModel.insert(tasks);
                         } else {
-                            id[0] = subjects.get(0).getId();
-                            final Tasks tasks = new Tasks(taskTitle, taskDate, subjects.get(0).getId(), taskNoteDetails);
+                            final Tasks tasks = new Tasks(taskTitle, taskDate, subjects.get(0).getId(), taskNoteDetails, taskSubject);
                             databaseViewModel.insert(tasks);
                         }
                     }
@@ -149,14 +138,20 @@ public class Fragment_Tasks extends Fragment {
             final String title = data.getStringExtra(AddTaskActivity.EXTRA_TITLE);
             final String date = data.getStringExtra(AddTaskActivity.EXTRA_DATE_PICKED);
             final String details = data.getStringExtra(AddTaskActivity.EXTRA_NOTE_DETAILS);
-            String subjectPicked = data.getStringExtra(AddTaskActivity.EXTRA_SUBJECT_PICKED);
+            final String subjectPicked = data.getStringExtra(AddTaskActivity.EXTRA_SUBJECT_PICKED);
             LiveData<List<Subject>> listLiveDataSubject = databaseViewModel.getSubjectWithName(subjectPicked);
             listLiveDataSubject.observe(getViewLifecycleOwner(), new Observer<List<Subject>>() {
                 @Override
                 public void onChanged(List<Subject> subjects) {
-                    final Tasks tasks = new Tasks(title, date, subjects.get(0).getId(), details);
-                    tasks.setId(id);
-                    databaseViewModel.update(tasks);
+                    if (subjects.size() == 0){
+                        final Tasks tasks = new Tasks(title, date, 1111, details, subjectPicked);
+                        tasks.setId(id);
+                        databaseViewModel.update(tasks);
+                    } else {
+                        final Tasks tasks = new Tasks(title, date, subjects.get(0).getId(), details, subjectPicked);
+                        tasks.setId(id);
+                        databaseViewModel.update(tasks);
+                    }
                 }
             });
 

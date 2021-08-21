@@ -10,15 +10,27 @@ public class Exams {
     private String name;
     private int subjectId;
     private String date;
-    private int formExam;
+    private String subjectName;
+    private String formExam;
     private String details;
 
-    public Exams( String name, int subjectId, String date, int formExam, String details) {
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
+
+
+
+    public Exams( String name, int subjectId, String date, String formExam, String details, String subjectName) {
         this.name = name;
         this.subjectId = subjectId;
         this.date = date;
         this.formExam = formExam;
         this.details = details;
+        this.subjectName = subjectName;
     }
 
     public int getId() {
@@ -53,11 +65,11 @@ public class Exams {
         this.date = date;
     }
 
-    public int getFormExam() {
+    public String getFormExam() {
         return formExam;
     }
 
-    public void setFormExam(int formExam) {
+    public void setFormExam(String formExam) {
         this.formExam = formExam;
     }
 

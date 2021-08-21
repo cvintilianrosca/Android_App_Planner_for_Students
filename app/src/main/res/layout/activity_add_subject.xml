@@ -24,7 +24,7 @@
 
 
     <EditText
-        android:id="@+id/editTextExamTitle"
+        android:id="@+id/editTextTitleExam"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -34,7 +34,7 @@
         android:drawableStart="@drawable/ic_usage"
         android:drawablePadding="20dp"
         android:fontFamily="sans-serif"
-        android:hint="Add a name"
+        android:hint="Add a name*"
         android:textColor="#000000"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +51,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextExamTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextTitleExam" />
 
 
     <EditText
@@ -96,7 +96,7 @@
         android:drawableStart="@drawable/ic_teacher_blue"
         android:drawablePadding="20sp"
         android:fontFamily="sans-serif"
-        android:hint="Add a teacher"
+        android:hint="Add a teacher*"
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -117,29 +117,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTeacherSubject" />
 
-
-    <com.autofit.et.lib.AutoFitEditText
+    <EditText
         android:id="@+id/rETAddSubject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:fontFamily="sans-serif"
-        android:gravity="center_vertical"
+        android:lines="20"
         android:hint="Add a note"
-        android:inputType="textMultiLine|textNoSuggestions"
-        android:isScrollContainer="false"
-        android:maxLength="540"
-        android:textColor="@android:color/black"
-        android:textColorHint="@android:color/darker_gray"
+        android:background="@null"
         android:textSize="16sp"
+        android:maxLines="20"
+        android:minLines="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider9" />
+        app:layout_constraintTop_toBottomOf="@+id/divider9">
+
+    </EditText>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

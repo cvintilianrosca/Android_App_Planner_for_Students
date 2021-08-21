@@ -27,7 +27,7 @@
 
 
         <EditText
-            android:id="@+id/editTextExamTitle"
+            android:id="@+id/editTextTitleExam"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -37,7 +37,7 @@
             android:drawableStart="@drawable/ic_usage"
             android:drawablePadding="20dp"
             android:fontFamily="sans-serif"
-            android:hint="Add a Title"
+            android:hint="Add a Title*"
             android:textColor="#000000"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +54,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextExamTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextTitleExam" />
 
 
         <TextView
@@ -67,7 +67,7 @@
             android:drawableStart="@drawable/ic_subject_blue"
             android:drawablePadding="20sp"
             android:fontFamily="sans-serif"
-            android:hint="Pick a subject"
+            android:hint="Pick a subject*"
             android:textColor="#000000"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -94,7 +94,7 @@
             android:layout_marginEnd="20dp"
             android:drawableStart="@drawable/ic_calendar_blue"
             android:drawablePadding="20dp"
-            android:text="Pick a date"
+            android:hint="Pick a date*"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -112,28 +112,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewPickDateExam" />
 
-        <com.autofit.et.lib.AutoFitEditText
+
+        <EditText
             android:id="@+id/editTextTaskDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:fontFamily="sans-serif"
-            android:gravity="center_vertical"
+            android:lines="20"
             android:hint="Add a note"
-            android:inputType="textMultiLine|textNoSuggestions"
-            android:isScrollContainer="false"
-            android:maxLength="540"
-            android:textColor="@android:color/black"
-            android:textColorHint="@android:color/darker_gray"
+            android:background="@null"
             android:textSize="16sp"
+            android:maxLines="20"
+            android:minLines="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider10" />
+            app:layout_constraintTop_toBottomOf="@+id/divider10">
+
+        </EditText>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

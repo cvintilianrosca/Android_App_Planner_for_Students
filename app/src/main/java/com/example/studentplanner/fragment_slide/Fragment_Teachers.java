@@ -1,6 +1,7 @@
 package com.example.studentplanner.fragment_slide;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -25,20 +27,22 @@ import com.example.studentplanner.adapters.TeacherAdapter;
 import com.example.studentplanner.database.entities.Teachers;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Comparator;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
 public class Fragment_Teachers extends Fragment {
 
-    public static final int ADD_TEACHER_REQUEST=2;
-    public static final int EDIT_TEACHER_REQUEST=7;
+    public static final int ADD_TEACHER_REQUEST = 2;
+    public static final int EDIT_TEACHER_REQUEST = 7;
     private Toolbar toolbar;
     private RecyclerView recyclerView;
+    private TeacherAdapter teacherAdapter;
     private DatabaseViewModel databaseViewModel;
     private FloatingActionButton floatingActionButton;
 
-    public Fragment_Teachers(final Toolbar toolbar, final FloatingActionButton floatingActionButton){
+    public Fragment_Teachers(final Toolbar toolbar, final FloatingActionButton floatingActionButton) {
         this.toolbar = toolbar;
         this.floatingActionButton = floatingActionButton;
     }
@@ -54,12 +58,35 @@ public class Fragment_Teachers extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setHasFixedSize(true);
 
-        final TeacherAdapter teacherAdapter = new TeacherAdapter();
+        teacherAdapter = new TeacherAdapter();
 
         databaseViewModel.getAllTeachers().observe(getViewLifecycleOwner(), new Observer<List<Teachers>>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onChanged(List<Teachers> teachers) {
-                teacherAdapter.submitList(teachers);
+                for (Teachers t: teachers ){
+                    t.setFlagFirst(-1);
+                }
+                for (Teachers t: teachers) {
+                    if (t.getFlagFirst() == 101){
+                        Toast.makeText(getContext(), "HULO", Toast.LENGTH_SHORT).show();
+
+                    }                }
+                teachers.sort(new Comparator<Teachers>() {
+                    @Override
+                    public int compare(Teachers o1, Teachers o2) {
+                        return o1.getName().compareTo(o2.getName());
+                    }
+                });
+                for (int i = teachers.size()-1; i > 0; i--) {
+                    if (teachers.get(i).getName().charAt(0) != teachers.get(i - 1).getName().charAt(0)) {
+                        teachers.get(i).setFlagFirst(101);
+                    }
+                }
+                if (teachers.size() >0){
+                    teachers.get(0).setFlagFirst(101);
+                }
+                teacherAdapter.setTeachersArrayList(teachers);
             }
         });
 
@@ -70,6 +97,7 @@ public class Fragment_Teachers extends Fragment {
                 startActivityForResult(intent, ADD_TEACHER_REQUEST);
             }
         });
+
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -80,7 +108,6 @@ public class Fragment_Teachers extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 databaseViewModel.delete(teacherAdapter.getTeacherAtPosition(viewHolder.getAdapterPosition()));
-                Toast.makeText(getContext(), "Task Deleted", Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(recyclerView);
 
@@ -106,9 +133,9 @@ public class Fragment_Teachers extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ADD_TEACHER_REQUEST && resultCode == RESULT_OK){
-            if (data == null){
-                Toast.makeText(getContext(), "Something", Toast.LENGTH_SHORT).show();
+        if (requestCode == ADD_TEACHER_REQUEST && resultCode == RESULT_OK) {
+            if (data == null) {
+//                Toast.makeText(getContext(), "Something", Toast.LENGTH_SHORT).show();
             } else {
                 String teacherName = data.getStringExtra(AddTeacherActivity.EXTRA_NAME_TEACHER);
                 String teacherSurname = data.getStringExtra(AddTeacherActivity.EXTRA_SURNAME_TEACHER);
@@ -119,10 +146,10 @@ public class Fragment_Teachers extends Fragment {
                         teacherEmail, teacherAddress);
                 databaseViewModel.insert(teachers);
             }
-        }else if (requestCode == EDIT_TEACHER_REQUEST && resultCode == RESULT_OK) {
+        } else if (requestCode == EDIT_TEACHER_REQUEST && resultCode == RESULT_OK) {
             int id = data.getIntExtra(AddTeacherActivity.EXTRA_ID_TEACHER, -1);
             if (id == -1) {
-                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -134,11 +161,11 @@ public class Fragment_Teachers extends Fragment {
 
             final Teachers teachers = new Teachers(teacherName, teacherSurname, teacherPhoneNumber,
                     teacherEmail, teacherAddress);
-           teachers.setId(id);
+            teachers.setId(id);
             databaseViewModel.update(teachers);
-            Toast.makeText(getContext(), "Teacher Updated", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "Teacher Updated", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getContext(), "Teacher not added", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "Teacher not added", Toast.LENGTH_SHORT).show();
         }
     }
 }

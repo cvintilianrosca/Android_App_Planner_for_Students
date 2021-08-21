@@ -13,6 +13,16 @@ public class Teachers {
     private String email;
     private String address;
 
+    public int getFlagFirst() {
+        return flagFirst;
+    }
+
+    public void setFlagFirst(int flagFirst) {
+        this.flagFirst = flagFirst;
+    }
+
+    private int flagFirst;
+
     public String getSurname() {
         return surname;
     }

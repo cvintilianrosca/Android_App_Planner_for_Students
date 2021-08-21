@@ -8,6 +8,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -40,7 +41,7 @@ public class AddTeacherActivity extends AppCompatActivity {
         editTextPhoneNumberTeacher = findViewById(R.id.editTextPhoneTeacher);
         editTextEmailTeacher = findViewById(R.id.editTextEmailTeacher);
         editTextAddressTeacher = findViewById(R.id.editTextAddressTeacher);
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         toolbar = findViewById(R.id.toolbarTeacher);
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorBlueApp), PorterDuff.Mode.SRC_IN);
         toolbar.inflateMenu(R.menu.add_entity_menu);

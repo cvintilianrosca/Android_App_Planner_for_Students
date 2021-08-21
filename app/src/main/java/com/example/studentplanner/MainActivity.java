@@ -118,24 +118,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()){
             case R.id.mi_item_Exam:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Exams(toolbar, floatingActionButton)).commit();
+                drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.mi_item_Grades:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Grades(toolbar, floatingActionButton)).commit();
+                drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.mi_item_InfoSchool:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Info(toolbar, floatingActionButton)).commit();
+                drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.mi_item_Tasks:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Tasks(toolbar, floatingActionButton)).commit();
+                drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.mi_item_teachers:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Teachers(toolbar, floatingActionButton)).commit();
+                drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.mi_item_Settings:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Settings(toolbar, floatingActionButton)).commit();
+                drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.mi_item_timeTable:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Timetable(toolbar, floatingActionButton)).commit();
+                drawer.closeDrawer(GravityCompat.START);
                 break;
         }
         return true;

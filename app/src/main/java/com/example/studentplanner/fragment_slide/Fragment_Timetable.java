@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,13 +37,15 @@ public class Fragment_Timetable extends Fragment {
     private FloatingActionButton floatingActionButton;
     private TimetableView timetableView;
     private DatabaseViewModel databaseViewModel;
+    private Dialog dialog;
     public static final int ADD_TIMETABLE_THING = 101;
     public static final int EDIT_TIMETABLE_THING = 111;
 
-    public Fragment_Timetable(final Toolbar toolbar, final FloatingActionButton floatingActionButton){
+    public Fragment_Timetable(final Toolbar toolbar, final FloatingActionButton floatingActionButton) {
         this.toolbar = toolbar;
-        this.floatingActionButton= floatingActionButton;
+        this.floatingActionButton = floatingActionButton;
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,10 +74,10 @@ public class Fragment_Timetable extends Fragment {
                     schedule.setClassPlace(time.getLocation()); // sets place
                     schedule.setProfessorName(time.getTeacher()); // sets professor
                     String aux[] = time.getStart().split(":");
-                    schedule.setStartTime(new Time(Integer.parseInt(aux[0]),Integer.parseInt(aux[1])));
+                    schedule.setStartTime(new Time(Integer.parseInt(aux[0]), Integer.parseInt(aux[1])));
                     aux = time.getEnd().split(":");
-                    schedule.setEndTime(new Time(Integer.parseInt(aux[0]),Integer.parseInt(aux[1])));
-                    switch (time.getDay()){
+                    schedule.setEndTime(new Time(Integer.parseInt(aux[0]), Integer.parseInt(aux[1])));
+                    switch (time.getDay()) {
                         case "Monday":
                             schedule.setDay(0);
                             break;
@@ -103,17 +106,14 @@ public class Fragment_Timetable extends Fragment {
         });
 
 
-
         timetableView.setOnStickerSelectEventListener(new TimetableView.OnStickerSelectedListener() {
             @Override
             public void OnStickerSelected(final int idx, final ArrayList<Schedule> schedules) {
-//                timetableView.edit(idx, schedules) ;
-//                Toast.makeText(getContext(), schedules.get(idx).getClassTitle(), Toast.LENGTH_SHORT).show();
-                final Dialog dialog = new Dialog(getContext());
+
+                dialog = new Dialog(getContext());
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                //The user will be able to cancel the dialog bu clicking anywhere outside the dialog.
                 dialog.setCancelable(true);
-                //Mention the name of the layout of your custom dialog.
+
                 dialog.setContentView(R.layout.dialog_layout_timetable);
                 TextView subject = dialog.findViewById(R.id.textViewPickSubjectExam);
                 TextView day = dialog.findViewById(R.id.textViewAddNewSubjectDialog);
@@ -123,7 +123,7 @@ public class Fragment_Timetable extends Fragment {
                 Button cancel = dialog.findViewById(R.id.buttonCancelSubjectDialog);
                 TextView location = dialog.findViewById(R.id.textViewTIMERoom);
                 subject.setText(schedules.get(0).getClassTitle());
-                switch (schedules.get(0).getDay()){
+                switch (schedules.get(0).getDay()) {
                     case 0:
                         day.setText("Monday");
                         break;
@@ -145,8 +145,8 @@ public class Fragment_Timetable extends Fragment {
                 }
                 hours.setText("from " + schedules.get(0).getStartTime().getHour() + ":" +
                         schedules.get(0).getStartTime().getMinute() + " to " + schedules.get(0).getEndTime().getHour()
-                + ":" + schedules.get(0).getEndTime().getMinute());
-                if (schedules.get(0).getClassPlace() == null || schedules.get(0).getClassPlace().isEmpty()){
+                        + ":" + schedules.get(0).getEndTime().getMinute());
+                if (schedules.get(0).getClassPlace() == null || schedules.get(0).getClassPlace().isEmpty()) {
                     location.setText("Not selected location");
                 } else {
                     location.setText(schedules.get(0).getClassPlace());
@@ -165,10 +165,10 @@ public class Fragment_Timetable extends Fragment {
                             @Override
                             public void onChanged(List<Timetable> timetables) {
                                 Timetable save = null;
-                                for (Timetable t : timetables){
-                                    if (t.getSubject().compareTo(schedules.get(0).getClassTitle()) == 0){
-                                        if ((schedules.get(0).getStartTime().getHour()+":"+ schedules.get(0).getStartTime().getMinute()).compareTo(t.getStart())==0){
-                                            if ((schedules.get(0).getEndTime().getHour()+":"+ schedules.get(0).getEndTime().getMinute()).compareTo(t.getEnd())==0){
+                                for (Timetable t : timetables) {
+                                    if (t.getSubject().compareTo(schedules.get(0).getClassTitle()) == 0) {
+                                        if ((schedules.get(0).getStartTime().getHour() + ":" + schedules.get(0).getStartTime().getMinute()).compareTo(t.getStart()) == 0) {
+                                            if ((schedules.get(0).getEndTime().getHour() + ":" + schedules.get(0).getEndTime().getMinute()).compareTo(t.getEnd()) == 0) {
                                                 save = t;
                                                 databaseViewModel.delete(t);
                                             }
@@ -178,17 +178,17 @@ public class Fragment_Timetable extends Fragment {
 
                                 timetableView.removeAll();
                                 for (Timetable time : timetables) {
-                                    if (!time.equals(save)){
+                                    if (!time.equals(save)) {
                                         ArrayList<Schedule> schedules = new ArrayList<>();
                                         Schedule schedule = new Schedule();
                                         schedule.setClassTitle(time.getSubject());
                                         schedule.setClassPlace(time.getLocation()); // sets place
                                         schedule.setProfessorName(time.getTeacher()); // sets professor
                                         String aux[] = time.getStart().split(":");
-                                        schedule.setStartTime(new Time(Integer.parseInt(aux[0]),Integer.parseInt(aux[1])));
+                                        schedule.setStartTime(new Time(Integer.parseInt(aux[0]), Integer.parseInt(aux[1])));
                                         aux = time.getEnd().split(":");
-                                        schedule.setEndTime(new Time(Integer.parseInt(aux[0]),Integer.parseInt(aux[1])));
-                                        switch (time.getDay()){
+                                        schedule.setEndTime(new Time(Integer.parseInt(aux[0]), Integer.parseInt(aux[1])));
+                                        switch (time.getDay()) {
                                             case "Monday":
                                                 schedule.setDay(0);
                                                 break;
@@ -227,21 +227,51 @@ public class Fragment_Timetable extends Fragment {
                         databaseViewModel.getAllTimetables().observe(getViewLifecycleOwner(), new Observer<List<Timetable>>() {
                             @Override
                             public void onChanged(List<Timetable> timetables) {
-                                for (Timetable t : timetables){
-                                    if (t.getSubject().compareTo(schedules.get(0).getClassTitle()) == 0){
-                                        if ((schedules.get(0).getStartTime().getHour()+":"+ schedules.get(0).getStartTime().getMinute()).compareTo(t.getStart())==0){
-                                            if ((schedules.get(0).getEndTime().getHour()+":"+ schedules.get(0).getEndTime().getMinute()).compareTo(t.getEnd())==0){
-                                                Intent intent = new Intent(getActivity(), AddTimetableItemActivity.class);
-                                                intent.putExtra(AddTimetableItemActivity.EXTRA_SUBJECT, t.getSubject());
-                                                intent.putExtra(AddTimetableItemActivity.EXTRA_DAY, t.getDay());
-                                                intent.putExtra(AddTimetableItemActivity.EXTRA_START_HOUR, t.getStart());
-                                                intent.putExtra(AddTimetableItemActivity.EXTRA_END_HOUR, t.getEnd());
-                                                intent.putExtra(AddTimetableItemActivity.EXTRA_LOCATION, t.getLocation());
-                                                intent.putExtra(AddTimetableItemActivity.EXTRA_TEACHER, t.getTeacher());
-                                                intent.putExtra(AddTimetableItemActivity.EXTRA_NOTE_DETAILS, t.getNote());
-                                                intent.putExtra(AddTimetableItemActivity.EXTRA_ID, t.getId());
-                                                startActivityForResult(intent, EDIT_TIMETABLE_THING);
-                                                dialog.dismiss();
+                                for (Timetable t : timetables) {
+                                    if (t.getSubject().compareTo(schedules.get(0).getClassTitle()) == 0) {
+                                        if ((schedules.get(0).getStartTime().getHour() + ":" + schedules.get(0).getStartTime().getMinute()).compareTo(t.getStart()) == 0) {
+                                            if ((schedules.get(0).getEndTime().getHour() + ":" + schedules.get(0).getEndTime().getMinute()).compareTo(t.getEnd()) == 0) {
+//                                                Toast.makeText(getContext(), t.getDay(), Toast.LENGTH_SHORT).show();
+                                                int day = -1;
+
+                                                switch (t.getDay()) {
+                                                    case "Monday":
+                                                        day = 0;
+                                                        break;
+                                                    case "Tuesday":
+                                                        day = 1;
+                                                        break;
+                                                    case "Wednesday":
+                                                        day = 2;
+                                                        break;
+                                                    case "Thursday":
+                                                        day = 3;
+                                                        break;
+                                                    case "Friday":
+                                                        day = 4;
+                                                        break;
+                                                    case "Saturday":
+                                                        day = 5;
+                                                        break;
+                                                }
+                                                if (day == schedules.get(0).getDay()) {
+                                                    if (schedules.get(0).getClassPlace().compareTo(t.getLocation()) == 0 ){
+                                                        if (schedules.get(0).getProfessorName().compareTo(t.getTeacher()) == 0){
+                                                            Intent intent = new Intent(getActivity(), AddTimetableItemActivity.class);
+                                                            intent.putExtra(AddTimetableItemActivity.EXTRA_SUBJECT, t.getSubject());
+                                                            intent.putExtra(AddTimetableItemActivity.EXTRA_DAY, t.getDay());
+                                                            intent.putExtra(AddTimetableItemActivity.EXTRA_START_HOUR, t.getStart());
+                                                            intent.putExtra(AddTimetableItemActivity.EXTRA_END_HOUR, t.getEnd());
+                                                            intent.putExtra(AddTimetableItemActivity.EXTRA_LOCATION, t.getLocation()+ " ");
+                                                            intent.putExtra(AddTimetableItemActivity.EXTRA_TEACHER, t.getTeacher());
+                                                            intent.putExtra(AddTimetableItemActivity.EXTRA_NOTE_DETAILS, t.getNote());
+                                                            intent.putExtra(AddTimetableItemActivity.EXTRA_ID, t.getId());
+                                                            startActivityForResult(intent, EDIT_TIMETABLE_THING);
+                                                            dialog.dismiss();
+                                                            break;
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -262,8 +292,21 @@ public class Fragment_Timetable extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == EDIT_TIMETABLE_THING && resultCode== RESULT_OK){
+        if (requestCode == EDIT_TIMETABLE_THING && resultCode == RESULT_OK) {
             timetableView.removeAll();
+            int id = data.getIntExtra(AddTimetableItemActivity.EXTRA_ID, -1);
+            String subject = data.getStringExtra(AddTimetableItemActivity.EXTRA_SUBJECT);
+            String day = data.getStringExtra(AddTimetableItemActivity.EXTRA_DAY);
+            String startHour = data.getStringExtra(AddTimetableItemActivity.EXTRA_START_HOUR);
+            String endHour = data.getStringExtra(AddTimetableItemActivity.EXTRA_END_HOUR);
+            String locations = data.getStringExtra(AddTimetableItemActivity.EXTRA_LOCATION);
+            String teacher = data.getStringExtra(AddTimetableItemActivity.EXTRA_TEACHER);
+            String noteDetails = data.getStringExtra(AddTimetableItemActivity.EXTRA_NOTE_DETAILS);
+            if (id != -1) {
+                Timetable timetable = new Timetable(subject, day, startHour, endHour, locations, teacher, noteDetails);
+                timetable.setId(id);
+                databaseViewModel.update(timetable);
+            }
             databaseViewModel.getAllTimetables().observe(getViewLifecycleOwner(), new Observer<List<Timetable>>() {
                 @Override
                 public void onChanged(List<Timetable> timetables) {
@@ -272,13 +315,13 @@ public class Fragment_Timetable extends Fragment {
                         ArrayList<Schedule> schedules = new ArrayList<>();
                         Schedule schedule = new Schedule();
                         schedule.setClassTitle(time.getSubject());
-                        schedule.setClassPlace(time.getLocation()); // sets place
-                        schedule.setProfessorName(time.getTeacher()); // sets professor
+                        schedule.setClassPlace(time.getLocation());
+                        schedule.setProfessorName(time.getTeacher());
                         String aux[] = time.getStart().split(":");
-                        schedule.setStartTime(new Time(Integer.parseInt(aux[0]),Integer.parseInt(aux[1])));
+                        schedule.setStartTime(new Time(Integer.parseInt(aux[0]), Integer.parseInt(aux[1])));
                         aux = time.getEnd().split(":");
-                        schedule.setEndTime(new Time(Integer.parseInt(aux[0]),Integer.parseInt(aux[1])));
-                        switch (time.getDay()){
+                        schedule.setEndTime(new Time(Integer.parseInt(aux[0]), Integer.parseInt(aux[1])));
+                        switch (time.getDay()) {
                             case "Monday":
                                 schedule.setDay(0);
                                 break;
@@ -304,6 +347,16 @@ public class Fragment_Timetable extends Fragment {
                     }
                 }
             });
+        } else if (requestCode == ADD_TIMETABLE_THING && resultCode == RESULT_OK) {
+            String subject = data.getStringExtra(AddTimetableItemActivity.EXTRA_SUBJECT);
+            String day = data.getStringExtra(AddTimetableItemActivity.EXTRA_DAY);
+            String startHour = data.getStringExtra(AddTimetableItemActivity.EXTRA_START_HOUR);
+            String endHour = data.getStringExtra(AddTimetableItemActivity.EXTRA_END_HOUR);
+            String locations = data.getStringExtra(AddTimetableItemActivity.EXTRA_LOCATION);
+            String teacher = data.getStringExtra(AddTimetableItemActivity.EXTRA_TEACHER);
+            String noteDetails = data.getStringExtra(AddTimetableItemActivity.EXTRA_NOTE_DETAILS);
+            Timetable timetable = new Timetable(subject, day, startHour, endHour, locations, teacher, noteDetails);
+            databaseViewModel.insert(timetable);
         }
     }
 }

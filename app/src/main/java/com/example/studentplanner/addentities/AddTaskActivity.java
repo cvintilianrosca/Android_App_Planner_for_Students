@@ -21,9 +21,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.autofit.et.lib.AutoFitEditText;
 import com.example.studentplanner.DatabaseViewModel;
 import com.example.studentplanner.R;
 import com.example.studentplanner.database.entities.Subject;
@@ -36,7 +34,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     private EditText editTextValueTitle;
     private TextView textViewSubjectPicked;
     private TextView textViewDatePicked;
-    private AutoFitEditText editTextNoteDetails;
+    private EditText editTextNoteDetails;
 
     public static final int ADD_SUBJECT_REQUEST = 1;
     public static final int EDIT_SUBJECT_REQUEST = 2;
@@ -58,7 +56,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
-        editTextValueTitle = findViewById(R.id.editTextExamTitle);
+        editTextValueTitle = findViewById(R.id.editTextTitleExam);
         textViewSubjectPicked = findViewById(R.id.textViewPickSubjectExam);
         textViewDatePicked = findViewById(R.id.textViewPickDateExam);
         editTextNoteDetails = findViewById(R.id.editTextTaskDetails);
@@ -68,22 +66,9 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                 getDateString();
             }
         });
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        //in onCreate in Activity/Fragment
-        editTextNoteDetails.setEnabled(true);
-
-        editTextNoteDetails.setFocusableInTouchMode(true);
-        editTextNoteDetails.setFocusable(true);
-        editTextNoteDetails.setEnableSizeCache(false);
-        //might cause crash on some devices
-        editTextNoteDetails.setMovementMethod(null);
-        // can be added after layout inflation;
         editTextNoteDetails.setMaxHeight(4000);
         final int checkedItem = 0;
-        //don't forget to add min text size programmatically
-        editTextNoteDetails.setMinTextSize(60f);
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         toolbar = findViewById(R.id.toolbarTeacher);
         toolbar.inflateMenu(R.menu.add_entity_menu);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -136,6 +121,16 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                                     }
                                 }
                             });
+                            builder.setNeutralButton("Add new subject",
+                                    new DialogInterface.OnClickListener()
+                                    {
+                                        public void onClick(DialogInterface dialog, int id)
+                                        {
+                                            Intent intent = new Intent(AddTaskActivity.this, AddSubjectActivity.class);
+                                            startActivityForResult(intent, ADD_SUBJECT_REQUEST);
+                                            dialog.cancel();
+                                        }
+                                    });
                             builder.show();
 
 
@@ -206,7 +201,10 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         String date = textViewDatePicked.getText().toString();
         String note = editTextNoteDetails.getText().toString();
         if (title.trim().isEmpty() || subject.trim().isEmpty() || date.trim().isEmpty()) {
-            Toast.makeText(this, "Please insert Title, Subject and Date", Toast.LENGTH_SHORT).show();
+            editTextValueTitle.setHintTextColor(getResources().getColor(R.color.colorRed));
+            textViewSubjectPicked.setHintTextColor(getResources().getColor(R.color.colorRed));
+            textViewDatePicked.setHintTextColor(getResources().getColor(R.color.colorRed));
+//            Toast.makeText(this, "Please insert Title, Subject and Date", Toast.LENGTH_SHORT).show();
             return;
         } else {
             Intent data = new Intent();
@@ -239,7 +237,6 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             String note = data.getStringExtra(AddSubjectActivity.EXTRA_NOTE);
             final Subject subject = new Subject(name, room, teacher, note);
             databaseViewModel.insert(subject);
-            dialog.dismiss();
         } else if (requestCode == EDIT_SUBJECT_REQUEST && resultCode == RESULT_OK) {
             int id = data.getIntExtra(AddSubjectActivity.EXTRA_ID, -1);
             if (id == -1) {
