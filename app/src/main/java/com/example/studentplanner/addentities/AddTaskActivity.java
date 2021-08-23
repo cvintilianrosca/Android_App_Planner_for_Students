@@ -57,7 +57,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
         editTextValueTitle = findViewById(R.id.editTextTitleExam);
-        textViewSubjectPicked = findViewById(R.id.textViewPickSubjectExam);
+        textViewSubjectPicked = findViewById(R.id.textViewProfessorName);
         textViewDatePicked = findViewById(R.id.textViewPickDateExam);
         editTextNoteDetails = findViewById(R.id.editTextTaskDetails);
         textViewDatePicked.setOnClickListener(new View.OnClickListener() {
@@ -139,8 +139,8 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                             dialog.setCancelable(true);
                             dialog.setContentView(R.layout.dialog_layout_add_subject);
-                            TextView pick = dialog.findViewById(R.id.textViewAddNewSubjectDialog);
-                            Button cancel = dialog.findViewById(R.id.buttonCancelSubjectDialog);
+                            TextView pick = dialog.findViewById(R.id.textViewProfessorPhone);
+                            Button cancel = dialog.findViewById(R.id.buttonCancelProfessorDialog);
                             dialog.show();
                             pick.setOnClickListener(new View.OnClickListener() {
                                 @Override

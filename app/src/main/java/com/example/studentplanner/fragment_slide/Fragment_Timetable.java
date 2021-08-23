@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -115,13 +114,13 @@ public class Fragment_Timetable extends Fragment {
                 dialog.setCancelable(true);
 
                 dialog.setContentView(R.layout.dialog_layout_timetable);
-                TextView subject = dialog.findViewById(R.id.textViewPickSubjectExam);
-                TextView day = dialog.findViewById(R.id.textViewAddNewSubjectDialog);
-                TextView hours = dialog.findViewById(R.id.textViewTIMEHOUR);
-                Button delete = dialog.findViewById(R.id.buttonDeleteTimetable);
-                Button edit = dialog.findViewById(R.id.buttonEditTimetable);
-                Button cancel = dialog.findViewById(R.id.buttonCancelSubjectDialog);
-                TextView location = dialog.findViewById(R.id.textViewTIMERoom);
+                TextView subject = dialog.findViewById(R.id.textViewProfessorName);
+                TextView day = dialog.findViewById(R.id.textViewProfessorPhone);
+                TextView hours = dialog.findViewById(R.id.textViewProfessorEmail);
+                Button delete = dialog.findViewById(R.id.buttonDeleteProfessor);
+                Button edit = dialog.findViewById(R.id.buttonEditProfessor);
+                Button cancel = dialog.findViewById(R.id.buttonCancelProfessorDialog);
+                TextView location = dialog.findViewById(R.id.textViewProfessorAddress);
                 subject.setText(schedules.get(0).getClassTitle());
                 switch (schedules.get(0).getDay()) {
                     case 0:

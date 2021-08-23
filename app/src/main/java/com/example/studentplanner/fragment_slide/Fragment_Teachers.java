@@ -1,11 +1,16 @@
 package com.example.studentplanner.fragment_slide;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -41,6 +46,7 @@ public class Fragment_Teachers extends Fragment {
     private TeacherAdapter teacherAdapter;
     private DatabaseViewModel databaseViewModel;
     private FloatingActionButton floatingActionButton;
+    private Dialog dialog;
 
     public Fragment_Teachers(final Toolbar toolbar, final FloatingActionButton floatingActionButton) {
         this.toolbar = toolbar;
@@ -113,15 +119,72 @@ public class Fragment_Teachers extends Fragment {
 
         teacherAdapter.setOnItemClickListener(new TeacherAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(Teachers teachers) {
-                Intent intent = new Intent(getContext(), AddTeacherActivity.class);
-                intent.putExtra(AddTeacherActivity.EXTRA_NAME_TEACHER, teachers.getName());
-                intent.putExtra(AddTeacherActivity.EXTRA_SURNAME_TEACHER, teachers.getSurname());
-                intent.putExtra(AddTeacherActivity.EXTRA_PHONE_TEACHER, teachers.getPhoneNumber());
-                intent.putExtra(AddTeacherActivity.EXTRA_EMAIL_TEACHER, teachers.getEmail());
-                intent.putExtra(AddTeacherActivity.EXTRA_ADDRESS_TEACHER, teachers.getAddress());
-                intent.putExtra(AddTeacherActivity.EXTRA_ID_TEACHER, teachers.getId());
-                startActivityForResult(intent, EDIT_TEACHER_REQUEST);
+            public void onItemClick(final Teachers teachers) {
+
+                dialog = new Dialog(getContext());
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(true);
+
+                dialog.setContentView(R.layout.dialog_layout_teacher);
+                TextView professorName = dialog.findViewById(R.id.textViewProfessorName);
+                TextView phone = dialog.findViewById(R.id.textViewProfessorPhone);
+                TextView email = dialog.findViewById(R.id.textViewProfessorEmail);
+
+                Button delete = dialog.findViewById(R.id.buttonDeleteProfessor);
+                Button edit = dialog.findViewById(R.id.buttonEditProfessor);
+                Button cancel = dialog.findViewById(R.id.buttonCancelProfessorDialog);
+                TextView location = dialog.findViewById(R.id.textViewProfessorAddress);
+                professorName.setText(teachers.getName()+ " " + teachers.getSurname());
+                if (teachers.getPhoneNumber().trim().isEmpty()){
+                    phone.setText("Not inserted");
+                } else {
+                    phone.setText(teachers.getPhoneNumber());
+                }
+
+                if (teachers.getEmail().trim().isEmpty()){
+                    email.setText("Not inserted");
+                } else {
+                    email.setText(teachers.getEmail());
+                }
+
+                if (teachers.getAddress().trim().isEmpty()){
+                    location.setText("Not inserted");
+
+                } else {
+                    location.setText(teachers.getAddress());
+                }
+
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), AddTeacherActivity.class);
+                        intent.putExtra(AddTeacherActivity.EXTRA_NAME_TEACHER, teachers.getName());
+                        intent.putExtra(AddTeacherActivity.EXTRA_SURNAME_TEACHER, teachers.getSurname());
+                        intent.putExtra(AddTeacherActivity.EXTRA_PHONE_TEACHER, teachers.getPhoneNumber());
+                        intent.putExtra(AddTeacherActivity.EXTRA_EMAIL_TEACHER, teachers.getEmail());
+                        intent.putExtra(AddTeacherActivity.EXTRA_ADDRESS_TEACHER, teachers.getAddress());
+                        intent.putExtra(AddTeacherActivity.EXTRA_ID_TEACHER, teachers.getId());
+                        startActivityForResult(intent, EDIT_TEACHER_REQUEST);
+                        dialog.dismiss();
+                    }
+                });
+
+                delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        databaseViewModel.delete(teachers);
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
             }
         });
 

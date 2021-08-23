@@ -7,7 +7,7 @@
     android:layout_margin="5dp">
 
     <TextView
-        android:id="@+id/textViewPickSubjectExam"
+        android:id="@+id/textViewProfessorName"
         android:layout_width="329dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -27,10 +27,10 @@
         android:drawableStart="@drawable/ic_add_blue"
         android:drawablePadding="10dp"
         android:text="Add new Teacher"
-        app:layout_constraintEnd_toEndOf="@+id/textViewPickSubjectExam"
+        app:layout_constraintEnd_toEndOf="@+id/textViewProfessorName"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textViewPickSubjectExam"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPickSubjectExam" />
+        app:layout_constraintStart_toStartOf="@+id/textViewProfessorName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProfessorName" />
 
     <Button
         android:id="@+id/buttonCancelTeacherDialog"

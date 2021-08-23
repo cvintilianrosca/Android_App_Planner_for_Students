@@ -209,6 +209,7 @@ public class Fragment_Home extends Fragment {
                         floatingActionButtonAddExamHome.setClickable(false);
                         break;
                     case "Grades":
+                        toolbar.setTitle("Grades");
                         selectedFragment = new Fragment_Grades(toolbar, floatingActionButton);
                         floatingActionButtonAddTaskHome.setVisibility(View.INVISIBLE);
                         floatingActionButtonAddClassesHome.setVisibility(View.INVISIBLE);
@@ -231,7 +232,7 @@ public class Fragment_Home extends Fragment {
     private  boolean clicked = false;
 
     private void onAddButtonClicked(){
-        Toast.makeText(getContext(), "Takakak " + clicked, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "Takakak " + clicked, Toast.LENGTH_SHORT).show();
         setVisibility(clicked);
         setAnimation(clicked);
         setClickable(clicked);

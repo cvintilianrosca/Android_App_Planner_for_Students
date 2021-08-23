@@ -59,7 +59,7 @@ public class AddGradeActivity extends AppCompatActivity implements DatePickerDia
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_grade);
         editTextValueGrade = findViewById(R.id.editTextTitleExam);
-        textViewSubjectGrade = findViewById(R.id.textViewPickSubjectExam);
+        textViewSubjectGrade = findViewById(R.id.textViewProfessorName);
         textViewDateGrade = findViewById(R.id.textViewPickDateExam);
         textViewTermGrade = findViewById(R.id.textViewTermGrade);
         textViewFormGrade = findViewById(R.id.textViewTypeExam);
@@ -144,8 +144,8 @@ public class AddGradeActivity extends AppCompatActivity implements DatePickerDia
                             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                             dialog.setCancelable(true);
                             dialog.setContentView(R.layout.dialog_layout_add_subject);
-                            TextView pick = dialog.findViewById(R.id.textViewAddNewSubjectDialog);
-                            Button cancel = dialog.findViewById(R.id.buttonCancelSubjectDialog);
+                            TextView pick = dialog.findViewById(R.id.textViewProfessorPhone);
+                            Button cancel = dialog.findViewById(R.id.buttonCancelProfessorDialog);
                             dialog.show();
                             pick.setOnClickListener(new View.OnClickListener() {
                                 @Override

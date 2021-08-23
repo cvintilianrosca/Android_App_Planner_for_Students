@@ -14,10 +14,13 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.example.studentplanner.addentities.AddGradeActivity;
 import com.example.studentplanner.database.entities.Subject;
 import com.example.studentplanner.fragment_slide.Fragment_Exams;
 import com.example.studentplanner.fragment_slide.Fragment_Grades;
@@ -122,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.mi_item_Grades:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_Grades(toolbar, floatingActionButton)).commit();
+                toolbar.setTitle("Grades");
                 drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.mi_item_InfoSchool:

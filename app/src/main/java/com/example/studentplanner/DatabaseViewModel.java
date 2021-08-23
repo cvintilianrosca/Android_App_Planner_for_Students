@@ -147,4 +147,8 @@ public class DatabaseViewModel extends AndroidViewModel {
     public LiveData<List<Timetable>> getAllTimetables(){
         return repository.getAllTimetables();
     }
+
+    public LiveData<List<SubjectWithGrades>> getAllCombinationsOfSubjectsWithGrades(){
+        return repository.getAllCombinationsOfSubjectsWithGrades();
+    }
 }

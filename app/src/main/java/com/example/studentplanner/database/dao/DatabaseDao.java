@@ -120,6 +120,9 @@ public interface DatabaseDao {
     @Query("SELECT * FROM subject_table WHERE id = :idOfSubject")
     LiveData<List<SubjectWithGrades>> getSubjectWithGrades(int idOfSubject);
 
+    @Query("SELECT * FROM subject_table")
+    LiveData<List<SubjectWithGrades>> getAllCombinationOfSubjectsGrades();
+
     @Query("SELECT * FROM subject_table WHERE name = :subjectName")
     LiveData<List<Subject>> getSubjectWithName(String subjectName);
 

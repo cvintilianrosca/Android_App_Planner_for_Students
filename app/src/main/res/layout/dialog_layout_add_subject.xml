@@ -7,7 +7,7 @@
     android:layout_margin="5dp">
 
     <TextView
-        android:id="@+id/textViewPickSubjectExam"
+        android:id="@+id/textViewProfessorName"
         android:layout_width="329dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -20,20 +20,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewAddNewSubjectDialog"
+        android:id="@+id/textViewProfessorPhone"
         android:layout_width="331dp"
         android:layout_height="22dp"
         android:layout_marginTop="24dp"
         android:text="Add new Subject"
         android:drawableStart="@drawable/ic_add_blue"
         android:drawablePadding="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/textViewPickSubjectExam"
+        app:layout_constraintEnd_toEndOf="@+id/textViewProfessorName"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textViewPickSubjectExam"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPickSubjectExam" />
+        app:layout_constraintStart_toStartOf="@+id/textViewProfessorName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProfessorName" />
 
     <Button
-        android:id="@+id/buttonCancelSubjectDialog"
+        android:id="@+id/buttonCancelProfessorDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -42,5 +42,5 @@
         android:text="CLOSE"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAddNewSubjectDialog" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewProfessorPhone" />
 </androidx.constraintlayout.widget.ConstraintLayout>

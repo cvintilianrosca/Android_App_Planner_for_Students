@@ -486,4 +486,8 @@ public class Repository {
     public LiveData<List<Timetable>> getAllTimetables(){
         return databaseDao.getAllTimetables();
     }
+
+    public LiveData<List<SubjectWithGrades>> getAllCombinationsOfSubjectsWithGrades(){
+        return databaseDao.getAllCombinationOfSubjectsGrades();
+    }
 }

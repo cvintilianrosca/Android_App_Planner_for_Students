@@ -1,23 +1,18 @@
 package com.example.studentplanner;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Dialog;
-import android.app.DirectAction;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.os.CancellationSignal;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -26,23 +21,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 
-import com.autofit.et.lib.AutoFitEditText;
-import com.example.studentplanner.addentities.AddExamActivity;
-import com.example.studentplanner.addentities.AddGradeActivity;
 import com.example.studentplanner.addentities.AddSubjectActivity;
 import com.example.studentplanner.addentities.AddTeacherActivity;
 import com.example.studentplanner.database.entities.Subject;
 import com.example.studentplanner.database.entities.Teachers;
-import com.example.studentplanner.database.entities.Timetable;
-import com.google.android.material.datepicker.MaterialDatePicker;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
-import java.util.function.Consumer;
 
 import ca.antonious.materialdaypicker.MaterialDayPicker;
 
@@ -190,8 +177,8 @@ public class AddTimetableItemActivity extends AppCompatActivity {
                             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                             dialog.setCancelable(true);
                             dialog.setContentView(R.layout.dialog_layout_add_subject);
-                            TextView pick = dialog.findViewById(R.id.textViewAddNewSubjectDialog);
-                            Button cancel = dialog.findViewById(R.id.buttonCancelSubjectDialog);
+                            TextView pick = dialog.findViewById(R.id.textViewProfessorPhone);
+                            Button cancel = dialog.findViewById(R.id.buttonCancelProfessorDialog);
                             dialog.show();
                             pick.setOnClickListener(new View.OnClickListener() {
                                 @Override
